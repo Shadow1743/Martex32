@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <script src="../config.js"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Módulo de Pedidos | Martex Admin</title>
+    <script src="/tailwind-cdn.js"></script>
+    <script src="js/darkmode.js"></script>
+    <script src="js/toast.js"></script>
+    <script src="js/notificaciones.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="css/admin.css">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'verde-quirurgico': '#008080',
+                        'azul-pantera': '#0B1560',
+                        'azul-marino': '#000080',
+                    },
+                    fontFamily: {
+                        'sans': ['Inter', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="flex h-screen overflow-hidden">
+
+    <!-- Sidebar -->
+    <aside class="admin-sidebar hidden md:flex">
+        <div class="sidebar-brand">
+            <span class="text-xl font-bold tracking-tight">Mar<span class="text-teal-400">tex</span></span>
+            <span class="ml-2 text-[10px] font-medium bg-white/10 px-2 py-0.5 rounded-md text-white/50 uppercase tracking-wider">Admin</span>
+        </div>
+        <div class="sidebar-section-label">Menú principal</div>
+        <nav class="sidebar-nav">
+            <a href="index.html" class="sidebar-link">
+                <i class="fas fa-grid-2"></i> Dashboard
+            </a>
+            <a href="pedidos.html" class="sidebar-link active">
+                <i class="fas fa-shopping-bag"></i> Pedidos
+            </a>
+            <a href="medidas.html" class="sidebar-link">
+                <i class="fas fa-ruler-combined"></i> Medidas
+            </a>
+            <a href="catalogo.html" class="sidebar-link">
+                <i class="fas fa-tshirt"></i> Catálogo
+            </a>
+        </nav>
+        <div class="sidebar-footer" id="sidebar-user">
+            <div class="avatar" id="user-avatar">A</div>
+            <div class="info">
+                <div class="name" id="user-name">Administrador</div>
+                <div class="role">Admin · Martex</div>
+            </div>
+            <button class="logout-btn" onclick="logout()" title="Cerrar sesión">
+                <i class="fas fa-sign-out-alt"></i>
+            </button>
+        </div>
+    </aside>
+
+    <div class="flex-grow flex flex-col h-full overflow-hidden">
+        <header class="admin-header">
+            <button class="md:hidden text-gray-500 hover:text-azul-marino">
+                <i class="fas fa-bars text-xl"></i>
+            </button>
+            <div class="page-title">
+                Gestión de Pedidos
+                <span class="breadcrumb">Admin · Pedidos de la tienda online</span>
+            </div>
+            <div class="header-actions ml-auto">
+                <div class="text-xs font-semibold flex items-center gap-2 mr-4" style="color: var(--verde-quirurgico);">
+                    <span class="relative flex h-2.5 w-2.5">
+                      <span class="animate-ping absolute inline-flex h-full w-full rounded-full opacity-75" style="background: var(--verde-quirurgico);"></span>
+                      <span class="relative inline-flex rounded-full h-2.5 w-2.5" style="background: var(--verde-quirurgico);"></span>
+                    </span>
+                    Sincronización Activa
+                </div>
+                <button id="notification-bell" class="header-icon-btn" title="Notificaciones">
+                    <i class="fas fa-bell"></i>
+                    <span class="badge hidden"></span>
+                </button>
+            </div>
+        </header>
+
+        <main class="flex-grow p-6 overflow-auto" style="background: var(--bg-main);">
+            <div class="max-w-7xl mx-auto">
+                <div class="page-section-title">
+                    <h1>Pedidos Registrados</h1>
+                    <button onclick="fetchPedidos()" class="btn-primary">
+                        <i class="fas fa-sync-alt"></i> Actualizar
+                    </button>
+                </div>
+                
+                <div class="data-table-wrapper">
+                    <div class="table-header" style="background: #fafbfc;">
+                        <p class="text-sm text-gray-400 font-medium"><i class="fas fa-info-circle mr-1"></i> Los pedidos de la tienda online aparecerán aquí automáticamente.</p>
+                    </div>
+                    <div class="overflow-x-auto">
+                        <table class="data-table">
+                            <thead>
+                                <tr>
+                                    <th>ID Pedido</th>
+                                    <th>Cliente Info</th>
+                                    <th>Total / Método Pago</th>
+                                    <th>Estado Actual</th>
+                                    <th class="text-right">Detalles</th>
+                                </tr>
+                            </thead>
+                            <tbody id="tabla-pedidos">
+                                <tr>
+                                    <td colspan="5" class="text-center text-gray-400 py-8">
+                                        <i class="fas fa-spinner fa-spin mr-2"></i> Cargando pedidos...
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Modal Detalles -->
+    <div id="modal-detalle" class="fixed inset-0 z-50 invisible flex items-center justify-center overflow-y-auto pt-10 pb-10">
+        <div class="fixed inset-0 bg-black/40 backdrop-blur-sm" onclick="cerrarModal()"></div>
+        <div class="bg-white rounded-2xl shadow-2xl w-full max-w-2xl z-10 p-8 my-auto transform scale-95 transition-transform" id="modal-content">
+            <div class="flex justify-between items-center mb-6 border-b pb-4">
+                <h3 class="text-xl font-bold" id="modal-titulo" style="color: var(--azul-pantera);">Detalles del Pedido</h3>
+                <button onclick="cerrarModal()" class="action-btn delete"><i class="fas fa-times"></i></button>
+            </div>
+            
+            <div class="grid grid-cols-2 gap-6 mb-6">
+                <div>
+                    <h4 class="text-xs uppercase text-gray-400 font-bold mb-2">Información del Cliente</h4>
+                    <p class="font-semibold" id="det-cliente" style="color: var(--azul-pantera);">-</p>
+                    <p class="text-gray-500 text-sm" id="det-tel">-</p>
+                    <p class="text-gray-500 text-sm mt-1" id="det-dui">-</p>
+                    <p class="text-gray-500 text-sm mt-1" id="det-direccion">-</p>
+                </div>
+                <div class="text-right">
+                    <h4 class="text-xs uppercase text-gray-400 font-bold mb-2">Información de Pago</h4>
+                    <p class="font-bold text-xl" id="det-total" style="color: var(--verde-quirurgico);">-</p>
+                    <p class="text-gray-500" id="det-metodo">-</p>
+                    <p class="text-gray-400 text-xs mt-1" id="det-fecha">-</p>
+                </div>
+            </div>
+
+            <div class="mb-6">
+                <h4 class="text-xs uppercase text-gray-400 font-bold mb-3">Artículos Comprados</h4>
+                <div class="border border-gray-200 rounded-lg overflow-hidden">
+                    <table class="w-full text-left text-sm">
+                        <thead class="bg-gray-50">
+                            <tr>
+                                <th class="px-4 py-2 text-gray-500 text-xs font-semibold uppercase">Producto</th>
+                                <th class="px-4 py-2 text-gray-500 text-xs font-semibold uppercase text-center">Cant</th>
+                                <th class="px-4 py-2 text-gray-500 text-xs font-semibold uppercase text-right">Precio Unit.</th>
+                            </tr>
+                        </thead>
+                        <tbody id="det-items" class="divide-y divide-gray-100">
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Sección de Comprobante de Pago (Transferencias) -->
+            <div id="comprobante-seccion" class="mb-6 hidden bg-gray-50 p-4 rounded-xl border border-gray-200">
+                <h4 class="text-xs uppercase text-gray-500 font-bold mb-2"><i class="fas fa-receipt mr-2" style="color: var(--verde-quirurgico);"></i>Comprobante de Pago</h4>
+                <div class="max-w-xs overflow-hidden rounded-lg shadow-sm border border-gray-200 bg-white">
+                    <a id="det-comprobante-link" href="#" target="_blank">
+                        <img id="det-comprobante-img" src="" alt="Comprobante" class="w-full h-auto max-h-48 object-contain hover:opacity-95 transition-opacity">
+                    </a>
+                </div>
+            </div>
+
+            <div class="border-t border-gray-200 pt-6">
+                <label class="block text-sm font-semibold text-gray-700 mb-2">Actualizar Estado del Pedido</label>
+                <div class="flex gap-3">
+                    <input type="hidden" id="update-id">
+                    <select id="update-estado" class="flex-grow px-4 py-2.5 border border-gray-200 rounded-xl focus:outline-none focus:border-teal-500 bg-white text-sm">
+                        <option value="Nuevo">Nuevo</option>
+                        <option value="Procesando">Procesando</option>
+                        <option value="Enviado">Enviado</option>
+                        <option value="Entregado">Entregado</option>
+                    </select>
+                    <button onclick="actualizarEstado()" class="btn-primary">
+                        <i class="fas fa-check"></i> Guardar
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const token = localStorage.getItem('token');
+        if (!token) window.location.href = 'login.html';
+        const authHeaders = { 'Authorization': `Bearer ${token}`, 'Content-Type': 'application/json' };
+
+        // Set user info
+        try {
+            const user = JSON.parse(localStorage.getItem('user'));
+            if (user) {
+                document.getElementById('user-name').textContent = user.nombre || 'Administrador';
+                document.getElementById('user-avatar').textContent = (user.nombre || 'A').charAt(0).toUpperCase();
+            }
+        } catch(e) {}
+
+        function logout() {
+            localStorage.removeItem('token');
+            localStorage.removeItem('user');
+            window.location.href = 'login.html';
+        }
+
+        const API_URL = CONFIG.API_URL + '/pedidos';
+        let pedidosData = [];
+
+        document.addEventListener('DOMContentLoaded', () => {
+            fetchPedidos();
+            // Polling every 30 seconds for new orders fallback
+            setInterval(fetchPedidos, 30000);
+
+            // Escuchar el evento del sistema de alertas para recargar inmediatamente
+            window.addEventListener('martex_new_order', fetchPedidos);
+        });
+
+        // Realiza una petición GET a la API para obtener todos los pedidos y los envía a la función de renderizado
+        async function fetchPedidos() {
+            try {
+                const res = await fetch(API_URL, { headers: { 'Authorization': `Bearer ${token}` } });
+                if (res.status === 401 || res.status === 403 || res.status === 400) {
+                    window.location.href = 'login.html';
+                    return;
+                }
+                if (res.ok) {
+                    pedidosData = await res.json();
+                    renderTabla(pedidosData);
+                }
+            } catch (e) {
+                console.error("Error fetching pedidos:", e);
+                document.getElementById('tabla-pedidos').innerHTML = `<tr><td colspan="5" class="empty-state"><i class="fas fa-exclamation-triangle block"></i><p>Error al conectar con el servidor</p></td></tr>`;
+            }
+        }
+
+        const getStatusClass = (estado) => {
+            if (estado === 'Nuevo') return 'nuevo';
+            if (estado === 'Procesando') return 'procesando';
+            if (estado === 'Enviado') return 'enviado';
+            if (estado === 'Entregado') return 'entregado';
+            return 'nuevo';
+        };
+
+        // Genera dinámicamente las filas HTML de la tabla iterando sobre el array de pedidos
+        function renderTabla(pedidos) {
+            const tbody = document.getElementById('tabla-pedidos');
+            if (pedidos.length === 0) {
+                tbody.innerHTML = `<tr><td colspan="5" class="empty-state"><i class="fas fa-inbox block"></i><p>Aún no hay pedidos registrados.</p></td></tr>`;
+                return;
+            }
+
+            tbody.innerHTML = pedidos.map(p => `
+                <tr>
+                    <td>
+                        <div class="font-bold" style="color: var(--azul-pantera);">#ORD-${p.id.toString().padStart(3,'0')}</div>
+                        <div class="text-xs text-gray-400 mt-1">${new Date(p.creado_en).toLocaleString()}</div>
+                    </td>
+                    <td>
+                        <div class="font-medium text-gray-800">${p.cliente_nombre}</div>
+                        <div class="text-xs text-gray-400 mt-0.5"><i class="fas fa-phone mr-1"></i>${p.cliente_telefono} · DUI: ${p.dui || 'N/A'}</div>
+                        <div class="text-xs text-gray-400 mt-0.5 truncate max-w-[200px]" title="${p.direccion || ''}"><i class="fas fa-map-marker-alt mr-1"></i>${p.direccion || 'N/A'}</div>
+                    </td>
+                    <td>
+                        <div class="font-bold" style="color: var(--verde-quirurgico);">$${parseFloat(p.total).toFixed(2)}</div>
+                        <div class="text-xs text-gray-400 mt-1 bg-gray-100 inline-block px-2 py-0.5 rounded">${p.metodo_pago}</div>
+                    </td>
+                    <td>
+                        <span class="status-badge ${getStatusClass(p.estado)}">${p.estado}</span>
+                    </td>
+                    <td class="text-right">
+                        <button onclick="verDetalles('${p.id}')" class="btn-primary" style="font-size: 0.75rem; padding: 0.4rem 0.9rem;">
+                            Ver Detalles
+                        </button>
+                    </td>
+                </tr>
+            `).join('');
+        }
+
+        // Busca el pedido seleccionado por ID, llena el modal con sus datos, muestra comprobantes si existen, y despliega el modal
+        function verDetalles(id) {
+            const pedido = pedidosData.find(p => p.id == id);
+            if (!pedido) return;
+
+            document.getElementById('modal-titulo').innerText = `Pedido #ORD-${pedido.id.toString().padStart(3,'0')}`;
+            document.getElementById('det-cliente').innerText = pedido.cliente_nombre;
+            document.getElementById('det-tel').innerHTML = `<i class="fas fa-phone mr-1"></i> ${pedido.cliente_telefono}`;
+            document.getElementById('det-dui').innerHTML = `<i class="fas fa-id-card mr-1"></i> ${pedido.dui ? pedido.dui : 'DUI no registrado'}`;
+            document.getElementById('det-direccion').innerHTML = `<i class="fas fa-map-marker-alt mr-1"></i> ${pedido.direccion || 'Dirección no registrada'}`;
+            
+            document.getElementById('det-total').innerText = `$${parseFloat(pedido.total).toFixed(2)}`;
+            document.getElementById('det-metodo').innerText = `Método: ${pedido.metodo_pago}`;
+            document.getElementById('det-fecha').innerText = new Date(pedido.creado_en).toLocaleString();
+            
+            document.getElementById('update-id').value = pedido.id;
+            document.getElementById('update-estado').value = pedido.estado;
+
+            // Mostrar u ocultar sección de comprobante
+            const comprobanteSeccion = document.getElementById('comprobante-seccion');
+            if (pedido.comprobante_url) {
+                comprobanteSeccion.classList.remove('hidden');
+                const fullUrl = `${CONFIG.BASE_URL}${pedido.comprobante_url}`;
+                document.getElementById('det-comprobante-link').href = fullUrl;
+                document.getElementById('det-comprobante-img').src = fullUrl;
+            } else {
+                comprobanteSeccion.classList.add('hidden');
+            }
+
+            const tbodyItems = document.getElementById('det-items');
+            if (pedido.items && pedido.items.length > 0 && pedido.items[0].id !== null) {
+                tbodyItems.innerHTML = pedido.items.map(i => `
+                    <tr>
+                        <td class="px-4 py-3 font-medium" style="color: var(--azul-pantera);">${i.producto_nombre || 'Producto no disponible'} <span class="text-xs ml-1 font-bold" style="color: var(--verde-quirurgico);">(Talla: ${i.talla || 'M'})</span></td>
+                        <td class="px-4 py-3 text-center text-gray-600">${i.cantidad}</td>
+                        <td class="px-4 py-3 text-right font-medium text-gray-600">$${parseFloat(i.precio_unitario).toFixed(2)}</td>
+                    </tr>
+                `).join('');
+            } else {
+                tbodyItems.innerHTML = `<tr><td colspan="3" class="px-4 py-3 text-center text-gray-400">No hay artículos detallados</td></tr>`;
+            }
+
+            const modal = document.getElementById('modal-detalle');
+            const content = document.getElementById('modal-content');
+            modal.classList.remove('invisible');
+            setTimeout(() => content.classList.remove('scale-95'), 10);
+        }
+
+        // Oculta el modal de detalles añadiendo clases CSS de animación
+        function cerrarModal() {
+            const modal = document.getElementById('modal-detalle');
+            const content = document.getElementById('modal-content');
+            content.classList.add('scale-95');
+            setTimeout(() => modal.classList.add('invisible'), 200);
+        }
+
+        // Envía una petición PUT al backend para cambiar el estado (Nuevo, Procesando, Enviado, Entregado) del pedido seleccionado
+        async function actualizarEstado() {
+            const id = document.getElementById('update-id').value;
+            const estado = document.getElementById('update-estado').value;
+
+            try {
+                const res = await fetch(`${API_URL}/${id}/estado`, {
+                    method: 'PUT',
+                    headers: authHeaders,
+                    body: JSON.stringify({ estado })
+                });
+
+                if (res.ok) {
+                    cerrarModal();
+                    fetchPedidos();
+                    if (typeof showToast === 'function') {
+                        showToast('Estado del pedido actualizado con éxito', 'success');
+                    }
+                } else {
+                    if (typeof showToast === 'function') {
+                        showToast('Error al actualizar el estado del pedido', 'error');
+                    } else {
+                        alert('Error al actualizar el estado.');
+                    }
+                }
+            } catch (e) {
+                console.error(e);
+                if (typeof showToast === 'function') {
+                    showToast('Error de red al actualizar', 'error');
+                } else {
+                    alert('Error de red.');
+                }
+            }
+        }
+    </script>
+</body>
+</html>

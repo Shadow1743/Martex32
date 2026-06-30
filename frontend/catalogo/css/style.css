@@ -1,0 +1,180 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Outfit:wght@400;500;600;700;800&display=swap');
+
+body {
+    font-family: 'Inter', sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+h1, h2, h3, h4, h5, h6, .font-display {
+    font-family: 'Outfit', sans-serif;
+}
+
+/* Glassmorphism Utilities */
+.glass {
+    background: rgba(255, 255, 255, 0.85);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+.glass-dark {
+    background: rgba(10, 17, 40, 0.7);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+/* Premium Card Hover Effects */
+.card-premium {
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.card-premium:hover {
+    transform: translateY(-8px) scale(1.01);
+    box-shadow: 0 25px 50px -12px rgba(10, 17, 40, 0.15);
+}
+
+/* Text Gradients */
+.text-gradient {
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-image: linear-gradient(135deg, #00B391 0%, #00725D 100%);
+}
+
+.text-gradient-light {
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-image: linear-gradient(135deg, #ffffff 0%, #e2e8f0 100%);
+}
+
+/* Pattern Backgrounds */
+.bg-pattern-dots {
+    background-image: radial-gradient(rgba(0, 179, 145, 0.15) 1px, transparent 1px);
+    background-size: 24px 24px;
+}
+
+/* Smooth Image Hover */
+.img-hover-zoom {
+    transition: transform 0.7s ease;
+}
+.card-premium:hover .img-hover-zoom {
+    transform: scale(1.08);
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+    width: 8px;
+}
+::-webkit-scrollbar-track {
+    background: #f1f5f9;
+}
+::-webkit-scrollbar-thumb {
+    background: #cbd5e1;
+    border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+    background: #00B391;
+}
+
+/* --- MODO OSCURO CUSTOM --- */
+body {
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.dark,
+.dark body {
+    background-color: #050914 !important;
+    color: #f8fafc !important;
+}
+
+.dark .glass {
+    background: rgba(10, 17, 40, 0.6) !important;
+    border: 1px solid rgba(255, 255, 255, 0.08) !important;
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+}
+
+.dark .bg-white {
+    background-color: #0A1128 !important;
+}
+
+.dark .bg-gray-50,
+.dark .bg-gray-100,
+.dark .bg-gray-200 {
+    background-color: #0d1533 !important;
+}
+
+.dark .text-azul-marino {
+    color: #f8fafc !important;
+}
+
+.dark .text-gray-600,
+.dark .text-gray-700,
+.dark .text-gray-800 {
+    color: #cbd5e1 !important;
+}
+
+.dark .text-gray-400,
+.dark .text-gray-500 {
+    color: #94a3b8 !important;
+}
+
+.dark .text-gray-300 {
+    color: #cbd5e1 !important;
+}
+
+/* Fix text hover for quantity buttons */
+.dark .hover\:text-azul-marino:hover {
+    color: #ffffff !important;
+}
+
+/* Only apply border override if not checked or hovered */
+.dark .border-gray-100:not(.peer-checked\:border-verde-quirurgico),
+.dark .border-gray-200:not(.peer-checked\:border-verde-quirurgico),
+.dark .border-gray-150 {
+    border-color: rgba(255, 255, 255, 0.1);
+}
+
+.dark input, 
+.dark select, 
+.dark textarea {
+    background-color: #050914 !important;
+    color: #ffffff !important;
+    border-color: rgba(255, 255, 255, 0.2) !important;
+}
+
+.dark input::placeholder, 
+.dark textarea::placeholder {
+    color: #64748b !important;
+}
+
+.dark ::-webkit-scrollbar-track {
+    background: #050914;
+}
+.dark ::-webkit-scrollbar-thumb {
+    background: #1e293b;
+}
+.dark ::-webkit-scrollbar-thumb:hover {
+    background: #00B391;
+}
+
+/* Fix shadows and card hover in dark mode */
+.dark .shadow-sm,
+.dark .shadow-md,
+.dark .shadow-lg,
+.dark .shadow-2xl,
+.dark .shadow-glass {
+    box-shadow: 0 8px 30px -4px rgba(0, 0, 0, 0.6) !important;
+}
+
+.dark .card-premium {
+    border: 1px solid rgba(255, 255, 255, 0.05) !important;
+}
+
+.dark .card-premium:hover {
+    box-shadow: 0 25px 50px -12px rgba(0, 155, 125, 0.1) !important;
+    border-color: rgba(0, 155, 125, 0.3) !important;
+}

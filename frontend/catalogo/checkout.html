@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Checkout | Martex</title>
+    <script src="../config.js"></script>
+    <script src="/tailwind-cdn.js"></script>
+    <script src="js/tailwind-config.js"></script>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="componentes/navbar.js" defer></script>
+    <script src="componentes/footer.js" defer></script>
+</head>
+<body class="bg-gray-50 text-azul-marino flex flex-col min-h-screen">
+    <main-navbar></main-navbar>
+
+    <div class="pt-24 bg-azul-marino text-white pb-12">
+        <div class="container mx-auto px-6 text-center">
+            <h1 class="text-4xl font-display font-bold mb-4">Finalizar Compra</h1>
+            <p class="text-gray-300">Estás a un paso de recibir tus uniformes premium.</p>
+        </div>
+    </div>
+
+    <main class="flex-grow container mx-auto px-6 py-12 flex flex-col lg:flex-row gap-10 max-w-6xl">
+        <!-- Formulario -->
+        <div class="w-full lg:w-2/3">
+            <form id="checkout-form" class="space-y-8">
+                <div class="bg-white p-8 rounded-3xl shadow-sm border border-gray-100 card-premium">
+                    <h2 class="text-2xl font-display font-bold mb-6 border-b border-gray-100 pb-4">1. Datos Personales y Envío</h2>
+                    <div class="grid md:grid-cols-2 gap-6">
+                        <div>
+                            <label class="block text-sm font-semibold text-gray-700 mb-2">Nombre Completo</label>
+                            <input type="text" id="cliente_nombre" required class="w-full px-4 py-3 rounded-xl border border-gray-200 focus:outline-none focus:border-verde-quirurgico focus:ring-1 focus:ring-verde-quirurgico transition-all">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-semibold text-gray-700 mb-2">Teléfono</label>
+                            <input type="tel" id="cliente_telefono" required class="w-full px-4 py-3 rounded-xl border border-gray-200 focus:outline-none focus:border-verde-quirurgico focus:ring-1 focus:ring-verde-quirurgico transition-all">
+                        </div>
+                        <div class="col-span-2 md:col-span-1">
+                            <label class="block text-sm font-semibold text-gray-700 mb-2">Dirección de Entrega</label>
+                            <input type="text" id="direccion" required placeholder="Colonia, calle, número de casa..." class="w-full px-4 py-3 rounded-xl border border-gray-200 focus:outline-none focus:border-verde-quirurgico focus:ring-1 focus:ring-verde-quirurgico transition-all">
+                        </div>
+                        <div class="col-span-2 md:col-span-1">
+                            <label class="block text-sm font-semibold text-gray-700 mb-2">DUI</label>
+                            <input type="text" id="dui" placeholder="00000000-0" class="w-full px-4 py-3 rounded-xl border border-gray-200 focus:outline-none focus:border-verde-quirurgico focus:ring-1 focus:ring-verde-quirurgico transition-all">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-white p-8 rounded-3xl shadow-sm border border-gray-100 card-premium">
+                    <h2 class="text-2xl font-display font-bold mb-6 border-b border-gray-100 pb-4">2. Método de Pago</h2>
+                    <div class="space-y-4">
+                        <label class="flex items-center p-4 border border-gray-200 rounded-xl cursor-pointer hover:border-verde-quirurgico transition-colors group">
+                            <input type="radio" name="metodoPago" value="Efectivo" checked class="w-5 h-5 text-verde-quirurgico focus:ring-verde-quirurgico">
+                            <div class="ml-4 flex items-center justify-between w-full">
+                                <div>
+                                    <span class="block font-bold text-azul-marino">Efectivo contra entrega</span>
+                                    <span class="text-sm text-gray-500">Pagas al recibir en la puerta de tu casa o tienda.</span>
+                                </div>
+                                <i class="fas fa-money-bill-wave text-2xl text-gray-300 group-hover:text-verde-quirurgico transition-colors"></i>
+                            </div>
+                        </label>
+                        <label class="flex items-center p-4 border border-gray-200 rounded-xl cursor-pointer hover:border-verde-quirurgico transition-colors group">
+                            <input type="radio" name="metodoPago" value="Deposito" class="w-5 h-5 text-verde-quirurgico focus:ring-verde-quirurgico">
+                            <div class="ml-4 flex items-center justify-between w-full">
+                                <div>
+                                    <span class="block font-bold text-azul-marino">Depósito Bancario</span>
+                                    <span class="text-sm text-gray-500">A cuenta de Banco Agrícola.</span>
+                                </div>
+                                <i class="fas fa-university text-2xl text-gray-300 group-hover:text-verde-quirurgico transition-colors"></i>
+                            </div>
+                        </label>
+                        <label class="flex items-center p-4 border border-gray-200 rounded-xl cursor-pointer hover:border-verde-quirurgico transition-colors group">
+                            <input type="radio" name="metodoPago" value="Transferencia" class="w-5 h-5 text-verde-quirurgico focus:ring-verde-quirurgico">
+                            <div class="ml-4 flex items-center justify-between w-full">
+                                <div>
+                                    <span class="block font-bold text-azul-marino">Transferencia Electrónica</span>
+                                    <span class="text-sm text-gray-500">UNI o transferencia directa (Enviar comprobante).</span>
+                                </div>
+                                <i class="fas fa-mobile-alt text-2xl text-gray-300 group-hover:text-verde-quirurgico transition-colors"></i>
+                            </div>
+                        </label>
+                    </div>
+                </div>
+
+                <div class="bg-white p-8 rounded-3xl shadow-sm border border-gray-100 card-premium">
+                    <h2 class="text-2xl font-display font-bold mb-6 border-b border-gray-100 pb-4">3. Ingresar Medidas Personalizadas (Opcional)</h2>
+                    <p class="text-sm text-gray-500 mb-4">Si seleccionaste confección a la medida, déjanos tus detalles:</p>
+                    <textarea class="w-full px-4 py-3 rounded-xl border border-gray-200 focus:outline-none focus:border-verde-quirurgico focus:ring-1 focus:ring-verde-quirurgico transition-all" rows="4" placeholder="Ej. Talla de camisa L, pero mangas más largas. Pantalón talla 34 ajustado..."></textarea>
+                </div>
+            </form>
+        </div>
+
+        <!-- Resumen del Pedido -->
+        <div class="w-full lg:w-1/3">
+            <div class="bg-white p-8 rounded-3xl shadow-premium border border-gray-100 sticky top-28">
+                <h3 class="font-display font-bold text-xl mb-6">Resumen del Pedido</h3>
+                
+                <div id="checkout-items" class="space-y-4 mb-6 max-h-60 overflow-y-auto pr-2">
+                    <!-- Generado por JS -->
+                </div>
+                
+                <div class="border-t border-gray-100 pt-6 space-y-3">
+                    <div class="flex justify-between text-gray-600">
+                        <span>Subtotal</span>
+                        <span id="checkout-subtotal">$0.00</span>
+                    </div>
+                    <div class="flex justify-between text-gray-600">
+                        <span>Envío</span>
+                        <span class="text-verde-quirurgico font-medium">Gratis</span>
+                    </div>
+                    <div class="flex justify-between text-2xl font-display font-bold text-azul-marino mt-4 pt-4 border-t border-gray-100">
+                        <span>Total</span>
+                        <span id="checkout-total">$0.00</span>
+                    </div>
+                </div>
+                
+                <button type="button" onclick="procesarPedido()" class="w-full mt-8 flex items-center justify-center gap-3 bg-azul-marino hover:bg-azul-pantera text-white font-bold py-4 rounded-xl transition-all shadow-md hover:shadow-lg hover:-translate-y-1">
+                    Confirmar Pedido <i class="fas fa-check"></i>
+                </button>
+                <div class="text-center mt-4 flex items-center justify-center gap-2 text-sm text-gray-400">
+                    <i class="fas fa-lock"></i> Compra 100% segura
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer-component></footer-component>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const carrito = JSON.parse(localStorage.getItem('martex_carrito')) || [];
+            const container = document.getElementById('checkout-items');
+            const subtotalEl = document.getElementById('checkout-subtotal');
+            const totalEl = document.getElementById('checkout-total');
+            
+            if (carrito.length === 0) {
+                container.innerHTML = '<p class="text-gray-400 text-sm">No hay productos en tu carrito.</p>';
+                return;
+            }
+
+            let total = 0;
+            container.innerHTML = carrito.map(item => {
+                total += item.precio * item.cantidad;
+                return `
+                    <div class="flex justify-between items-center text-sm">
+                        <div class="flex items-center gap-3">
+                            <span class="font-bold text-gray-400">x${item.cantidad}</span>
+                            <span class="text-gray-700 truncate max-w-[150px]">${item.nombre} (Talla: ${item.talla || 'M'})</span>
+                        </div>
+                        <span class="font-bold text-azul-marino">$${(item.precio * item.cantidad).toFixed(2)}</span>
+                    </div>
+                `;
+            }).join('');
+
+            subtotalEl.innerText = `$${total.toFixed(2)}`;
+            totalEl.innerText = `$${total.toFixed(2)}`;
+        });
+
+        async function procesarPedido() {
+            const form = document.getElementById('checkout-form');
+            if (!form.checkValidity()) {
+                form.reportValidity();
+                return;
+            }
+
+            const carrito = JSON.parse(localStorage.getItem('martex_carrito')) || [];
+            if (carrito.length === 0) {
+                alert('Tu carrito está vacío.');
+                return;
+            }
+            
+            const btn = event.currentTarget;
+            btn.disabled = true;
+            btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Procesando...';
+
+            const payload = {
+                cliente_nombre: document.getElementById('cliente_nombre').value,
+                cliente_telefono: document.getElementById('cliente_telefono').value,
+                direccion: document.getElementById('direccion').value,
+                dui: document.getElementById('dui').value,
+                metodo_pago: document.querySelector('input[name="metodoPago"]:checked').value,
+                total: carrito.reduce((acc, item) => acc + (item.precio * item.cantidad), 0),
+                items: carrito.map(item => ({
+                    producto_id: item.id,
+                    cantidad: item.cantidad,
+                    precio_unitario: item.precio,
+                    talla: item.talla || 'M'
+                }))
+            };
+
+            try {
+                const res = await fetch(CONFIG.API_URL + '/pedidos', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                });
+
+                if (res.ok) {
+                    alert('¡Gracias por tu compra! Tu pedido ha sido enviado al sistema de Martex. Nos pondremos en contacto contigo.');
+                    localStorage.removeItem('martex_carrito');
+                    window.location.href = 'index.html';
+                } else {
+                    alert('Hubo un error al procesar el pedido. Intenta nuevamente.');
+                }
+            } catch (err) {
+                console.error('Error enviando pedido:', err);
+                alert('Error de conexión con el servidor.');
+            } finally {
+                btn.disabled = false;
+                btn.innerHTML = 'Confirmar Pedido <i class="fas fa-check"></i>';
+            }
+        }
+    </script>
+</body>
+</html>

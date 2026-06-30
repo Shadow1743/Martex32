@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <script src="../config.js"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Módulo de Catálogo | Martex Admin</title>
+    <script src="/tailwind-cdn.js"></script>
+    <script src="js/darkmode.js"></script>
+    <script src="js/toast.js"></script>
+    <script src="js/notificaciones.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="css/admin.css">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'verde-quirurgico': '#008080',
+                        'azul-pantera': '#0B1560',
+                        'azul-marino': '#000080',
+                    },
+                    fontFamily: {
+                        'sans': ['Inter', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .oculto { display: none; }
+    </style>
+</head>
+<body class="flex h-screen overflow-hidden">
+
+    <!-- Sidebar -->
+    <aside class="admin-sidebar hidden md:flex">
+        <div class="sidebar-brand">
+            <span class="text-xl font-bold tracking-tight">Mar<span class="text-teal-400">tex</span></span>
+            <span class="ml-2 text-[10px] font-medium bg-white/10 px-2 py-0.5 rounded-md text-white/50 uppercase tracking-wider">Admin</span>
+        </div>
+        <div class="sidebar-section-label">Menú principal</div>
+        <nav class="sidebar-nav">
+            <a href="index.html" class="sidebar-link">
+                <i class="fas fa-grid-2"></i> Dashboard
+            </a>
+            <a href="pedidos.html" class="sidebar-link">
+                <i class="fas fa-shopping-bag"></i> Pedidos
+            </a>
+            <a href="medidas.html" class="sidebar-link">
+                <i class="fas fa-ruler-combined"></i> Medidas
+            </a>
+            <a href="catalogo.html" class="sidebar-link active">
+                <i class="fas fa-tshirt"></i> Catálogo
+            </a>
+        </nav>
+        <div class="sidebar-footer" id="sidebar-user">
+            <div class="avatar" id="user-avatar">A</div>
+            <div class="info">
+                <div class="name" id="user-name">Administrador</div>
+                <div class="role">Admin · Martex</div>
+            </div>
+            <button class="logout-btn" onclick="logout()" title="Cerrar sesión">
+                <i class="fas fa-sign-out-alt"></i>
+            </button>
+        </div>
+    </aside>
+
+    <div class="flex-grow flex flex-col h-full overflow-hidden">
+        <header class="admin-header">
+            <button class="md:hidden text-gray-500 hover:text-azul-marino">
+                <i class="fas fa-bars text-xl"></i>
+            </button>
+            <div class="page-title">
+                Gestión de Catálogo
+                <span class="breadcrumb">Admin · Productos y precios</span>
+            </div>
+            <div class="header-actions ml-auto">
+                <button id="notification-bell" class="header-icon-btn" title="Notificaciones">
+                    <i class="fas fa-bell"></i>
+                    <span class="badge hidden"></span>
+                </button>
+            </div>
+        </header>
+
+        <main class="flex-grow p-6 overflow-auto" style="background: var(--bg-main);">
+            <div class="max-w-7xl mx-auto">
+                <div class="page-section-title">
+                    <h1>Productos</h1>
+                    <button onclick="abrirModal()" class="btn-primary">
+                        <i class="fas fa-plus"></i> Nuevo Producto
+                    </button>
+                </div>
+                
+                <div class="data-table-wrapper">
+                    <div class="table-header" style="background: #fafbfc;">
+                        <div class="flex gap-3 flex-grow">
+                            <div class="relative flex-grow max-w-sm">
+                                <i class="fas fa-search absolute left-3 top-1/2 -translate-y-1/2 text-gray-300 text-sm"></i>
+                                <input type="text" id="buscador" placeholder="Buscar producto..." class="w-full pl-9 pr-4 py-2 border border-gray-200 rounded-lg text-sm focus:outline-none focus:border-teal-500" onkeyup="filtrarProductos()">
+                            </div>
+                            <select id="filtro-categoria" class="px-4 py-2 border border-gray-200 rounded-lg text-sm focus:outline-none focus:border-teal-500 bg-white" onchange="filtrarProductos()">
+                                <option value="">Todas las categorías</option>
+                                <option value="Médico">Médico</option>
+                                <option value="Belleza">Belleza</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="overflow-x-auto">
+                        <table class="data-table">
+                            <thead>
+                                <tr>
+                                    <th>Imagen</th>
+                                    <th>Producto</th>
+                                    <th>Categoría</th>
+                                    <th>Precio Base</th>
+                                    <th>Descuento</th>
+                                    <th>Precio Final</th>
+                                    <th class="text-right">Acciones</th>
+                                </tr>
+                            </thead>
+                            <tbody id="tabla-productos">
+                                <tr>
+                                    <td colspan="7" class="text-center text-gray-400 py-8">
+                                        <i class="fas fa-spinner fa-spin mr-2"></i> Cargando productos...
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Modal Formulario Producto -->
+    <div id="modal-producto" class="fixed inset-0 z-50 invisible flex items-center justify-center overflow-y-auto pt-10 pb-10">
+        <div class="fixed inset-0 bg-black/40 backdrop-blur-sm" onclick="cerrarModal()"></div>
+        <div class="bg-white rounded-2xl shadow-2xl w-full max-w-lg z-10 p-6 my-auto transform scale-95 transition-transform" id="modal-content">
+            <div class="flex justify-between items-center mb-6">
+                <h3 class="text-xl font-bold" id="modal-titulo" style="color: var(--azul-pantera);">Registrar Producto</h3>
+                <button onclick="cerrarModal()" class="action-btn delete"><i class="fas fa-times"></i></button>
+            </div>
+            
+            <form id="form-producto" onsubmit="guardarProducto(event)" enctype="multipart/form-data">
+                <input type="hidden" id="producto-id">
+                
+                <div class="space-y-4">
+                    <div>
+                        <label class="block text-sm font-semibold text-gray-700 mb-1">Nombre del Producto</label>
+                        <input type="text" id="nombre" name="nombre" required class="w-full px-4 py-2.5 rounded-xl border border-gray-200 focus:border-teal-500 focus:ring-1 focus:ring-teal-500 outline-none text-sm">
+                    </div>
+                    
+                    <div>
+                        <label class="block text-sm font-semibold text-gray-700 mb-1">Categoría</label>
+                        <select id="categoria" name="categoria" required class="w-full px-4 py-2.5 rounded-xl border border-gray-200 focus:border-teal-500 outline-none bg-white text-sm">
+                            <option value="Médico">Médico</option>
+                            <option value="Belleza">Belleza</option>
+                        </select>
+                    </div>
+
+                    <div>
+                        <label class="block text-sm font-semibold text-gray-700 mb-1">Descripción</label>
+                        <textarea id="descripcion" name="descripcion" rows="3" class="w-full px-4 py-2.5 rounded-xl border border-gray-200 focus:border-teal-500 outline-none text-sm"></textarea>
+                    </div>
+
+                    <div class="grid grid-cols-2 gap-4">
+                        <div>
+                            <label class="block text-sm font-semibold text-gray-700 mb-1">Precio Base ($)</label>
+                            <input type="number" step="0.01" id="precio_base" name="precio_base" required class="w-full px-4 py-2.5 rounded-xl border border-gray-200 focus:border-teal-500 outline-none text-sm">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-semibold text-gray-700 mb-1">Descuento (%)</label>
+                            <input type="number" step="0.01" id="porcentaje_descuento" name="porcentaje_descuento" value="0" class="w-full px-4 py-2.5 rounded-xl border border-gray-200 focus:border-teal-500 outline-none text-sm">
+                        </div>
+                    </div>
+
+                    <div>
+                        <label class="block text-sm font-semibold text-gray-700 mb-1">Imagen del Uniforme</label>
+                        <input type="file" id="imagen" name="imagen" accept="image/*" class="w-full px-4 py-2 rounded-xl border border-gray-200 focus:border-teal-500 outline-none text-sm">
+                        <p class="text-xs text-gray-400 mt-1"><i class="fas fa-info-circle mr-1"></i>Deja vacío si no deseas cambiar la imagen actual al modificar.</p>
+                    </div>
+                </div>
+
+                <div class="mt-8 flex justify-end gap-3">
+                    <button type="button" onclick="cerrarModal()" class="px-5 py-2.5 text-gray-600 bg-gray-100 hover:bg-gray-200 rounded-xl font-medium transition-colors text-sm">Cancelar</button>
+                    <button type="submit" id="btn-submit" class="btn-primary">Guardar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        const token = localStorage.getItem('token');
+        if (!token) window.location.href = 'login.html';
+        const authHeaders = { 'Authorization': `Bearer ${token}` };
+
+        // Set user info
+        try {
+            const user = JSON.parse(localStorage.getItem('user'));
+            if (user) {
+                document.getElementById('user-name').textContent = user.nombre || 'Administrador';
+                document.getElementById('user-avatar').textContent = (user.nombre || 'A').charAt(0).toUpperCase();
+            }
+        } catch(e) {}
+
+        function logout() {
+            localStorage.removeItem('token');
+            localStorage.removeItem('user');
+            window.location.href = 'login.html';
+        }
+
+        const API_URL = CONFIG.API_URL + '/productos';
+        let productosData = [];
+
+        document.addEventListener('DOMContentLoaded', fetchProductos);
+
+        // Obtiene la lista de todos los productos desde el servidor (API)
+        async function fetchProductos() {
+            try {
+                const res = await fetch(API_URL, { headers: authHeaders });
+                if (res.ok) {
+                    productosData = await res.json();
+                    renderTabla(productosData);
+                } else {
+                    document.getElementById('tabla-productos').innerHTML = `<tr><td colspan="7" class="empty-state"><i class="fas fa-exclamation-triangle block"></i><p>Error cargando productos</p></td></tr>`;
+                }
+            } catch (e) {
+                console.error(e);
+                document.getElementById('tabla-productos').innerHTML = `<tr><td colspan="7" class="empty-state"><i class="fas fa-wifi-slash block" style="font-size:2rem; opacity:0.3; margin-bottom:0.5rem;"></i><p>No hay conexión con el servidor</p></td></tr>`;
+            }
+        }
+
+        // Genera el código HTML para mostrar cada producto en la tabla, calculando el precio final con descuento
+        function renderTabla(productos) {
+            const tbody = document.getElementById('tabla-productos');
+            if (productos.length === 0) {
+                tbody.innerHTML = `<tr><td colspan="7" class="empty-state"><i class="fas fa-box-open block"></i><p>No hay productos registrados.</p></td></tr>`;
+                return;
+            }
+
+            tbody.innerHTML = productos.map(p => {
+                const precioFinal = p.precio_base - (p.precio_base * (p.porcentaje_descuento / 100));
+                const imageUrl = p.imagen_url ? `${CONFIG.BASE_URL}${p.imagen_url}` : 'https://placehold.co/100x100?text=Sin+Imagen';
+                
+                return `
+                <tr>
+                    <td>
+                        <div class="w-12 h-12 rounded-xl bg-gray-50 overflow-hidden border border-gray-100">
+                            <img src="${imageUrl}" class="w-full h-full object-cover" alt="${p.nombre}">
+                        </div>
+                    </td>
+                    <td class="font-semibold" style="color: var(--azul-pantera);">${p.nombre}</td>
+                    <td><span class="status-badge" style="background: #f1f5f9; color: #475569;">${p.categoria}</span></td>
+                    <td class="text-gray-500 font-medium">$${parseFloat(p.precio_base).toFixed(2)}</td>
+                    <td class="font-medium" style="color: #ef4444;">${parseFloat(p.porcentaje_descuento).toFixed(0)}%</td>
+                    <td class="font-bold" style="color: var(--verde-quirurgico);">$${precioFinal.toFixed(2)}</td>
+                    <td class="text-right">
+                        <button onclick="editarProducto('${p.id}')" class="action-btn edit" title="Editar"><i class="fas fa-pen"></i></button>
+                        <button onclick="eliminarProducto('${p.id}')" class="action-btn delete" title="Eliminar"><i class="fas fa-trash"></i></button>
+                    </td>
+                </tr>
+            `}).join('');
+        }
+
+        // Filtra los productos de forma local (en el cliente) según el texto ingresado en el buscador y la categoría seleccionada
+        function filtrarProductos() {
+            const query = document.getElementById('buscador').value.toLowerCase();
+            const categoria = document.getElementById('filtro-categoria').value;
+            
+            const filtrados = productosData.filter(p => {
+                const coincideTexto = p.nombre.toLowerCase().includes(query);
+                const coincideCat = categoria ? p.categoria === categoria : true;
+                return coincideTexto && coincideCat;
+            });
+            renderTabla(filtrados);
+        }
+
+        // Limpia el formulario y abre el modal para crear un producto completamente nuevo
+        function abrirModal() {
+            document.getElementById('form-producto').reset();
+            document.getElementById('producto-id').value = '';
+            document.getElementById('modal-titulo').innerText = 'Registrar Producto';
+            
+            const modal = document.getElementById('modal-producto');
+            const content = document.getElementById('modal-content');
+            modal.classList.remove('invisible');
+            setTimeout(() => content.classList.remove('scale-95'), 10);
+        }
+
+        // Oculta el modal de producto y le añade la animación de cierre
+        function cerrarModal() {
+            const modal = document.getElementById('modal-producto');
+            const content = document.getElementById('modal-content');
+            content.classList.add('scale-95');
+            setTimeout(() => modal.classList.add('invisible'), 200);
+        }
+
+        // Carga los datos del producto seleccionado en el formulario para editarlo (PUT)
+        function editarProducto(id) {
+            const item = productosData.find(x => x.id === id);
+            if(item) {
+                document.getElementById('producto-id').value = item.id;
+                document.getElementById('nombre').value = item.nombre;
+                document.getElementById('categoria').value = item.categoria;
+                document.getElementById('descripcion').value = item.descripcion || '';
+                document.getElementById('precio_base').value = item.precio_base;
+                document.getElementById('porcentaje_descuento').value = item.porcentaje_descuento;
+                
+                document.getElementById('modal-titulo').innerText = 'Modificar Producto';
+                
+                const modal = document.getElementById('modal-producto');
+                const content = document.getElementById('modal-content');
+                modal.classList.remove('invisible');
+                setTimeout(() => content.classList.remove('scale-95'), 10);
+            }
+        }
+
+        // Envía el formulario de producto (imagen y datos texto) al backend vía FormData (POST para nuevo, PUT para editar)
+        async function guardarProducto(e) {
+            e.preventDefault();
+            const id = document.getElementById('producto-id').value;
+            const form = document.getElementById('form-producto');
+            const formData = new FormData(form);
+
+            const btn = document.getElementById('btn-submit');
+            btn.disabled = true;
+            btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Guardando...';
+
+            try {
+                const url = id ? `${API_URL}/${id}` : API_URL;
+                const method = id ? 'PUT' : 'POST';
+
+                const res = await fetch(url, {
+                    method: method,
+                    headers: authHeaders,
+                    body: formData
+                });
+                
+                if (res.ok) {
+                    cerrarModal();
+                    fetchProductos();
+                    if (typeof showToast === 'function') {
+                        showToast(id ? 'Producto actualizado correctamente' : 'Producto registrado correctamente', 'success');
+                    }
+                } else {
+                    if (typeof showToast === 'function') {
+                        showToast('Error al guardar el producto', 'error');
+                    } else {
+                        alert('Error al guardar el producto');
+                    }
+                }
+            } catch (err) {
+                console.error(err);
+                if (typeof showToast === 'function') {
+                    showToast('Error de conexión', 'error');
+                } else {
+                    alert('Error de conexión');
+                }
+            } finally {
+                btn.disabled = false;
+                btn.innerHTML = 'Guardar';
+            }
+        }
+
+        // Elimina el producto del sistema solicitando confirmación del usuario primero
+        async function eliminarProducto(id) {
+            if(confirm('¿Estás seguro de eliminar este producto del catálogo?')) {
+                try {
+                    const res = await fetch(`${API_URL}/${id}`, { 
+                        method: 'DELETE',
+                        headers: authHeaders
+                    });
+                    if(res.ok) {
+                        fetchProductos();
+                        if (typeof showToast === 'function') {
+                            showToast('Producto eliminado del catálogo', 'info');
+                        }
+                    } else {
+                        if (typeof showToast === 'function') {
+                            showToast('Error al eliminar producto', 'error');
+                        } else {
+                            alert('Error al eliminar');
+                        }
+                    }
+                } catch(e) {
+                    console.error(e);
+                    if (typeof showToast === 'function') {
+                        showToast('Error de red', 'error');
+                    }
+                }
+            }
+        }
+    </script>
+</body>
+</html>

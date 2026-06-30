@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Martex | Uniformes Profesionales Premium</title>
+    <script src="../config.js"></script>
+    
+    <!-- Tailwind CSS (CDN) -->
+    <script src="/tailwind-cdn.js"></script>
+    
+    <!-- Configuración Custom de Tailwind -->
+    <script src="js/tailwind-config.js"></script>
+    
+    <!-- Estilos Globales (Glassmorphism, Fonts, Animaciones) -->
+    <link rel="stylesheet" href="css/style.css">
+    
+    <!-- FontAwesome para Iconos -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Web Components -->
+    <script src="componentes/navbar.js" defer></script>
+    <script src="componentes/footer.js" defer></script>
+</head>
+
+<body class="bg-gray-50 text-azul-marino flex flex-col min-h-screen">
+    
+    <!-- Barra de Navegación -->
+    <main-navbar></main-navbar>
+
+    <!-- Hero Section Premium -->
+    <header class="relative overflow-hidden bg-azul-marino text-white min-h-[85vh] flex items-center pt-16">
+        <!-- Fondos Dinámicos y Gradientes -->
+        <div class="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,_var(--tw-gradient-stops))] from-azul-pantera-light/40 via-azul-marino to-azul-marino-dark"></div>
+        <div class="absolute top-0 right-0 w-[600px] h-[600px] bg-verde-quirurgico/20 rounded-full blur-[120px] -translate-y-1/2 translate-x-1/3 animate-pulse-slow"></div>
+        <div class="absolute bottom-0 left-0 w-[500px] h-[500px] bg-azul-pantera-light/30 rounded-full blur-[100px] translate-y-1/3 -translate-x-1/4 animate-float"></div>
+        
+        <div class="relative container mx-auto px-6 z-10 text-center">
+            <div class="max-w-4xl mx-auto animate-slide-up">
+                
+                <div class="inline-flex items-center gap-2 px-5 py-2 rounded-full glass-dark text-verde-quirurgico-light text-sm font-semibold tracking-wide mb-8 shadow-glow transition hover:scale-105 duration-300">
+                    <span class="w-2 h-2 rounded-full bg-verde-quirurgico animate-pulse"></span>
+                    Calidad que inspira confianza
+                </div>
+                
+                <h1 class="text-5xl md:text-7xl font-display font-extrabold mb-8 leading-[1.15]">
+                    Uniformes que <span class="text-gradient">cuidan</span> a quienes cuidan
+                </h1>
+                
+                <p class="text-xl md:text-2xl text-gray-300 mb-12 max-w-2xl mx-auto leading-relaxed font-light">
+                    Diseñados en Usulután, El Salvador. Telas de secado rápido, resistencia profesional y un estilo impecable.
+                </p>
+                
+                <div class="flex flex-col sm:flex-row gap-6 justify-center items-center">
+                    <a href="catalogo.html" class="group relative flex items-center justify-center bg-verde-quirurgico hover:bg-verde-quirurgico-dark text-white font-bold py-4 px-10 rounded-full transition-all duration-300 text-lg shadow-lg hover:shadow-glow hover:-translate-y-1 overflow-hidden">
+                        <span class="relative z-10">Ver Catálogo</span>
+                        <i class="fas fa-arrow-right ml-3 relative z-10 group-hover:translate-x-2 transition-transform"></i>
+                        <div class="absolute inset-0 bg-white/20 translate-y-full group-hover:translate-y-0 transition-transform duration-300 ease-in-out"></div>
+                    </a>
+                    
+                    <a href="nosotros.html" class="group flex items-center justify-center glass hover:bg-white/10 text-white font-semibold py-4 px-10 rounded-full transition-all duration-300 text-lg hover:-translate-y-1">
+                        Conócenos
+                    </a>
+                </div>
+                
+            </div>
+        </div>
+        
+        <!-- Curva inferior para transición suave -->
+        <div class="absolute bottom-0 left-0 right-0 h-24 bg-gradient-to-t from-gray-50 to-transparent"></div>
+    </header>
+
+    <!-- Sección de Propuesta de Valor -->
+    <section class="max-w-7xl mx-auto py-24 px-6 relative z-10 -mt-10">
+        <div class="grid md:grid-cols-3 gap-8">
+            <div class="glass p-10 rounded-3xl text-center card-premium border border-gray-100/50 shadow-glass">
+                <div class="w-16 h-16 bg-verde-quirurgico/10 rounded-2xl flex items-center justify-center mx-auto mb-6 text-verde-quirurgico text-2xl shadow-sm">
+                    <i class="fas fa-wind"></i>
+                </div>
+                <h4 class="font-display text-2xl font-bold mb-3 text-azul-marino">Secado Rápido</h4>
+                <p class="text-gray-500 leading-relaxed">Tecnología avanzada que repele líquidos y mantiene la frescura durante jornadas extensas.</p>
+            </div>
+            <div class="glass p-10 rounded-3xl text-center card-premium border border-gray-100/50 shadow-glass">
+                <div class="w-16 h-16 bg-azul-pantera/10 rounded-2xl flex items-center justify-center mx-auto mb-6 text-azul-pantera text-2xl shadow-sm">
+                    <i class="fas fa-shield-alt"></i>
+                </div>
+                <h4 class="font-display text-2xl font-bold mb-3 text-azul-marino">Alta Resistencia</h4>
+                <p class="text-gray-500 leading-relaxed">Costuras reforzadas y telas que soportan lavados industriales sin perder color ni forma.</p>
+            </div>
+            <div class="glass p-10 rounded-3xl text-center card-premium border border-gray-100/50 shadow-glass">
+                <div class="w-16 h-16 bg-verde-quirurgico/10 rounded-2xl flex items-center justify-center mx-auto mb-6 text-verde-quirurgico text-2xl shadow-sm">
+                    <i class="fas fa-map-marker-alt"></i>
+                </div>
+                <h4 class="font-display text-2xl font-bold mb-3 text-azul-marino">Hecho en El Salvador</h4>
+                <p class="text-gray-500 leading-relaxed">Confeccionados con orgullo en Usulután. Apoyamos la economía local con cada puntada.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Sección de Productos Destacados -->
+    <section class="max-w-7xl mx-auto pb-24 px-6 bg-pattern-dots rounded-3xl mb-10">
+        <div class="text-center mb-16 pt-10">
+            <span class="text-verde-quirurgico uppercase tracking-widest text-xs font-bold px-4 py-2 rounded-full border border-verde-quirurgico/20 bg-verde-quirurgico/5 mb-4 inline-block">
+                Colección Exclusiva
+            </span>
+            <h2 class="font-display text-4xl md:text-5xl font-bold text-azul-marino mt-2 mb-6">Productos Destacados</h2>
+            <p class="text-gray-600 max-w-2xl mx-auto text-lg leading-relaxed">
+                Descubre nuestra selección de uniformes más vendidos, diseñados para profesionales que exigen la máxima calidad.
+            </p>
+        </div>
+
+        <!-- Contenedor dinámico de JS -->
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10 mb-16" id="productos-destacados"></div>
+
+        <div class="text-center">
+            <a href="catalogo.html" class="group inline-flex items-center gap-3 bg-azul-marino hover:bg-azul-pantera text-white font-semibold py-4 px-10 rounded-full transition-all duration-300 shadow-premium hover:-translate-y-1">
+                Ver catálogo completo
+                <i class="fas fa-arrow-right group-hover:translate-x-1 transition-transform"></i>
+            </a>
+        </div>
+    </section>
+
+    <!-- Slide-over Cart -->
+    <div id="cart-panel" class="fixed inset-0 z-50 invisible">
+        <div class="absolute inset-0 bg-azul-marino/50 backdrop-blur-sm transition-opacity opacity-0" id="cart-overlay" onclick="toggleCart()"></div>
+        <div class="absolute top-0 right-0 h-full w-full max-w-md bg-white shadow-2xl transform translate-x-full transition-transform duration-300 flex flex-col" id="cart-content">
+            <div class="p-6 border-b border-gray-100 flex justify-between items-center bg-gray-50">
+                <h2 class="text-2xl font-display font-bold text-azul-marino flex items-center gap-2">
+                    <i class="fas fa-shopping-bag text-verde-quirurgico"></i> Tu Carrito
+                </h2>
+                <button onclick="toggleCart()" class="w-10 h-10 rounded-full bg-white shadow-sm flex items-center justify-center text-gray-400 hover:text-red-500 hover:bg-gray-50 transition-colors">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            
+            <div class="flex-grow p-6 overflow-y-auto" id="cart-items">
+                <!-- Items del carrito -->
+                <div class="text-center text-gray-400 py-10">
+                    <i class="fas fa-box-open text-4xl mb-4 opacity-50"></i>
+                    <p>Tu carrito está vacío</p>
+                </div>
+            </div>
+            
+            <div class="p-6 border-t border-gray-100 bg-gray-50">
+                <div class="flex justify-between items-center mb-6">
+                    <span class="text-gray-500 font-medium">Total Estimado</span>
+                    <span class="text-3xl font-display font-bold text-azul-marino" id="cart-total">$0.00</span>
+                </div>
+                <a href="checkout.html" class="w-full block text-center bg-verde-quirurgico hover:bg-verde-quirurgico-dark text-white font-bold py-4 rounded-xl transition-all shadow-md hover:shadow-lg">
+                    Proceder al Pago
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer Component -->
+    <footer-component></footer-component>
+
+    <!-- Scripts de Lógica -->
+    <script src="js/carrito.js"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", async () => {
+            let productos = [];
+            
+            try {
+                const res = await fetch(CONFIG.API_URL + '/productos');
+                if (res.ok) {
+                    productos = await res.json();
+                }
+            } catch (err) {
+                console.error('Error al cargar productos destacados:', err);
+            }
+            
+            const destacadosContainer = document.getElementById("productos-destacados");
+            if (destacadosContainer) {
+                destacadosContainer.innerHTML = productos.slice(0,3).map(prod => {
+                    const precioFinal = prod.precio_base - (prod.precio_base * (prod.porcentaje_descuento / 100));
+                    const imageUrl = prod.imagen_url ? `${CONFIG.BASE_URL}${prod.imagen_url}` : 'https://placehold.co/600x400/0A1128/FFFFFF?text=Martex';
+                    
+                    return `
+                    <div class="bg-white rounded-3xl overflow-hidden card-premium shadow-lg border border-gray-100 flex flex-col group">
+                        <div class="h-80 bg-gray-100 relative overflow-hidden">
+                            <img src="${imageUrl}" alt="${prod.nombre}" class="w-full h-full object-cover object-top img-hover-zoom">
+                            
+                            <!-- Badges -->
+                            <div class="absolute top-5 left-5 right-5 flex justify-between items-start">
+                                <span class="glass text-azul-marino text-xs font-bold px-4 py-2 rounded-full shadow-sm">
+                                    ${prod.categoria}
+                                </span>
+                                <button class="w-10 h-10 rounded-full glass flex items-center justify-center text-gray-400 hover:text-red-500 hover:bg-white transition-colors shadow-sm">
+                                    <i class="far fa-heart"></i>
+                                </button>
+                            </div>
+                        </div>
+                        
+                        <div class="p-8 flex flex-col flex-grow relative">
+                            <h3 class="font-display font-bold text-2xl text-azul-marino mb-3 group-hover:text-verde-quirurgico transition-colors">${prod.nombre}</h3>
+                            <p class="text-gray-500 text-sm mb-6 leading-relaxed flex-grow">${prod.descripcion || ''}</p>
+                            
+                            <div class="mb-6">
+                                <div class="flex justify-between items-center mb-2">
+                                    <label class="text-xs font-bold text-gray-400 uppercase tracking-widest">Talla</label>
+                                    <a href="#" class="text-xs text-verde-quirurgico hover:underline">Guía de tallas</a>
+                                </div>
+                                <div class="flex gap-2">
+                                    <label class="cursor-pointer">
+                                        <input type="radio" name="talla-dest-${prod.id}" value="S" class="peer sr-only">
+                                        <div class="w-10 h-10 rounded-xl border border-gray-200 flex items-center justify-center text-sm font-medium text-gray-600 peer-checked:border-verde-quirurgico peer-checked:bg-verde-quirurgico peer-checked:text-white transition-all hover:border-verde-quirurgico/50">S</div>
+                                    </label>
+                                    <label class="cursor-pointer">
+                                        <input type="radio" name="talla-dest-${prod.id}" value="M" class="peer sr-only" checked>
+                                        <div class="w-10 h-10 rounded-xl border border-gray-200 flex items-center justify-center text-sm font-medium text-gray-600 peer-checked:border-verde-quirurgico peer-checked:bg-verde-quirurgico peer-checked:text-white transition-all hover:border-verde-quirurgico/50">M</div>
+                                    </label>
+                                    <label class="cursor-pointer">
+                                        <input type="radio" name="talla-dest-${prod.id}" value="L" class="peer sr-only">
+                                        <div class="w-10 h-10 rounded-xl border border-gray-200 flex items-center justify-center text-sm font-medium text-gray-600 peer-checked:border-verde-quirurgico peer-checked:bg-verde-quirurgico peer-checked:text-white transition-all hover:border-verde-quirurgico/50">L</div>
+                                    </label>
+                                </div>
+                            </div>
+                            
+                            <div class="flex flex-col pt-6 border-t border-gray-100 gap-4 mt-auto">
+                                <div>
+                                    <span class="text-xs text-gray-400 block mb-1">Precio</span>
+                                    <span class="font-display font-bold text-3xl text-azul-marino">$${precioFinal.toFixed(2)}</span>
+                                </div>
+                                <div class="flex gap-2">
+                                    <button onclick="agregarAlCarritoConTalla('${prod.id}', '${prod.nombre}', ${precioFinal}, '${imageUrl}', 'talla-dest-')" class="flex-1 h-12 rounded-xl bg-azul-marino text-white flex items-center justify-center hover:bg-verde-quirurgico hover:shadow-glow hover:-translate-y-1 transition-all duration-300 font-bold">
+                                        <i class="fas fa-cart-plus mr-2"></i> Carrito
+                                    </button>
+                                    <button onclick="agregarAlCarritoConTalla('${prod.id}', '${prod.nombre}', ${precioFinal}, '${imageUrl}', 'talla-dest-', true)" class="flex-1 h-12 rounded-xl bg-verde-quirurgico text-white flex items-center justify-center hover:bg-verde-quirurgico-dark hover:shadow-glow hover:-translate-y-1 transition-all duration-300 font-bold">
+                                        Comprar <i class="fas fa-arrow-right ml-2"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                `}).join('');
+            }
+        });
+    </script>
+</body>
+</html>

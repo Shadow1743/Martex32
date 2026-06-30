@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <script src="../config.js"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login | Sistema de gestión Martex</title>
+    <script src="/tailwind-cdn.js"></script>
+    <script src="js/darkmode.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        medical: {
+                            bg: '#F4F7FC',
+                            card: '#FFFFFF',
+                            primary: '#1E88E5',
+                            secondary: '#43A047',
+                            hover: '#1565C0',
+                            dark: '#1A2C3E',
+                            muted: '#5A6E7F',
+                            border: '#E0E7ED',
+                            'azul-marino': '#0A1128',
+                            'azul-bandera': '#1B1464'
+                        }
+                    },
+                    fontFamily: {
+                        'sans': ['Inter', 'Segoe UI', 'system-ui', 'sans-serif'],
+                    },
+                    boxShadow: {
+                        'medical': '0 4px 12px rgba(0, 0, 0, 0.05), 0 1px 2px rgba(0, 0, 0, 0.03)',
+                        'login-card': '0 20px 25px -5px rgba(0, 0, 0, 0.2), 0 10px 10px -5px rgba(0, 0, 0, 0.1)'
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Inter', sans-serif; }
+
+        /* Animated gradient background for the branding panel */
+        .brand-gradient {
+            background: linear-gradient(-45deg, #0A1128, #1B1464, #0D47A1, #006064, #004D40);
+            background-size: 400% 400%;
+            animation: gradientShift 12s ease infinite;
+        }
+        @keyframes gradientShift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        /* Floating particles */
+        .particle {
+            position: absolute;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.06);
+            animation: float 8s ease-in-out infinite;
+        }
+        .particle:nth-child(1) { width: 80px; height: 80px; top: 15%; left: 10%; animation-delay: 0s; animation-duration: 10s; }
+        .particle:nth-child(2) { width: 120px; height: 120px; top: 60%; left: 70%; animation-delay: 2s; animation-duration: 14s; }
+        .particle:nth-child(3) { width: 50px; height: 50px; top: 80%; left: 25%; animation-delay: 4s; animation-duration: 9s; }
+        .particle:nth-child(4) { width: 150px; height: 150px; top: 30%; left: 55%; animation-delay: 1s; animation-duration: 16s; }
+        .particle:nth-child(5) { width: 40px; height: 40px; top: 45%; left: 85%; animation-delay: 3s; animation-duration: 11s; }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px) scale(1); opacity: 0.06; }
+            50% { transform: translateY(-30px) scale(1.1); opacity: 0.12; }
+        }
+
+        /* Input focus glow */
+        .input-glow:focus {
+            box-shadow: 0 0 0 3px rgba(30, 136, 229, 0.15), 0 0 20px rgba(30, 136, 229, 0.08);
+        }
+
+        /* Button shine effect */
+        .btn-shine {
+            position: relative;
+            overflow: hidden;
+        }
+        .btn-shine::after {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -60%;
+            width: 40%;
+            height: 200%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.15), transparent);
+            transform: skewX(-25deg);
+            transition: left 0.6s ease;
+        }
+        .btn-shine:hover::after {
+            left: 120%;
+        }
+
+        /* Smooth entrance animation */
+        .login-card-enter {
+            animation: cardEnter 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+        @keyframes cardEnter {
+            from { opacity: 0; transform: translateY(20px) scale(0.98); }
+            to { opacity: 1; transform: translateY(0) scale(1); }
+        }
+
+        .brand-enter {
+            animation: brandEnter 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+        @keyframes brandEnter {
+            from { opacity: 0; transform: translateX(-30px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+
+        /* Password toggle */
+        .password-toggle {
+            cursor: pointer;
+            transition: color 0.2s;
+        }
+        .password-toggle:hover {
+            color: #1E88E5;
+        }
+    </style>
+</head>
+<body class="bg-gray-50 text-medical-dark font-sans antialiased min-h-screen flex selection:bg-medical-primary selection:text-white">
+    
+    <!-- LEFT: Branding Panel -->
+    <div class="hidden lg:flex w-1/2 brand-gradient relative overflow-hidden items-center justify-center brand-enter">
+        <!-- Floating particles -->
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+
+        <!-- Grid overlay -->
+        <div class="absolute inset-0 opacity-[0.03]" style="background-image: radial-gradient(circle, #fff 1px, transparent 1px); background-size: 30px 30px;"></div>
+
+        <div class="relative z-10 text-center px-12 max-w-lg">
+            <!-- Logo Icon -->
+            <div class="mb-8 inline-flex items-center justify-center w-20 h-20 rounded-2xl bg-white/10 backdrop-blur-sm border border-white/10">
+                <i class="fas fa-scissors text-3xl text-white/90"></i>
+            </div>
+            
+            <h1 class="text-5xl font-black text-white tracking-tight mb-2">
+                MARTEX<span class="text-cyan-400">.</span>
+            </h1>
+            <div class="w-16 h-1 bg-gradient-to-r from-cyan-400 to-blue-400 mx-auto rounded-full mb-6"></div>
+            <p class="text-blue-200/80 text-lg font-light leading-relaxed">
+                Sistema integral de gestión para confección de uniformes médicos y profesionales
+            </p>
+            
+            <div class="mt-12 flex items-center justify-center gap-8 text-blue-300/50 text-xs uppercase tracking-widest font-medium">
+                <span class="flex items-center gap-2"><i class="fas fa-ruler-combined"></i> Medidas</span>
+                <span class="w-1 h-1 rounded-full bg-blue-300/30"></span>
+                <span class="flex items-center gap-2"><i class="fas fa-box"></i> Pedidos</span>
+                <span class="w-1 h-1 rounded-full bg-blue-300/30"></span>
+                <span class="flex items-center gap-2"><i class="fas fa-chart-line"></i> Control</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- RIGHT: Login Form -->
+    <div class="w-full lg:w-1/2 flex items-center justify-center p-6 sm:p-12 bg-white relative">
+        
+        <!-- Subtle background pattern -->
+        <div class="absolute inset-0 opacity-[0.02]" style="background-image: radial-gradient(circle, #0A1128 1px, transparent 1px); background-size: 20px 20px;"></div>
+
+        <div class="w-full max-w-md relative z-10 login-card-enter">
+            
+            <!-- Mobile brand header (visible only on small screens) -->
+            <div class="lg:hidden text-center mb-10">
+                <div class="inline-flex items-center justify-center w-14 h-14 rounded-xl bg-gradient-to-br from-medical-azul-marino to-medical-azul-bandera mb-4">
+                    <i class="fas fa-scissors text-xl text-white"></i>
+                </div>
+                <h1 class="text-2xl font-black text-medical-dark tracking-widest">
+                    MARTEX<span class="text-medical-primary">.</span>
+                </h1>
+            </div>
+
+            <!-- Welcome text -->
+            <div class="mb-8">
+                <h2 class="text-3xl font-extrabold text-gray-900 mb-2">Bienvenido</h2>
+                <p class="text-gray-400 text-sm">Ingresa tus credenciales para acceder al panel de administración</p>
+            </div>
+
+            <!-- Error alert -->
+            <div id="alert-error" class="bg-red-50 border border-red-200 text-red-600 px-4 py-3 rounded-xl text-sm text-center hidden font-medium mb-6 flex items-center justify-center gap-2">
+                <i class="fas fa-exclamation-circle"></i>
+                <span></span>
+            </div>
+
+            <form id="login-form" class="space-y-5">
+                <!-- Email -->
+                <div>
+                    <label for="email" class="block text-xs font-bold uppercase tracking-wider text-gray-400 mb-2.5">
+                        Correo Electrónico
+                    </label>
+                    <div class="relative">
+                        <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+                            <i class="fas fa-envelope text-gray-300 text-sm"></i>
+                        </div>
+                        <input 
+                            type="email" 
+                            id="email" 
+                            name="email" 
+                            required 
+                            placeholder="usuario@martex.com"
+                            class="input-glow w-full bg-gray-50/50 text-gray-900 border border-gray-200 rounded-xl pl-11 pr-4 py-3.5 text-sm focus:border-medical-primary outline-none transition-all duration-200 placeholder:text-gray-300 hover:border-gray-300"
+                        >
+                    </div>
+                </div>
+                
+                <!-- Password -->
+                <div>
+                    <label for="password" class="block text-xs font-bold uppercase tracking-wider text-gray-400 mb-2.5">
+                        Contraseña
+                    </label>
+                    <div class="relative">
+                        <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+                            <i class="fas fa-lock text-gray-300 text-sm"></i>
+                        </div>
+                        <input 
+                            type="password" 
+                            id="password" 
+                            name="password" 
+                            required 
+                            placeholder="••••••••"
+                            class="input-glow w-full bg-gray-50/50 text-gray-900 border border-gray-200 rounded-xl pl-11 pr-12 py-3.5 text-sm focus:border-medical-primary outline-none transition-all duration-200 placeholder:text-gray-300 hover:border-gray-300"
+                        >
+                        <button type="button" onclick="togglePassword()" class="absolute inset-y-0 right-0 pr-4 flex items-center password-toggle text-gray-300">
+                            <i id="password-eye" class="fas fa-eye text-sm"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Submit -->
+                <div class="pt-3">
+                    <button 
+                        type="submit" 
+                        class="btn-shine w-full bg-gradient-to-r from-medical-azul-marino to-medical-azul-bandera hover:from-medical-azul-bandera hover:to-medical-azul-marino text-white font-bold text-sm uppercase tracking-wider py-4 px-6 rounded-xl transition-all duration-300 shadow-lg hover:shadow-xl active:scale-[0.98] flex items-center justify-center gap-2"
+                    >
+                        <span>Iniciar Sesión</span>
+                        <i class="fas fa-arrow-right text-xs"></i>
+                    </button>
+                </div>
+            </form>
+
+            <!-- Footer -->
+            <div class="mt-10 text-center">
+                <p class="text-gray-300 text-xs">
+                    <i class="fas fa-shield-alt mr-1"></i> Acceso protegido · Martex Admin
+                </p>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        function togglePassword() {
+            const input = document.getElementById('password');
+            const icon = document.getElementById('password-eye');
+            if (input.type === 'password') {
+                input.type = 'text';
+                icon.className = 'fas fa-eye-slash text-sm';
+            } else {
+                input.type = 'password';
+                icon.className = 'fas fa-eye text-sm';
+            }
+        }
+    </script>
+    <script src="js/login.js"></script>
+</body>
+</html>

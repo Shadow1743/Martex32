@@ -1,0 +1,794 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <script src="../config.js"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Módulo de Medidas | Martex Admin</title>
+    <script src="/tailwind-cdn.js"></script>
+    <script src="js/darkmode.js"></script>
+    <script src="js/toast.js"></script>
+    <script src="js/notificaciones.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="css/admin.css">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'verde-quirurgico': '#008080',
+                        'azul-pantera': '#0B1560',
+                        'azul-marino': '#000080',
+                    },
+                    fontFamily: {
+                        'sans': ['Inter', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .campo-grupo { transition: all 0.3s ease-in-out; }
+        .oculto { display: none; }
+    </style>
+</head>
+<body class="flex h-screen overflow-hidden">
+
+    <!-- Sidebar -->
+    <aside class="admin-sidebar hidden md:flex">
+        <div class="sidebar-brand">
+            <span class="text-xl font-bold tracking-tight">Mar<span class="text-teal-400">tex</span></span>
+            <span class="ml-2 text-[10px] font-medium bg-white/10 px-2 py-0.5 rounded-md text-white/50 uppercase tracking-wider">Admin</span>
+        </div>
+        <div class="sidebar-section-label">Menú principal</div>
+        <nav class="sidebar-nav">
+            <a href="index.html" class="sidebar-link">
+                <i class="fas fa-grid-2"></i> Dashboard
+            </a>
+            <a href="pedidos.html" class="sidebar-link">
+                <i class="fas fa-shopping-bag"></i> Pedidos
+            </a>
+            <a href="medidas.html" class="sidebar-link active">
+                <i class="fas fa-ruler-combined"></i> Medidas
+            </a>
+            <a href="catalogo.html" class="sidebar-link">
+                <i class="fas fa-tshirt"></i> Catálogo
+            </a>
+        </nav>
+        <div class="sidebar-footer" id="sidebar-user">
+            <div class="avatar" id="user-avatar">A</div>
+            <div class="info">
+                <div class="name" id="user-name">Administrador</div>
+                <div class="role">Admin · Martex</div>
+            </div>
+            <button class="logout-btn" onclick="logout()" title="Cerrar sesión">
+                <i class="fas fa-sign-out-alt"></i>
+            </button>
+        </div>
+    </aside>
+
+    <!-- Main Content -->
+    <div class="flex-grow flex flex-col h-full overflow-hidden">
+        <header class="admin-header">
+            <button class="md:hidden text-gray-500 hover:text-azul-marino">
+                <i class="fas fa-bars text-xl"></i>
+            </button>
+            <div class="page-title">
+                Módulo de Medidas
+                <span class="breadcrumb">Admin · Control de confección</span>
+            </div>
+            <div class="header-actions ml-auto">
+                <button id="notification-bell" class="header-icon-btn" title="Notificaciones">
+                    <i class="fas fa-bell"></i>
+                    <span class="badge hidden"></span>
+                </button>
+            </div>
+        </header>
+
+        <main class="flex-grow p-6 overflow-auto" style="background: var(--bg-main);">
+            <div class="max-w-7xl mx-auto">
+                <div class="page-section-title">
+                    <h1>Control de Confección</h1>
+                    <button onclick="abrirModal()" class="btn-primary">
+                        <i class="fas fa-plus"></i> Nueva Medida
+                    </button>
+                </div>
+                
+                <!-- Tabla -->
+                <div class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-left border-collapse">
+                            <thead>
+                                <tr class="bg-gray-50 text-gray-500 text-sm">
+                                    <th class="px-6 py-3 font-medium">ID</th>
+                                    <th class="px-6 py-3 font-medium">Cliente</th>
+                                    <th class="px-6 py-3 font-medium">Teléfono</th>
+                                    <th class="px-6 py-3 font-medium">Tipo Pieza</th>
+                                    <th class="px-6 py-3 font-medium">Precio</th>
+                                    <th class="px-6 py-3 font-medium">Estado</th>
+                                    <th class="px-6 py-3 font-medium text-right">Acciones</th>
+                                </tr>
+                            </thead>
+                            <tbody class="text-sm divide-y divide-gray-100" id="tabla-medidas">
+                                <tr>
+                                    <td class="px-6 py-4 text-gray-500 col-span-7 text-center">Cargando datos...</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Modal Formulario -->
+    <div id="modal-medida" class="fixed inset-0 z-50 invisible flex items-center justify-center overflow-y-auto pt-10 pb-10">
+        <div class="fixed inset-0 bg-azul-marino/50 backdrop-blur-sm" onclick="cerrarModal()"></div>
+        <div class="bg-white rounded-2xl shadow-2xl w-full max-w-2xl z-10 p-6 my-auto transform scale-95 transition-transform" id="modal-content">
+            <div class="flex justify-between items-center mb-6">
+                <h3 class="text-xl font-bold" id="modal-titulo">Registrar Medida</h3>
+                <button onclick="cerrarModal()" class="text-gray-400 hover:text-red-500"><i class="fas fa-times text-lg"></i></button>
+            </div>
+            
+            <form id="form-medida" onsubmit="guardarMedida(event)">
+                <input type="hidden" id="medida-id">
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+                    <!-- Datos Base -->
+                    <div>
+                        <label class="block text-sm font-semibold text-gray-700 mb-1">Nombre del Cliente</label>
+                        <input type="text" id="cliente_nombre" required class="w-full px-4 py-2 rounded-lg border border-gray-200 focus:border-verde-quirurgico focus:ring-1 focus:ring-verde-quirurgico outline-none">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-semibold text-gray-700 mb-1">Teléfono</label>
+                        <input type="text" id="cliente_telefono" class="w-full px-4 py-2 rounded-lg border border-gray-200 focus:border-verde-quirurgico focus:ring-1 focus:ring-verde-quirurgico outline-none">
+                    </div>
+                    
+                    <div class="md:col-span-2">
+                        <label class="block text-sm font-semibold text-gray-700 mb-1">Tipo de Confección</label>
+                        <select id="tipo_pieza" required onchange="toggleCampos(this.value)" class="w-full px-4 py-2 rounded-lg border border-gray-200 focus:border-verde-quirurgico focus:ring-1 focus:ring-verde-quirurgico outline-none bg-white">
+                            <option value="" disabled selected>Seleccione el tipo...</option>
+                            <option value="Uniforme Completo">Uniforme Completo</option>
+                            <option value="Superior">Pieza Individual (Filipina/Gabacha)</option>
+                            <option value="Inferior">Pieza Individual (Pantalón/Falda)</option>
+                        </select>
+                    </div>
+
+                    <!-- Talla Sugerida Dinámicamente -->
+                    <div id="talla-sugerida-seccion" class="md:col-span-2 hidden bg-teal-50 border border-teal-100 rounded-xl p-3 flex items-center justify-between text-teal-800 text-sm">
+                        <span class="font-medium flex items-center"><i class="fas fa-info-circle mr-2 text-teal-600"></i>Talla Sugerida: <strong id="talla-sugerida-valor" class="text-base text-teal-900 ml-1">S</strong></span>
+                        <span class="text-xs text-teal-600">(Basado en medidas ingresadas)</span>
+                    </div>
+                </div>
+
+                <!-- Bloque Superior -->
+                <div id="bloque_superior" class="campo-grupo oculto mb-6 p-4 bg-gray-50 rounded-xl border border-gray-100">
+                    <h4 class="font-semibold text-azul-marino mb-4 border-b pb-2"><i class="fas fa-tshirt text-verde-quirurgico mr-2"></i>Medidas Parte Superior</h4>
+                    <div class="grid grid-cols-2 md:grid-cols-4 gap-3">
+                        <div>
+                            <label class="block text-xs font-medium text-gray-600 mb-1">Hombro</label>
+                            <input type="number" step="0.01" id="hombro" class="w-full px-3 py-1.5 rounded border border-gray-200 text-sm">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-medium text-gray-600 mb-1">Busto</label>
+                            <input type="number" step="0.01" id="busto" class="w-full px-3 py-1.5 rounded border border-gray-200 text-sm">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-medium text-gray-600 mb-1">Cintura Sup.</label>
+                            <input type="number" step="0.01" id="cintura_sup" class="w-full px-3 py-1.5 rounded border border-gray-200 text-sm">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-medium text-gray-600 mb-1">Cadera Sup.</label>
+                            <input type="number" step="0.01" id="cadera_sup" class="w-full px-3 py-1.5 rounded border border-gray-200 text-sm">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-medium text-gray-600 mb-1">Largo Cintura</label>
+                            <input type="number" step="0.01" id="largo_cintura" class="w-full px-3 py-1.5 rounded border border-gray-200 text-sm">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-medium text-gray-600 mb-1">Largo Manga</label>
+                            <input type="number" step="0.01" id="largo_manga" class="w-full px-3 py-1.5 rounded border border-gray-200 text-sm">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-medium text-gray-600 mb-1">Grosor Manga</label>
+                            <input type="number" step="0.01" id="grosor_manga" class="w-full px-3 py-1.5 rounded border border-gray-200 text-sm">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-medium text-gray-600 mb-1">Largo Total</label>
+                            <input type="number" step="0.01" id="largo_total_sup" class="w-full px-3 py-1.5 rounded border border-gray-200 text-sm">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Bloque Inferior -->
+                <div id="bloque_inferior" class="campo-grupo oculto mb-6 p-4 bg-gray-50 rounded-xl border border-gray-100">
+                    <h4 class="font-semibold text-azul-marino mb-4 border-b pb-2"><i class="fas fa-socks text-verde-quirurgico mr-2"></i>Medidas Parte Inferior</h4>
+                    <div class="grid grid-cols-2 md:grid-cols-3 gap-3">
+                        <div>
+                            <label class="block text-xs font-medium text-gray-600 mb-1">Cintura Inf.</label>
+                            <input type="number" step="0.01" id="cintura_inf" class="w-full px-3 py-1.5 rounded border border-gray-200 text-sm">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-medium text-gray-600 mb-1">Cadera Inf.</label>
+                            <input type="number" step="0.01" id="cadera_inf" class="w-full px-3 py-1.5 rounded border border-gray-200 text-sm">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-medium text-gray-600 mb-1">Largo Rodilla</label>
+                            <input type="number" step="0.01" id="largo_rodilla" class="w-full px-3 py-1.5 rounded border border-gray-200 text-sm">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-medium text-gray-600 mb-1">Largo Total</label>
+                            <input type="number" step="0.01" id="largo_total_inf" class="w-full px-3 py-1.5 rounded border border-gray-200 text-sm">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-medium text-gray-600 mb-1">Tiro</label>
+                            <input type="number" step="0.01" id="tiro" class="w-full px-3 py-1.5 rounded border border-gray-200 text-sm">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-medium text-gray-600 mb-1">Grosor Pierna</label>
+                            <input type="number" step="0.01" id="grosor_pierna" class="w-full px-3 py-1.5 rounded border border-gray-200 text-sm">
+                        </div>
+                    </div>
+                </div>
+                
+                <div id="bloque_estado" class="oculto mb-6">
+                     <label class="block text-sm font-semibold text-gray-700 mb-1">Estado del Pedido</label>
+                     <select id="estado" class="w-full px-4 py-2 rounded-lg border border-gray-200 focus:border-verde-quirurgico outline-none bg-white">
+                         <option value="Pendiente">Pendiente</option>
+                         <option value="En confección">En confección</option>
+                         <option value="Terminado">Terminado</option>
+                         <option value="Entregado">Entregado</option>
+                     </select>
+                </div>
+
+                <!-- Bloque Precio de Confección -->
+                <div id="bloque_precio" class="campo-grupo oculto mb-6 p-4 bg-emerald-50 rounded-xl border border-emerald-100">
+                    <h4 class="font-semibold text-azul-marino mb-3 flex items-center"><i class="fas fa-dollar-sign text-verde-quirurgico mr-2"></i>Precio de Confección</h4>
+                    <div class="relative max-w-xs">
+                        <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                            <span class="text-gray-500 font-semibold text-sm">$</span>
+                        </div>
+                        <input type="number" step="0.01" min="0" id="precio" placeholder="0.00" class="w-full pl-7 pr-4 py-2.5 rounded-lg border border-emerald-200 focus:border-verde-quirurgico focus:ring-1 focus:ring-verde-quirurgico outline-none text-sm font-medium">
+                    </div>
+                    <p class="text-xs text-gray-400 mt-2"><i class="fas fa-info-circle mr-1"></i>Precio estimado o final del uniforme (opcional)</p>
+                </div>
+
+                <div class="mt-8 flex justify-end gap-3">
+                    <button type="button" onclick="cerrarModal()" class="px-5 py-2 text-gray-600 bg-gray-100 hover:bg-gray-200 rounded-lg font-medium transition-colors">Cancelar</button>
+                    <button type="submit" id="btn-submit" class="px-5 py-2 text-white bg-verde-quirurgico hover:bg-teal-700 rounded-lg font-medium shadow-sm transition-colors">Guardar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Modal Cambio Estado Rápido -->
+    <div id="modal-estado" class="fixed inset-0 z-50 invisible flex items-center justify-center">
+        <div class="fixed inset-0 bg-azul-marino/50 backdrop-blur-sm" onclick="cerrarModalEstado()"></div>
+        <div class="bg-white rounded-xl shadow-2xl z-10 p-6 max-w-sm w-full">
+            <h3 class="text-lg font-bold mb-4">Actualizar Estado</h3>
+            <input type="hidden" id="estado-medida-id">
+            <select id="estado-rapido" class="w-full px-4 py-2 rounded-lg border border-gray-200 mb-6">
+                 <option value="Pendiente">Pendiente</option>
+                 <option value="En confección">En confección</option>
+                 <option value="Terminado">Terminado</option>
+                 <option value="Entregado">Entregado</option>
+            </select>
+            <div class="flex justify-end gap-3">
+                <button type="button" onclick="cerrarModalEstado()" class="px-4 py-2 text-gray-600 bg-gray-100 rounded-lg">Cancelar</button>
+                <button type="button" onclick="guardarEstadoRápido()" class="px-4 py-2 text-white bg-azul-pantera rounded-lg">Actualizar</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const token = localStorage.getItem('token');
+        if (!token) window.location.href = 'login.html';
+        const authHeaders = { 'Authorization': `Bearer ${token}`, 'Content-Type': 'application/json' };
+
+        // Set user info
+        try {
+            const user = JSON.parse(localStorage.getItem('user'));
+            if (user) {
+                document.getElementById('user-name').textContent = user.nombre || 'Administrador';
+                document.getElementById('user-avatar').textContent = (user.nombre || 'A').charAt(0).toUpperCase();
+            }
+        } catch(e) {}
+
+        function logout() {
+            localStorage.removeItem('token');
+            localStorage.removeItem('user');
+            window.location.href = 'login.html';
+        }
+
+        const API_URL = CONFIG.API_URL + '/medidas';
+        let medidasData = [];
+        
+        document.addEventListener('DOMContentLoaded', fetchMedidas);
+
+        // Función para cargar la lista de medidas desde la API del backend
+        async function fetchMedidas() {
+            try {
+                const res = await fetch(API_URL, { headers: { 'Authorization': `Bearer ${token}` } });
+                if (res.status === 401 || res.status === 403) {
+                    window.location.href = 'login.html';
+                    return;
+                }
+                if (res.ok) {
+                    const data = await res.json();
+                    medidasData = data;
+                    renderTabla(data);
+                } else {
+                    document.getElementById('tabla-medidas').innerHTML = `<tr><td colspan="7" class="text-center py-4 text-red-500">Error cargando medidas</td></tr>`;
+                }
+            } catch (e) {
+                console.error(e);
+            }
+        }
+
+        // Genera y renderiza las filas de la tabla con los datos obtenidos
+        function renderTabla(medidas) {
+            const tbody = document.getElementById('tabla-medidas');
+            if (medidas.length === 0) {
+                tbody.innerHTML = `<tr><td colspan="7" class="text-center py-4 text-gray-500">No hay medidas registradas.</td></tr>`;
+                return;
+            }
+            tbody.innerHTML = medidas.map(m => `
+                <tr class="hover:bg-gray-50 transition-colors">
+                    <td class="px-6 py-4 font-medium text-gray-500">#${m.id}</td>
+                    <td class="px-6 py-4 font-semibold text-azul-marino">${m.cliente_nombre}</td>
+                    <td class="px-6 py-4 text-gray-500">${m.cliente_telefono || '-'}</td>
+                    <td class="px-6 py-4">
+                        <span class="text-sm px-2 py-1 bg-gray-100 text-gray-700 rounded-md border border-gray-200">${m.tipo_pieza}</span>
+                    </td>
+                    <td class="px-6 py-4 font-semibold ${m.precio ? 'text-verde-quirurgico' : 'text-gray-400'}">
+                        ${m.precio ? '$' + parseFloat(m.precio).toFixed(2) : '-'}
+                    </td>
+                    <td class="px-6 py-4">
+                        <button onclick="abrirModalEstado(${m.id}, '${m.estado}')" class="px-3 py-1 rounded-full text-xs font-semibold
+                            ${m.estado === 'Pendiente' ? 'bg-red-100 text-red-700 hover:bg-red-200' : 
+                              m.estado === 'En confección' ? 'bg-yellow-100 text-yellow-700 hover:bg-yellow-200' : 
+                              m.estado === 'Terminado' ? 'bg-blue-100 text-blue-700 hover:bg-blue-200' :
+                              'bg-green-100 text-green-700 hover:bg-green-200'} transition-colors cursor-pointer" title="Click para cambiar estado">
+                            ${m.estado} <i class="fas fa-caret-down ml-1"></i>
+                        </button>
+                    </td>
+                    <td class="px-6 py-4 text-right space-x-1 whitespace-nowrap">
+                        <button onclick="editarMedida(${m.id})" class="text-gray-400 hover:text-blue-600 p-2" title="Editar Medida"><i class="fas fa-pen"></i></button>
+                        <button onclick="imprimirFicha(${m.id})" class="text-gray-400 hover:text-teal-600 p-2" title="Imprimir Ficha"><i class="fas fa-print"></i></button>
+                        <button onclick="eliminarMedida(${m.id})" class="text-gray-400 hover:text-red-500 p-2" title="Eliminar"><i class="fas fa-trash"></i></button>
+                    </td>
+                </tr>
+            `).join('');
+        }
+
+        // Muestra u oculta los campos del formulario según el tipo de prenda a confeccionar (Superior, Inferior o Completo)
+        function toggleCampos(valor) {
+            const sup = document.getElementById('bloque_superior');
+            const inf = document.getElementById('bloque_inferior');
+            const precio = document.getElementById('bloque_precio');
+            
+            sup.classList.add('oculto');
+            inf.classList.add('oculto');
+            precio.classList.add('oculto');
+
+            if (valor === 'Uniforme Completo') {
+                sup.classList.remove('oculto');
+                inf.classList.remove('oculto');
+                precio.classList.remove('oculto');
+            } else if (valor === 'Superior') {
+                sup.classList.remove('oculto');
+                precio.classList.remove('oculto');
+            } else if (valor === 'Inferior') {
+                inf.classList.remove('oculto');
+                precio.classList.remove('oculto');
+            }
+        }
+
+        // Limpia el formulario y abre el modal principal para registrar una nueva medida
+        function abrirModal() {
+            document.getElementById('form-medida').reset();
+            document.getElementById('medida-id').value = '';
+            document.getElementById('modal-titulo').innerText = 'Registrar Medida';
+            document.getElementById('bloque_estado').classList.add('oculto');
+            document.getElementById('tipo_pieza').disabled = false;
+            document.getElementById('btn-submit').innerText = 'Guardar';
+            
+            const panel = document.getElementById('talla-sugerida-seccion');
+            if (panel) panel.classList.add('hidden', 'oculto');
+            
+            toggleCampos('');
+            
+            const modal = document.getElementById('modal-medida');
+            const content = document.getElementById('modal-content');
+            modal.classList.remove('invisible');
+            setTimeout(() => content.classList.remove('scale-95'), 10);
+        }
+
+        // Carga los datos de una medida existente en el formulario modal para edición
+        function editarMedida(id) {
+            const m = medidasData.find(item => item.id == id);
+            if (!m) return;
+
+            // Resetear y llenar el formulario
+            document.getElementById('form-medida').reset();
+            document.getElementById('medida-id').value = m.id;
+            document.getElementById('modal-titulo').innerText = `Editar Medida #${m.id}`;
+            document.getElementById('btn-submit').innerText = 'Actualizar';
+
+            // Datos base
+            document.getElementById('cliente_nombre').value = m.cliente_nombre || '';
+            document.getElementById('cliente_telefono').value = m.cliente_telefono || '';
+            document.getElementById('tipo_pieza').value = m.tipo_pieza;
+            document.getElementById('tipo_pieza').disabled = true; // No cambiar tipo en edición
+
+            // Mostrar bloques correspondientes
+            toggleCampos(m.tipo_pieza);
+
+            // Medidas superiores
+            if (m.tipo_pieza === 'Superior' || m.tipo_pieza === 'Uniforme Completo') {
+                document.getElementById('hombro').value = m.hombro || '';
+                document.getElementById('busto').value = m.busto || '';
+                document.getElementById('cintura_sup').value = m.cintura_sup || '';
+                document.getElementById('cadera_sup').value = m.cadera_sup || '';
+                document.getElementById('largo_cintura').value = m.largo_cintura || '';
+                document.getElementById('largo_manga').value = m.largo_manga || '';
+                document.getElementById('grosor_manga').value = m.grosor_manga || '';
+                document.getElementById('largo_total_sup').value = m.largo_total_sup || '';
+            }
+
+            // Medidas inferiores
+            if (m.tipo_pieza === 'Inferior' || m.tipo_pieza === 'Uniforme Completo') {
+                document.getElementById('cintura_inf').value = m.cintura_inf || '';
+                document.getElementById('cadera_inf').value = m.cadera_inf || '';
+                document.getElementById('largo_rodilla').value = m.largo_rodilla || '';
+                document.getElementById('largo_total_inf').value = m.largo_total_inf || '';
+                document.getElementById('tiro').value = m.tiro || '';
+                document.getElementById('grosor_pierna').value = m.grosor_pierna || '';
+            }
+
+            // Precio
+            document.getElementById('precio').value = m.precio || '';
+
+            // Estado (mostrar en modo edición)
+            document.getElementById('bloque_estado').classList.remove('oculto');
+            document.getElementById('estado').value = m.estado || 'Pendiente';
+
+            // Recalcular talla sugerida
+            calcularTallaSugerida();
+
+            // Abrir modal
+            const modal = document.getElementById('modal-medida');
+            const content = document.getElementById('modal-content');
+            modal.classList.remove('invisible');
+            setTimeout(() => content.classList.remove('scale-95'), 10);
+        }
+
+        // Oculta y cierra el modal con animación
+        function cerrarModal() {
+            const modal = document.getElementById('modal-medida');
+            const content = document.getElementById('modal-content');
+            content.classList.add('scale-95');
+            setTimeout(() => modal.classList.add('invisible'), 200);
+        }
+
+        // Abre un modal más pequeño específico para cambiar rápidamente el estado de confección
+        function abrirModalEstado(id, estadoActual) {
+            document.getElementById('estado-medida-id').value = id;
+            document.getElementById('estado-rapido').value = estadoActual;
+            document.getElementById('modal-estado').classList.remove('invisible');
+        }
+
+        function cerrarModalEstado() {
+            document.getElementById('modal-estado').classList.add('invisible');
+        }
+
+        // Sugeridor automático de tallas (Calcula una talla aproximada basándose en las medidas de busto o cintura ingresadas)
+        function calcularTallaSugerida() {
+            const tipo = document.getElementById('tipo_pieza').value;
+            const busto = parseFloat(document.getElementById('busto').value) || 0;
+            const cinturaSup = parseFloat(document.getElementById('cintura_sup').value) || 0;
+            const cinturaInf = parseFloat(document.getElementById('cintura_inf').value) || 0;
+
+            const panel = document.getElementById('talla-sugerida-seccion');
+            const valorSpan = document.getElementById('talla-sugerida-valor');
+
+            if (!tipo || !panel) return;
+
+            let talla = 'S';
+            let valorComparar = 0;
+
+            if (tipo === 'Superior' || tipo === 'Uniforme Completo') {
+                valorComparar = busto;
+                if (valorComparar > 0) {
+                    if (valorComparar < 86) talla = 'XS';
+                    else if (valorComparar >= 86 && valorComparar < 94) talla = 'S';
+                    else if (valorComparar >= 94 && valorComparar < 102) talla = 'M';
+                    else if (valorComparar >= 102 && valorComparar < 110) talla = 'L';
+                    else talla = 'XL';
+                }
+            } else if (tipo === 'Inferior') {
+                valorComparar = cinturaInf;
+                if (valorComparar > 0) {
+                    if (valorComparar < 65) talla = 'XS';
+                    else if (valorComparar >= 65 && valorComparar < 73) talla = 'S';
+                    else if (valorComparar >= 73 && valorComparar < 81) talla = 'M';
+                    else if (valorComparar >= 81 && valorComparar < 90) talla = 'L';
+                    else talla = 'XL';
+                }
+            }
+
+            if (valorComparar > 0) {
+                panel.classList.remove('hidden', 'oculto');
+                valorSpan.innerText = talla;
+            } else {
+                panel.classList.add('hidden', 'oculto');
+            }
+        }
+
+        // Agregar listeners para el cálculo de talla
+        document.addEventListener('DOMContentLoaded', () => {
+            const inputs = ['busto', 'cintura_sup', 'cintura_inf'];
+            inputs.forEach(id => {
+                const el = document.getElementById(id);
+                if (el) el.addEventListener('input', calcularTallaSugerida);
+            });
+            const selPieza = document.getElementById('tipo_pieza');
+            if (selPieza) selPieza.addEventListener('change', calcularTallaSugerida);
+        });
+
+        // Genera una ventana nueva optimizada para imprimir la ficha técnica (boleta de medidas) con un diseño limpio
+        function imprimirFicha(id) {
+            const m = medidasData.find(item => item.id == id);
+            if (!m) return;
+
+            const printWindow = window.open('', '_blank');
+            printWindow.document.write(`
+                <!DOCTYPE html>
+                <html lang="es">
+                <head>
+                    <meta charset="UTF-8">
+                    <title>Ficha de Confección #${m.id} - Martex</title>
+                    <script src="/tailwind-cdn.js"><\/script>
+                    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+                    <style>
+                        body { font-family: 'Inter', sans-serif; color: #000080; }
+                        @media print {
+                            .no-print { display: none; }
+                        }
+                    </style>
+                <\/head>
+                <body class="p-8 bg-white">
+                    <div class="max-w-2xl mx-auto border border-gray-300 p-8 rounded-2xl shadow-sm">
+                        <div class="flex justify-between items-center border-b pb-4 mb-6">
+                            <div>
+                                <h1 class="text-2xl font-bold text-azul-marino">Mar<span class="text-teal-600">tex</span> Admin</h1>
+                                <p class="text-xs text-gray-500">Control de Confección e Historial de Medidas</p>
+                            </div>
+                            <div class="text-right">
+                                <span class="bg-teal-100 text-teal-800 text-xs font-bold px-3 py-1 rounded-full">ID Ficha: #${m.id}</span>
+                                <p class="text-xs text-gray-400 mt-1">Registrado el: ${new Date(m.creado_en).toLocaleDateString()}</p>
+                            </div>
+                        </div>
+
+                        <div class="grid grid-cols-2 gap-6 mb-6 bg-gray-50 p-4 rounded-xl border border-gray-100">
+                            <div>
+                                <span class="text-xs font-bold text-gray-400 block uppercase">Cliente</span>
+                                <span class="font-bold text-lg text-gray-800">${m.cliente_nombre}</span>
+                            </div>
+                            <div>
+                                <span class="text-xs font-bold text-gray-400 block uppercase">Teléfono</span>
+                                <span class="font-bold text-lg text-gray-800">${m.cliente_telefono || 'No registrado'}</span>
+                            </div>
+                            <div>
+                                <span class="text-xs font-bold text-gray-400 block uppercase mb-1">Prenda a Confeccionar</span>
+                                <span class="text-sm font-semibold text-teal-700 bg-teal-50 px-2 py-0.5 rounded border border-teal-100 inline-block">${m.tipo_pieza}</span>
+                            </div>
+                            <div>
+                                <span class="text-xs font-bold text-gray-400 block uppercase mb-1">Precio de Confección</span>
+                                <span class="text-lg font-bold ${m.precio ? 'text-teal-700' : 'text-gray-400'}">${m.precio ? '$' + parseFloat(m.precio).toFixed(2) : 'No definido'}</span>
+                            </div>
+                        </div>
+
+                        ${m.tipo_pieza !== 'Inferior' ? `
+                        <div class="mb-6 bg-white p-5 rounded-xl border border-gray-200">
+                            <h3 class="font-bold text-sm mb-4 text-teal-700 border-b pb-2 flex items-center"><i class="fas fa-tshirt mr-2 text-teal-600"></i>Medidas Parte Superior (Filipina/Gabacha)</h3>
+                            <div class="grid grid-cols-3 gap-y-4 gap-x-2 text-sm text-gray-600">
+                                <div>Hombro: <strong class="text-gray-900">${m.hombro || '-'} cm</strong></div>
+                                <div>Busto: <strong class="text-gray-900">${m.busto || '-'} cm</strong></div>
+                                <div>Cintura Sup: <strong class="text-gray-900">${m.cintura_sup || '-'} cm</strong></div>
+                                <div>Cadera Sup: <strong class="text-gray-900">${m.cadera_sup || '-'} cm</strong></div>
+                                <div>Largo Cintura: <strong class="text-gray-900">${m.largo_cintura || '-'} cm</strong></div>
+                                <div>Largo Manga: <strong class="text-gray-900">${m.largo_manga || '-'} cm</strong></div>
+                                <div>Grosor Manga: <strong class="text-gray-900">${m.grosor_manga || '-'} cm</strong></div>
+                                <div class="col-span-2">Largo Total: <strong class="text-gray-900">${m.largo_total_sup || '-'} cm</strong></div>
+                            </div>
+                        </div>
+                        ` : ''}
+
+                        ${m.tipo_pieza !== 'Superior' ? `
+                        <div class="mb-6 bg-white p-5 rounded-xl border border-gray-200">
+                            <h3 class="font-bold text-sm mb-4 text-teal-700 border-b pb-2 flex items-center"><i class="fas fa-socks mr-2 text-teal-600"></i>Medidas Parte Inferior (Pantalón/Falda)</h3>
+                            <div class="grid grid-cols-3 gap-y-4 gap-x-2 text-sm text-gray-600">
+                                <div>Cintura Inf: <strong class="text-gray-900">${m.cintura_inf || '-'} cm</strong></div>
+                                <div>Cadera Inf: <strong class="text-gray-900">${m.cadera_inf || '-'} cm</strong></div>
+                                <div>Largo Rodilla: <strong class="text-gray-900">${m.largo_rodilla || '-'} cm</strong></div>
+                                <div>Largo Total: <strong class="text-gray-900">${m.largo_total_inf || '-'} cm</strong></div>
+                                <div>Tiro: <strong class="text-gray-900">${m.tiro || '-'} cm</strong></div>
+                                <div>Grosor Pierna: <strong class="text-gray-900">${m.grosor_pierna || '-'} cm</strong></div>
+                            </div>
+                        </div>
+                        ` : ''}
+
+                        <div class="mt-8 pt-4 border-t border-dashed flex justify-between items-center no-print">
+                            <button onclick="window.close()" class="px-4 py-2 bg-gray-100 hover:bg-gray-200 text-gray-600 rounded-lg text-sm transition-colors">Cerrar</button>
+                            <button onclick="window.print()" class="px-5 py-2 bg-teal-600 hover:bg-teal-700 text-white rounded-lg font-medium text-sm transition-colors flex items-center gap-2"><i class="fas fa-print"></i> Imprimir Ficha</button>
+                        </div>
+                    </div>
+                <\/body>
+                <\/html>
+            `);
+            printWindow.document.close();
+        }
+
+        // Envía la petición PUT para actualizar solo el estado de un registro (Pendiente, En confección, etc.)
+        async function guardarEstadoRápido() {
+            const id = document.getElementById('estado-medida-id').value;
+            const estado = document.getElementById('estado-rapido').value;
+            
+            try {
+                const res = await fetch(`${API_URL}/${id}`, {
+                    method: 'PUT',
+                    headers: authHeaders,
+                    body: JSON.stringify({ estado })
+                });
+                if (res.ok) {
+                    cerrarModalEstado();
+                    fetchMedidas();
+                    if (typeof showToast === 'function') {
+                        showToast('Estado de confección actualizado correctamente', 'success');
+                    }
+                } else {
+                    if (typeof showToast === 'function') {
+                        showToast('Error al actualizar el estado', 'error');
+                    } else {
+                        alert("Error al actualizar estado");
+                    }
+                }
+            } catch(e) {
+                console.error(e);
+                if (typeof showToast === 'function') {
+                    showToast('Error de red', 'error');
+                }
+            }
+        }
+
+        // Recopila los datos del formulario, realiza validaciones físicas para evitar errores de escritura y los envía al backend (POST o PUT)
+        async function guardarMedida(e) {
+            e.preventDefault();
+
+            // Validar límites físicos razonables en las medidas para evitar typos
+            const numInputs = ['hombro', 'busto', 'cintura_sup', 'cadera_sup', 'largo_cintura', 'largo_manga', 'grosor_manga', 'largo_total_sup', 'cintura_inf', 'cadera_inf', 'largo_rodilla', 'largo_total_inf', 'tiro', 'grosor_pierna'];
+            for (let name of numInputs) {
+                const el = document.getElementById(name);
+                if (el && el.value.trim() !== '') {
+                    const val = parseFloat(el.value);
+                    if (val < 10 || val > 250) {
+                        if (typeof showToast === 'function') {
+                            showToast(`La medida '${name.replace('_', ' ')}' (${val} cm) es inusual. Rango aceptado: 10 - 250 cm.`, 'warning');
+                        } else {
+                            alert(`La medida de ${name} parece irreal (${val} cm).`);
+                        }
+                        return;
+                    }
+                }
+            }
+
+            const medidaId = document.getElementById('medida-id').value;
+            const isEditing = medidaId !== '';
+
+            // Re-enable tipo_pieza temporarily to read its value
+            const tipoPiezaEl = document.getElementById('tipo_pieza');
+            const wasDisabled = tipoPiezaEl.disabled;
+            tipoPiezaEl.disabled = false;
+
+            const payload = {
+                cliente_nombre: document.getElementById('cliente_nombre').value,
+                cliente_telefono: document.getElementById('cliente_telefono').value,
+                tipo_pieza: tipoPiezaEl.value,
+                
+                hombro: document.getElementById('hombro').value,
+                busto: document.getElementById('busto').value,
+                cintura_sup: document.getElementById('cintura_sup').value,
+                cadera_sup: document.getElementById('cadera_sup').value,
+                largo_cintura: document.getElementById('largo_cintura').value,
+                largo_manga: document.getElementById('largo_manga').value,
+                grosor_manga: document.getElementById('grosor_manga').value,
+                largo_total_sup: document.getElementById('largo_total_sup').value,
+                
+                cintura_inf: document.getElementById('cintura_inf').value,
+                cadera_inf: document.getElementById('cadera_inf').value,
+                largo_rodilla: document.getElementById('largo_rodilla').value,
+                largo_total_inf: document.getElementById('largo_total_inf').value,
+                tiro: document.getElementById('tiro').value,
+                grosor_pierna: document.getElementById('grosor_pierna').value,
+
+                precio: document.getElementById('precio').value
+            };
+
+            // Include estado if editing
+            if (isEditing) {
+                payload.estado = document.getElementById('estado').value;
+            }
+
+            // Restore disabled state
+            tipoPiezaEl.disabled = wasDisabled;
+
+            const btn = document.getElementById('btn-submit');
+            btn.disabled = true;
+            btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Guardando...';
+
+            try {
+                const url = isEditing ? `${API_URL}/${medidaId}` : API_URL;
+                const method = isEditing ? 'PUT' : 'POST';
+
+                const res = await fetch(url, {
+                    method: method,
+                    headers: authHeaders,
+                    body: JSON.stringify(payload)
+                });
+                
+                if (res.ok) {
+                    cerrarModal();
+                    fetchMedidas();
+                    if (typeof showToast === 'function') {
+                        showToast(isEditing ? 'Medida actualizada correctamente' : 'Nueva medida guardada correctamente', 'success');
+                    }
+                } else {
+                    if (typeof showToast === 'function') {
+                        showToast(isEditing ? 'Error al actualizar medida' : 'Error al registrar medida', 'error');
+                    } else {
+                        alert('Error al guardar');
+                    }
+                }
+            } catch (err) {
+                console.error(err);
+                if (typeof showToast === 'function') {
+                    showToast('Error de conexión con el servidor', 'error');
+                } else {
+                    alert('Error de conexión');
+                }
+            } finally {
+                btn.disabled = false;
+                btn.innerHTML = isEditing ? 'Actualizar' : 'Guardar';
+            }
+        }
+
+        // Elimina el registro por completo de la base de datos previa confirmación del usuario
+        async function eliminarMedida(id) {
+            if(confirm('¿Estás seguro de eliminar este registro de medida?')) {
+                try {
+                    const res = await fetch(`${API_URL}/${id}`, { 
+                        method: 'DELETE',
+                        headers: { 'Authorization': `Bearer ${token}` }
+                    });
+                    if(res.ok) {
+                        fetchMedidas();
+                        if (typeof showToast === 'function') {
+                            showToast('Registro de medida eliminado', 'info');
+                        }
+                    } else {
+                        if (typeof showToast === 'function') {
+                            showToast('Error al eliminar medida', 'error');
+                        }
+                    }
+                } catch(e) {
+                    console.error(e);
+                    if (typeof showToast === 'function') {
+                        showToast('Error de red', 'error');
+                    }
+                }
+            }
+        }
+    </script>
+</body>
+</html>

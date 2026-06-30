@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Catálogo | Martex</title>
+    <script src="../config.js"></script>
+    <script src="/tailwind-cdn.js"></script>
+    <script src="js/tailwind-config.js"></script>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="componentes/navbar.js" defer></script>
+    <script src="componentes/footer.js" defer></script>
+</head>
+<body class="bg-gray-50 text-azul-marino flex flex-col min-h-screen">
+    <main-navbar></main-navbar>
+
+    <div class="pt-24 bg-azul-marino text-white pb-12">
+        <div class="container mx-auto px-6 text-center">
+            <h1 class="text-4xl font-display font-bold mb-4">Catálogo de Colecciones</h1>
+            <p class="text-gray-300">Encuentra el estilo perfecto para tu profesión.</p>
+        </div>
+    </div>
+
+    <main class="flex-grow container mx-auto px-6 py-12 flex flex-col md:flex-row gap-10">
+        <!-- Sidebar Filters -->
+        <aside class="w-full md:w-1/4">
+            <div class="bg-white p-6 rounded-3xl shadow-sm border border-gray-100 sticky top-28">
+                <h3 class="font-display font-bold text-xl mb-6">Filtros</h3>
+                
+                <div class="mb-6">
+                    <label class="block text-sm font-semibold text-gray-700 mb-3">Buscar</label>
+                    <div class="relative">
+                        <input type="text" id="searchInput" placeholder="Ej. Scrub azul..." class="w-full pl-10 pr-4 py-3 rounded-xl border border-gray-200 focus:outline-none focus:border-verde-quirurgico focus:ring-1 focus:ring-verde-quirurgico transition-all">
+                        <i class="fas fa-search absolute left-4 top-3.5 text-gray-400"></i>
+                    </div>
+                </div>
+
+                <div class="mb-6">
+                    <label class="block text-sm font-semibold text-gray-700 mb-3">Categoría</label>
+                    <div class="space-y-3">
+                        <label class="flex items-center gap-3 cursor-pointer group">
+                            <input type="radio" name="categoria" value="Todas" checked class="w-4 h-4 text-verde-quirurgico focus:ring-verde-quirurgico">
+                            <span class="text-gray-600 group-hover:text-azul-marino transition-colors">Todas</span>
+                        </label>
+                        <label class="flex items-center gap-3 cursor-pointer group">
+                            <input type="radio" name="categoria" value="Médico" class="w-4 h-4 text-verde-quirurgico focus:ring-verde-quirurgico">
+                            <span class="text-gray-600 group-hover:text-azul-marino transition-colors">Sector Médico</span>
+                        </label>
+                        <label class="flex items-center gap-3 cursor-pointer group">
+                            <input type="radio" name="categoria" value="Belleza" class="w-4 h-4 text-verde-quirurgico focus:ring-verde-quirurgico">
+                            <span class="text-gray-600 group-hover:text-azul-marino transition-colors">Salones de Belleza</span>
+                        </label>
+                    </div>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Product Grid -->
+        <section class="w-full md:w-3/4">
+            <div class="flex justify-between items-center mb-8">
+                <p class="text-gray-500 font-medium"><span id="product-count">0</span> productos encontrados</p>
+                <select class="border border-gray-200 text-gray-700 py-2 px-4 rounded-xl focus:outline-none focus:border-verde-quirurgico">
+                    <option>Más recientes</option>
+                    <option>Precio: Menor a Mayor</option>
+                    <option>Precio: Mayor a Menor</option>
+                </select>
+            </div>
+
+            <div id="grid-productos" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Generado por JS -->
+            </div>
+        </section>
+    </main>
+
+    <!-- Slide-over Cart -->
+    <div id="cart-panel" class="fixed inset-0 z-50 invisible">
+        <div class="absolute inset-0 bg-azul-marino/50 backdrop-blur-sm transition-opacity opacity-0" id="cart-overlay" onclick="toggleCart()"></div>
+        <div class="absolute top-0 right-0 h-full w-full max-w-md bg-white shadow-2xl transform translate-x-full transition-transform duration-300 flex flex-col" id="cart-content">
+            <div class="p-6 border-b border-gray-100 flex justify-between items-center bg-gray-50">
+                <h2 class="text-2xl font-display font-bold text-azul-marino flex items-center gap-2">
+                    <i class="fas fa-shopping-bag text-verde-quirurgico"></i> Tu Carrito
+                </h2>
+                <button onclick="toggleCart()" class="w-10 h-10 rounded-full bg-white shadow-sm flex items-center justify-center text-gray-400 hover:text-red-500 hover:bg-gray-50 transition-colors">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            
+            <div class="flex-grow p-6 overflow-y-auto" id="cart-items">
+                <!-- Items del carrito -->
+                <div class="text-center text-gray-400 py-10">
+                    <i class="fas fa-box-open text-4xl mb-4 opacity-50"></i>
+                    <p>Tu carrito está vacío</p>
+                </div>
+            </div>
+            
+            <div class="p-6 border-t border-gray-100 bg-gray-50">
+                <div class="flex justify-between items-center mb-6">
+                    <span class="text-gray-500 font-medium">Total Estimado</span>
+                    <span class="text-3xl font-display font-bold text-azul-marino" id="cart-total">$0.00</span>
+                </div>
+                <a href="checkout.html" class="w-full block text-center bg-verde-quirurgico hover:bg-verde-quirurgico-dark text-white font-bold py-4 rounded-xl transition-all shadow-md hover:shadow-lg">
+                    Proceder al Pago
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <footer-component></footer-component>
+
+    <script src="js/carrito.js"></script>
+    <script>
+        // Lógica de Renderizado y Filtros
+        document.addEventListener("DOMContentLoaded", async () => {
+            let allProducts = [];
+            
+            try {
+                const res = await fetch(CONFIG.API_URL + '/productos');
+                if (res.ok) {
+                    allProducts = await res.json();
+                }
+            } catch (err) {
+                console.error('Error al cargar productos:', err);
+            }
+            
+            const renderProducts = (products) => {
+                const grid = document.getElementById('grid-productos');
+                document.getElementById('product-count').innerText = products.length;
+                
+                if (products.length === 0) {
+                    grid.innerHTML = `<div class="col-span-full text-center py-20 text-gray-400">No se encontraron productos.</div>`;
+                    return;
+                }
+
+                grid.innerHTML = products.map(prod => {
+                    const precioFinal = prod.precio_base - (prod.precio_base * (prod.porcentaje_descuento / 100));
+                    const imageUrl = prod.imagen_url ? `${CONFIG.BASE_URL}${prod.imagen_url}` : 'https://placehold.co/400x400/0A1128/FFFFFF?text=Martex';
+                    
+                    return `
+                    <div class="bg-white rounded-3xl overflow-hidden card-premium shadow-lg border border-gray-100 flex flex-col group">
+                        <div class="h-64 bg-gray-100 relative overflow-hidden">
+                            <img src="${imageUrl}" alt="${prod.nombre}" class="w-full h-full object-cover object-top img-hover-zoom">
+                            <div class="absolute top-4 left-4">
+                                <span class="glass text-azul-marino text-xs font-bold px-3 py-1 rounded-full shadow-sm">${prod.categoria}</span>
+                            </div>
+                        </div>
+                        <div class="p-6 flex flex-col flex-grow">
+                            <h3 class="font-display font-bold text-xl text-azul-marino mb-2 group-hover:text-verde-quirurgico transition-colors">${prod.nombre}</h3>
+                            
+                            <!-- Talla Selector -->
+                            <div class="mb-4 mt-2">
+                                <div class="flex gap-2">
+                                    <label class="cursor-pointer">
+                                        <input type="radio" name="talla-cat-${prod.id}" value="S" class="peer sr-only">
+                                        <div class="w-8 h-8 rounded-lg border border-gray-200 flex items-center justify-center text-xs font-medium text-gray-600 peer-checked:border-verde-quirurgico peer-checked:bg-verde-quirurgico peer-checked:text-white transition-all hover:border-verde-quirurgico/50">S</div>
+                                    </label>
+                                    <label class="cursor-pointer">
+                                        <input type="radio" name="talla-cat-${prod.id}" value="M" class="peer sr-only" checked>
+                                        <div class="w-8 h-8 rounded-lg border border-gray-200 flex items-center justify-center text-xs font-medium text-gray-600 peer-checked:border-verde-quirurgico peer-checked:bg-verde-quirurgico peer-checked:text-white transition-all hover:border-verde-quirurgico/50">M</div>
+                                    </label>
+                                    <label class="cursor-pointer">
+                                        <input type="radio" name="talla-cat-${prod.id}" value="L" class="peer sr-only">
+                                        <div class="w-8 h-8 rounded-lg border border-gray-200 flex items-center justify-center text-xs font-medium text-gray-600 peer-checked:border-verde-quirurgico peer-checked:bg-verde-quirurgico peer-checked:text-white transition-all hover:border-verde-quirurgico/50">L</div>
+                                    </label>
+                                </div>
+                            </div>
+
+                            <div class="flex flex-col mt-auto pt-4 gap-3">
+                                <div class="flex justify-between items-center">
+                                    <span class="font-display font-bold text-2xl text-azul-marino">$${precioFinal.toFixed(2)}</span>
+                                </div>
+                                <div class="flex gap-2 w-full">
+                                    <button onclick="agregarAlCarritoConTalla('${prod.id}', '${prod.nombre}', ${precioFinal}, '${imageUrl}', 'talla-cat-')" class="flex-1 py-2 rounded-xl bg-azul-marino text-white flex items-center justify-center hover:bg-verde-quirurgico transition-all hover:-translate-y-1 font-semibold text-sm">
+                                        <i class="fas fa-cart-plus mr-2"></i> Carrito
+                                    </button>
+                                    <button onclick="agregarAlCarritoConTalla('${prod.id}', '${prod.nombre}', ${precioFinal}, '${imageUrl}', 'talla-cat-', true)" class="flex-1 py-2 rounded-xl bg-verde-quirurgico text-white flex items-center justify-center hover:bg-verde-quirurgico-dark transition-all hover:-translate-y-1 font-semibold text-sm">
+                                        Comprar <i class="fas fa-arrow-right ml-2"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                `}).join('');
+            };
+
+            renderProducts(allProducts);
+
+            // Búsqueda
+            document.getElementById('searchInput').addEventListener('input', (e) => {
+                const term = e.target.value.toLowerCase();
+                const filtered = allProducts.filter(p => p.nombre.toLowerCase().includes(term));
+                renderProducts(filtered);
+            });
+
+            // Filtros de Categoría
+            document.querySelectorAll('input[name="categoria"]').forEach(radio => {
+                radio.addEventListener('change', (e) => {
+                    const cat = e.target.value;
+                    if (cat === 'Todas') {
+                        renderProducts(allProducts);
+                    } else {
+                        const filtered = allProducts.filter(p => p.categoria === cat);
+                        renderProducts(filtered);
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>
