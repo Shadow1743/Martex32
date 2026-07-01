@@ -1,6 +1,9 @@
 const jwt = require('jsonwebtoken');
 
 const JWT_SECRET = process.env.JWT_SECRET || 'martex_super_secret_key_2026';
+if (JWT_SECRET === 'martex_super_secret_key_2026' && process.env.NODE_ENV === 'production') {
+    console.warn("⚠️ ADVERTENCIA DE SEGURIDAD: Estás usando el JWT_SECRET por defecto en producción. ¡Cámbialo inmediatamente en el archivo .env!");
+}
 
 const verificarToken = (req, res, next) => {
     // Permitir acceso público a métodos GET en productos

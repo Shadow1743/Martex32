@@ -9,9 +9,9 @@ const app = express();
 const PORT = process.env.PORT || 3000;
 
 // Configuración de Seguridad
-// app.use(helmet({
-//     contentSecurityPolicy: false,
-// }));
+app.use(helmet({
+    contentSecurityPolicy: false,
+}));
 app.use(cors());   // Permitir peticiones desde otros dominios
 
 // Limitador de peticiones para evitar ataques de fuerza bruta en la API

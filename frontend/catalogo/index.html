@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Martex | Uniformes Profesionales Premium</title>
     <script src="../config.js"></script>
+    <script src="../sistema/js/security.js"></script>
     
     <!-- Tailwind CSS (CDN) -->
     <script src="/tailwind-cdn.js"></script>
@@ -180,12 +181,12 @@
                     return `
                     <div class="bg-white rounded-3xl overflow-hidden card-premium shadow-lg border border-gray-100 flex flex-col group">
                         <div class="h-80 bg-gray-100 relative overflow-hidden">
-                            <img src="${imageUrl}" alt="${prod.nombre}" class="w-full h-full object-cover object-top img-hover-zoom">
+                            <img src="${escapeHTML(imageUrl)}" alt="${escapeHTML(prod.nombre)}" class="w-full h-full object-cover object-top img-hover-zoom">
                             
                             <!-- Badges -->
                             <div class="absolute top-5 left-5 right-5 flex justify-between items-start">
                                 <span class="glass text-azul-marino text-xs font-bold px-4 py-2 rounded-full shadow-sm">
-                                    ${prod.categoria}
+                                    ${escapeHTML(prod.categoria)}
                                 </span>
                                 <button class="w-10 h-10 rounded-full glass flex items-center justify-center text-gray-400 hover:text-red-500 hover:bg-white transition-colors shadow-sm">
                                     <i class="far fa-heart"></i>
@@ -194,8 +195,8 @@
                         </div>
                         
                         <div class="p-8 flex flex-col flex-grow relative">
-                            <h3 class="font-display font-bold text-2xl text-azul-marino mb-3 group-hover:text-verde-quirurgico transition-colors">${prod.nombre}</h3>
-                            <p class="text-gray-500 text-sm mb-6 leading-relaxed flex-grow">${prod.descripcion || ''}</p>
+                            <h3 class="font-display font-bold text-2xl text-azul-marino mb-3 group-hover:text-verde-quirurgico transition-colors">${escapeHTML(prod.nombre)}</h3>
+                            <p class="text-gray-500 text-sm mb-6 leading-relaxed flex-grow">${escapeHTML(prod.descripcion || '')}</p>
                             
                             <div class="mb-6">
                                 <div class="flex justify-between items-center mb-2">
@@ -204,15 +205,15 @@
                                 </div>
                                 <div class="flex gap-2">
                                     <label class="cursor-pointer">
-                                        <input type="radio" name="talla-dest-${prod.id}" value="S" class="peer sr-only">
+                                        <input type="radio" name="talla-dest-${escapeHTML(prod.id)}" value="S" class="peer sr-only">
                                         <div class="w-10 h-10 rounded-xl border border-gray-200 flex items-center justify-center text-sm font-medium text-gray-600 peer-checked:border-verde-quirurgico peer-checked:bg-verde-quirurgico peer-checked:text-white transition-all hover:border-verde-quirurgico/50">S</div>
                                     </label>
                                     <label class="cursor-pointer">
-                                        <input type="radio" name="talla-dest-${prod.id}" value="M" class="peer sr-only" checked>
+                                        <input type="radio" name="talla-dest-${escapeHTML(prod.id)}" value="M" class="peer sr-only" checked>
                                         <div class="w-10 h-10 rounded-xl border border-gray-200 flex items-center justify-center text-sm font-medium text-gray-600 peer-checked:border-verde-quirurgico peer-checked:bg-verde-quirurgico peer-checked:text-white transition-all hover:border-verde-quirurgico/50">M</div>
                                     </label>
                                     <label class="cursor-pointer">
-                                        <input type="radio" name="talla-dest-${prod.id}" value="L" class="peer sr-only">
+                                        <input type="radio" name="talla-dest-${escapeHTML(prod.id)}" value="L" class="peer sr-only">
                                         <div class="w-10 h-10 rounded-xl border border-gray-200 flex items-center justify-center text-sm font-medium text-gray-600 peer-checked:border-verde-quirurgico peer-checked:bg-verde-quirurgico peer-checked:text-white transition-all hover:border-verde-quirurgico/50">L</div>
                                     </label>
                                 </div>
@@ -224,10 +225,10 @@
                                     <span class="font-display font-bold text-3xl text-azul-marino">$${precioFinal.toFixed(2)}</span>
                                 </div>
                                 <div class="flex gap-2">
-                                    <button onclick="agregarAlCarritoConTalla('${prod.id}', '${prod.nombre}', ${precioFinal}, '${imageUrl}', 'talla-dest-')" class="flex-1 h-12 rounded-xl bg-azul-marino text-white flex items-center justify-center hover:bg-verde-quirurgico hover:shadow-glow hover:-translate-y-1 transition-all duration-300 font-bold">
+                                    <button onclick="agregarAlCarritoConTalla('${escapeHTML(prod.id)}', '${escapeHTML(prod.nombre)}', ${precioFinal}, '${escapeHTML(imageUrl)}', 'talla-dest-')" class="flex-1 h-12 rounded-xl bg-azul-marino text-white flex items-center justify-center hover:bg-verde-quirurgico hover:shadow-glow hover:-translate-y-1 transition-all duration-300 font-bold">
                                         <i class="fas fa-cart-plus mr-2"></i> Carrito
                                     </button>
-                                    <button onclick="agregarAlCarritoConTalla('${prod.id}', '${prod.nombre}', ${precioFinal}, '${imageUrl}', 'talla-dest-', true)" class="flex-1 h-12 rounded-xl bg-verde-quirurgico text-white flex items-center justify-center hover:bg-verde-quirurgico-dark hover:shadow-glow hover:-translate-y-1 transition-all duration-300 font-bold">
+                                    <button onclick="agregarAlCarritoConTalla('${escapeHTML(prod.id)}', '${escapeHTML(prod.nombre)}', ${precioFinal}, '${escapeHTML(imageUrl)}', 'talla-dest-', true)" class="flex-1 h-12 rounded-xl bg-verde-quirurgico text-white flex items-center justify-center hover:bg-verde-quirurgico-dark hover:shadow-glow hover:-translate-y-1 transition-all duration-300 font-bold">
                                         Comprar <i class="fas fa-arrow-right ml-2"></i>
                                     </button>
                                 </div>

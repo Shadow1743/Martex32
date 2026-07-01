@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Checkout | Martex</title>
     <script src="../config.js"></script>
+    <script src="../sistema/js/security.js"></script>
     <script src="/tailwind-cdn.js"></script>
     <script src="js/tailwind-config.js"></script>
     <link rel="stylesheet" href="css/style.css">
@@ -146,8 +147,8 @@
                 return `
                     <div class="flex justify-between items-center text-sm">
                         <div class="flex items-center gap-3">
-                            <span class="font-bold text-gray-400">x${item.cantidad}</span>
-                            <span class="text-gray-700 truncate max-w-[150px]">${item.nombre} (Talla: ${item.talla || 'M'})</span>
+                            <span class="font-bold text-gray-400">x${escapeHTML(item.cantidad)}</span>
+                            <span class="text-gray-700 truncate max-w-[150px]">${escapeHTML(item.nombre)} (Talla: ${escapeHTML(item.talla || 'M')})</span>
                         </div>
                         <span class="font-bold text-azul-marino">$${(item.precio * item.cantidad).toFixed(2)}</span>
                     </div>

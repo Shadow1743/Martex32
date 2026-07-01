@@ -2,6 +2,7 @@
 <html lang="es">
 <head>
     <script src="../config.js"></script>
+    <script src="js/security.js"></script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Módulo de Medidas | Martex Admin</title>
@@ -334,28 +335,28 @@
             }
             tbody.innerHTML = medidas.map(m => `
                 <tr class="hover:bg-gray-50 transition-colors">
-                    <td class="px-6 py-4 font-medium text-gray-500">#${m.id}</td>
-                    <td class="px-6 py-4 font-semibold text-azul-marino">${m.cliente_nombre}</td>
-                    <td class="px-6 py-4 text-gray-500">${m.cliente_telefono || '-'}</td>
+                    <td class="px-6 py-4 font-medium text-gray-500">#${escapeHTML(m.id)}</td>
+                    <td class="px-6 py-4 font-semibold text-azul-marino">${escapeHTML(m.cliente_nombre)}</td>
+                    <td class="px-6 py-4 text-gray-500">${escapeHTML(m.cliente_telefono || '-')}</td>
                     <td class="px-6 py-4">
-                        <span class="text-sm px-2 py-1 bg-gray-100 text-gray-700 rounded-md border border-gray-200">${m.tipo_pieza}</span>
+                        <span class="text-sm px-2 py-1 bg-gray-100 text-gray-700 rounded-md border border-gray-200">${escapeHTML(m.tipo_pieza)}</span>
                     </td>
                     <td class="px-6 py-4 font-semibold ${m.precio ? 'text-verde-quirurgico' : 'text-gray-400'}">
-                        ${m.precio ? '$' + parseFloat(m.precio).toFixed(2) : '-'}
+                        ${m.precio ? '$' + escapeHTML(parseFloat(m.precio).toFixed(2)) : '-'}
                     </td>
                     <td class="px-6 py-4">
-                        <button onclick="abrirModalEstado(${m.id}, '${m.estado}')" class="px-3 py-1 rounded-full text-xs font-semibold
+                        <button onclick="abrirModalEstado(${escapeHTML(m.id)}, '${escapeHTML(m.estado)}')" class="px-3 py-1 rounded-full text-xs font-semibold
                             ${m.estado === 'Pendiente' ? 'bg-red-100 text-red-700 hover:bg-red-200' : 
                               m.estado === 'En confección' ? 'bg-yellow-100 text-yellow-700 hover:bg-yellow-200' : 
                               m.estado === 'Terminado' ? 'bg-blue-100 text-blue-700 hover:bg-blue-200' :
                               'bg-green-100 text-green-700 hover:bg-green-200'} transition-colors cursor-pointer" title="Click para cambiar estado">
-                            ${m.estado} <i class="fas fa-caret-down ml-1"></i>
+                            ${escapeHTML(m.estado)} <i class="fas fa-caret-down ml-1"></i>
                         </button>
                     </td>
                     <td class="px-6 py-4 text-right space-x-1 whitespace-nowrap">
-                        <button onclick="editarMedida(${m.id})" class="text-gray-400 hover:text-blue-600 p-2" title="Editar Medida"><i class="fas fa-pen"></i></button>
-                        <button onclick="imprimirFicha(${m.id})" class="text-gray-400 hover:text-teal-600 p-2" title="Imprimir Ficha"><i class="fas fa-print"></i></button>
-                        <button onclick="eliminarMedida(${m.id})" class="text-gray-400 hover:text-red-500 p-2" title="Eliminar"><i class="fas fa-trash"></i></button>
+                        <button onclick="editarMedida(${escapeHTML(m.id)})" class="text-gray-400 hover:text-blue-600 p-2" title="Editar Medida"><i class="fas fa-pen"></i></button>
+                        <button onclick="imprimirFicha(${escapeHTML(m.id)})" class="text-gray-400 hover:text-teal-600 p-2" title="Imprimir Ficha"><i class="fas fa-print"></i></button>
+                        <button onclick="eliminarMedida(${escapeHTML(m.id)})" class="text-gray-400 hover:text-red-500 p-2" title="Eliminar"><i class="fas fa-trash"></i></button>
                     </td>
                 </tr>
             `).join('');
@@ -573,15 +574,15 @@
                         <div class="grid grid-cols-2 gap-6 mb-6 bg-gray-50 p-4 rounded-xl border border-gray-100">
                             <div>
                                 <span class="text-xs font-bold text-gray-400 block uppercase">Cliente</span>
-                                <span class="font-bold text-lg text-gray-800">${m.cliente_nombre}</span>
+                                <span class="font-bold text-lg text-gray-800">${escapeHTML(m.cliente_nombre)}</span>
                             </div>
                             <div>
                                 <span class="text-xs font-bold text-gray-400 block uppercase">Teléfono</span>
-                                <span class="font-bold text-lg text-gray-800">${m.cliente_telefono || 'No registrado'}</span>
+                                <span class="font-bold text-lg text-gray-800">${escapeHTML(m.cliente_telefono || 'No registrado')}</span>
                             </div>
                             <div>
                                 <span class="text-xs font-bold text-gray-400 block uppercase mb-1">Prenda a Confeccionar</span>
-                                <span class="text-sm font-semibold text-teal-700 bg-teal-50 px-2 py-0.5 rounded border border-teal-100 inline-block">${m.tipo_pieza}</span>
+                                <span class="text-sm font-semibold text-teal-700 bg-teal-50 px-2 py-0.5 rounded border border-teal-100 inline-block">${escapeHTML(m.tipo_pieza)}</span>
                             </div>
                             <div>
                                 <span class="text-xs font-bold text-gray-400 block uppercase mb-1">Precio de Confección</span>

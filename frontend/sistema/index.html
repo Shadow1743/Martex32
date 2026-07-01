@@ -2,6 +2,7 @@
 <html lang="es">
 <head>
     <script src="../config.js"></script>
+    <script src="js/security.js"></script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dashboard | Martex Admin</title>
@@ -353,15 +354,15 @@
 
             tbody.innerHTML = pedidos.map(p => `
                 <tr>
-                    <td class="font-semibold" style="color: var(--azul-pantera);">#ORD-${p.id.toString().padStart(3,'0')}</td>
+                    <td class="font-semibold" style="color: var(--azul-pantera);">#ORD-${escapeHTML(p.id.toString().padStart(3,'0'))}</td>
                     <td>
-                        <div class="font-medium text-gray-800">${p.cliente_nombre || 'Desconocido'}</div>
-                        <div class="text-xs text-gray-400 mt-0.5"><i class="fas fa-phone mr-1"></i>${p.cliente_telefono}</div>
+                        <div class="font-medium text-gray-800">${escapeHTML(p.cliente_nombre || 'Desconocido')}</div>
+                        <div class="text-xs text-gray-400 mt-0.5"><i class="fas fa-phone mr-1"></i>${escapeHTML(p.cliente_telefono)}</div>
                     </td>
-                    <td class="text-gray-500">${new Date(p.creado_en).toLocaleDateString()}</td>
+                    <td class="text-gray-500">${escapeHTML(new Date(p.creado_en).toLocaleDateString())}</td>
                     <td class="font-bold" style="color: var(--verde-quirurgico);">$${parseFloat(p.total).toFixed(2)}</td>
                     <td>
-                        <span class="status-badge ${getStatusClass(p.estado)}">${p.estado}</span>
+                        <span class="status-badge ${getStatusClass(p.estado)}">${escapeHTML(p.estado)}</span>
                     </td>
                 </tr>
             `).join('');

@@ -139,27 +139,27 @@
                     return `
                     <div class="bg-white rounded-3xl overflow-hidden card-premium shadow-lg border border-gray-100 flex flex-col group">
                         <div class="h-64 bg-gray-100 relative overflow-hidden">
-                            <img src="${imageUrl}" alt="${prod.nombre}" class="w-full h-full object-cover object-top img-hover-zoom">
+                            <img src="${escapeHTML(imageUrl)}" alt="${escapeHTML(prod.nombre)}" class="w-full h-full object-cover object-top img-hover-zoom">
                             <div class="absolute top-4 left-4">
-                                <span class="glass text-azul-marino text-xs font-bold px-3 py-1 rounded-full shadow-sm">${prod.categoria}</span>
+                                <span class="glass text-azul-marino text-xs font-bold px-3 py-1 rounded-full shadow-sm">${escapeHTML(prod.categoria)}</span>
                             </div>
                         </div>
                         <div class="p-6 flex flex-col flex-grow">
-                            <h3 class="font-display font-bold text-xl text-azul-marino mb-2 group-hover:text-verde-quirurgico transition-colors">${prod.nombre}</h3>
+                            <h3 class="font-display font-bold text-xl text-azul-marino mb-2 group-hover:text-verde-quirurgico transition-colors">${escapeHTML(prod.nombre)}</h3>
                             
                             <!-- Talla Selector -->
                             <div class="mb-4 mt-2">
                                 <div class="flex gap-2">
                                     <label class="cursor-pointer">
-                                        <input type="radio" name="talla-cat-${prod.id}" value="S" class="peer sr-only">
+                                        <input type="radio" name="talla-cat-${escapeHTML(prod.id)}" value="S" class="peer sr-only">
                                         <div class="w-8 h-8 rounded-lg border border-gray-200 flex items-center justify-center text-xs font-medium text-gray-600 peer-checked:border-verde-quirurgico peer-checked:bg-verde-quirurgico peer-checked:text-white transition-all hover:border-verde-quirurgico/50">S</div>
                                     </label>
                                     <label class="cursor-pointer">
-                                        <input type="radio" name="talla-cat-${prod.id}" value="M" class="peer sr-only" checked>
+                                        <input type="radio" name="talla-cat-${escapeHTML(prod.id)}" value="M" class="peer sr-only" checked>
                                         <div class="w-8 h-8 rounded-lg border border-gray-200 flex items-center justify-center text-xs font-medium text-gray-600 peer-checked:border-verde-quirurgico peer-checked:bg-verde-quirurgico peer-checked:text-white transition-all hover:border-verde-quirurgico/50">M</div>
                                     </label>
                                     <label class="cursor-pointer">
-                                        <input type="radio" name="talla-cat-${prod.id}" value="L" class="peer sr-only">
+                                        <input type="radio" name="talla-cat-${escapeHTML(prod.id)}" value="L" class="peer sr-only">
                                         <div class="w-8 h-8 rounded-lg border border-gray-200 flex items-center justify-center text-xs font-medium text-gray-600 peer-checked:border-verde-quirurgico peer-checked:bg-verde-quirurgico peer-checked:text-white transition-all hover:border-verde-quirurgico/50">L</div>
                                     </label>
                                 </div>
@@ -170,10 +170,10 @@
                                     <span class="font-display font-bold text-2xl text-azul-marino">$${precioFinal.toFixed(2)}</span>
                                 </div>
                                 <div class="flex gap-2 w-full">
-                                    <button onclick="agregarAlCarritoConTalla('${prod.id}', '${prod.nombre}', ${precioFinal}, '${imageUrl}', 'talla-cat-')" class="flex-1 py-2 rounded-xl bg-azul-marino text-white flex items-center justify-center hover:bg-verde-quirurgico transition-all hover:-translate-y-1 font-semibold text-sm">
+                                    <button onclick="agregarAlCarritoConTalla('${escapeHTML(prod.id)}', '${escapeHTML(prod.nombre)}', ${precioFinal}, '${escapeHTML(imageUrl)}', 'talla-cat-')" class="flex-1 py-2 rounded-xl bg-azul-marino text-white flex items-center justify-center hover:bg-verde-quirurgico transition-all hover:-translate-y-1 font-semibold text-sm">
                                         <i class="fas fa-cart-plus mr-2"></i> Carrito
                                     </button>
-                                    <button onclick="agregarAlCarritoConTalla('${prod.id}', '${prod.nombre}', ${precioFinal}, '${imageUrl}', 'talla-cat-', true)" class="flex-1 py-2 rounded-xl bg-verde-quirurgico text-white flex items-center justify-center hover:bg-verde-quirurgico-dark transition-all hover:-translate-y-1 font-semibold text-sm">
+                                    <button onclick="agregarAlCarritoConTalla('${escapeHTML(prod.id)}', '${escapeHTML(prod.nombre)}', ${precioFinal}, '${escapeHTML(imageUrl)}', 'talla-cat-', true)" class="flex-1 py-2 rounded-xl bg-verde-quirurgico text-white flex items-center justify-center hover:bg-verde-quirurgico-dark transition-all hover:-translate-y-1 font-semibold text-sm">
                                         Comprar <i class="fas fa-arrow-right ml-2"></i>
                                     </button>
                                 </div>

@@ -2,6 +2,7 @@
 <html lang="es">
 <head>
     <script src="../config.js"></script>
+    <script src="js/security.js"></script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Módulo de Catálogo | Martex Admin</title>
@@ -247,17 +248,17 @@
                 <tr>
                     <td>
                         <div class="w-12 h-12 rounded-xl bg-gray-50 overflow-hidden border border-gray-100">
-                            <img src="${imageUrl}" class="w-full h-full object-cover" alt="${p.nombre}">
+                            <img src="${escapeHTML(imageUrl)}" class="w-full h-full object-cover" alt="${escapeHTML(p.nombre)}">
                         </div>
                     </td>
-                    <td class="font-semibold" style="color: var(--azul-pantera);">${p.nombre}</td>
-                    <td><span class="status-badge" style="background: #f1f5f9; color: #475569;">${p.categoria}</span></td>
+                    <td class="font-semibold" style="color: var(--azul-pantera);">${escapeHTML(p.nombre)}</td>
+                    <td><span class="status-badge" style="background: #f1f5f9; color: #475569;">${escapeHTML(p.categoria)}</span></td>
                     <td class="text-gray-500 font-medium">$${parseFloat(p.precio_base).toFixed(2)}</td>
                     <td class="font-medium" style="color: #ef4444;">${parseFloat(p.porcentaje_descuento).toFixed(0)}%</td>
                     <td class="font-bold" style="color: var(--verde-quirurgico);">$${precioFinal.toFixed(2)}</td>
                     <td class="text-right">
-                        <button onclick="editarProducto('${p.id}')" class="action-btn edit" title="Editar"><i class="fas fa-pen"></i></button>
-                        <button onclick="eliminarProducto('${p.id}')" class="action-btn delete" title="Eliminar"><i class="fas fa-trash"></i></button>
+                        <button onclick="editarProducto('${escapeHTML(p.id)}')" class="action-btn edit" title="Editar"><i class="fas fa-pen"></i></button>
+                        <button onclick="eliminarProducto('${escapeHTML(p.id)}')" class="action-btn delete" title="Eliminar"><i class="fas fa-trash"></i></button>
                     </td>
                 </tr>
             `}).join('');

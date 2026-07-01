@@ -2,6 +2,7 @@
 <html lang="es">
 <head>
     <script src="../config.js"></script>
+    <script src="js/security.js"></script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Módulo de Pedidos | Martex Admin</title>
@@ -264,23 +265,23 @@
             tbody.innerHTML = pedidos.map(p => `
                 <tr>
                     <td>
-                        <div class="font-bold" style="color: var(--azul-pantera);">#ORD-${p.id.toString().padStart(3,'0')}</div>
-                        <div class="text-xs text-gray-400 mt-1">${new Date(p.creado_en).toLocaleString()}</div>
+                        <div class="font-bold" style="color: var(--azul-pantera);">#ORD-${escapeHTML(p.id.toString().padStart(3,'0'))}</div>
+                        <div class="text-xs text-gray-400 mt-1">${escapeHTML(new Date(p.creado_en).toLocaleString())}</div>
                     </td>
                     <td>
-                        <div class="font-medium text-gray-800">${p.cliente_nombre}</div>
-                        <div class="text-xs text-gray-400 mt-0.5"><i class="fas fa-phone mr-1"></i>${p.cliente_telefono} · DUI: ${p.dui || 'N/A'}</div>
-                        <div class="text-xs text-gray-400 mt-0.5 truncate max-w-[200px]" title="${p.direccion || ''}"><i class="fas fa-map-marker-alt mr-1"></i>${p.direccion || 'N/A'}</div>
+                        <div class="font-medium text-gray-800">${escapeHTML(p.cliente_nombre)}</div>
+                        <div class="text-xs text-gray-400 mt-0.5"><i class="fas fa-phone mr-1"></i>${escapeHTML(p.cliente_telefono)} · DUI: ${escapeHTML(p.dui || 'N/A')}</div>
+                        <div class="text-xs text-gray-400 mt-0.5 truncate max-w-[200px]" title="${escapeHTML(p.direccion || '')}"><i class="fas fa-map-marker-alt mr-1"></i>${escapeHTML(p.direccion || 'N/A')}</div>
                     </td>
                     <td>
                         <div class="font-bold" style="color: var(--verde-quirurgico);">$${parseFloat(p.total).toFixed(2)}</div>
-                        <div class="text-xs text-gray-400 mt-1 bg-gray-100 inline-block px-2 py-0.5 rounded">${p.metodo_pago}</div>
+                        <div class="text-xs text-gray-400 mt-1 bg-gray-100 inline-block px-2 py-0.5 rounded">${escapeHTML(p.metodo_pago)}</div>
                     </td>
                     <td>
-                        <span class="status-badge ${getStatusClass(p.estado)}">${p.estado}</span>
+                        <span class="status-badge ${getStatusClass(p.estado)}">${escapeHTML(p.estado)}</span>
                     </td>
                     <td class="text-right">
-                        <button onclick="verDetalles('${p.id}')" class="btn-primary" style="font-size: 0.75rem; padding: 0.4rem 0.9rem;">
+                        <button onclick="verDetalles('${escapeHTML(p.id)}')" class="btn-primary" style="font-size: 0.75rem; padding: 0.4rem 0.9rem;">
                             Ver Detalles
                         </button>
                     </td>
@@ -295,9 +296,9 @@
 
             document.getElementById('modal-titulo').innerText = `Pedido #ORD-${pedido.id.toString().padStart(3,'0')}`;
             document.getElementById('det-cliente').innerText = pedido.cliente_nombre;
-            document.getElementById('det-tel').innerHTML = `<i class="fas fa-phone mr-1"></i> ${pedido.cliente_telefono}`;
-            document.getElementById('det-dui').innerHTML = `<i class="fas fa-id-card mr-1"></i> ${pedido.dui ? pedido.dui : 'DUI no registrado'}`;
-            document.getElementById('det-direccion').innerHTML = `<i class="fas fa-map-marker-alt mr-1"></i> ${pedido.direccion || 'Dirección no registrada'}`;
+            document.getElementById('det-tel').innerHTML = `<i class="fas fa-phone mr-1"></i> ${escapeHTML(pedido.cliente_telefono)}`;
+            document.getElementById('det-dui').innerHTML = `<i class="fas fa-id-card mr-1"></i> ${escapeHTML(pedido.dui ? pedido.dui : 'DUI no registrado')}`;
+            document.getElementById('det-direccion').innerHTML = `<i class="fas fa-map-marker-alt mr-1"></i> ${escapeHTML(pedido.direccion || 'Dirección no registrada')}`;
             
             document.getElementById('det-total').innerText = `$${parseFloat(pedido.total).toFixed(2)}`;
             document.getElementById('det-metodo').innerText = `Método: ${pedido.metodo_pago}`;
@@ -321,8 +322,8 @@
             if (pedido.items && pedido.items.length > 0 && pedido.items[0].id !== null) {
                 tbodyItems.innerHTML = pedido.items.map(i => `
                     <tr>
-                        <td class="px-4 py-3 font-medium" style="color: var(--azul-pantera);">${i.producto_nombre || 'Producto no disponible'} <span class="text-xs ml-1 font-bold" style="color: var(--verde-quirurgico);">(Talla: ${i.talla || 'M'})</span></td>
-                        <td class="px-4 py-3 text-center text-gray-600">${i.cantidad}</td>
+                        <td class="px-4 py-3 font-medium" style="color: var(--azul-pantera);">${escapeHTML(i.producto_nombre || 'Producto no disponible')} <span class="text-xs ml-1 font-bold" style="color: var(--verde-quirurgico);">(Talla: ${escapeHTML(i.talla || 'M')})</span></td>
+                        <td class="px-4 py-3 text-center text-gray-600">${escapeHTML(i.cantidad)}</td>
                         <td class="px-4 py-3 text-right font-medium text-gray-600">$${parseFloat(i.precio_unitario).toFixed(2)}</td>
                     </tr>
                 `).join('');
