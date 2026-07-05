@@ -33,7 +33,7 @@ class FooterComponent extends HTMLElement {
                     <ul class="space-y-4 text-gray-400 text-sm">
                         <li class="flex items-start justify-center md:justify-start gap-3 group">
                             <i class="fas fa-map-marker-alt text-verde-quirurgico mt-1 group-hover:animate-bounce"></i>
-                            <span class="leading-relaxed">CALLE DR. FEDERICO PENADO FINAL,<br>Usulután Este, El Salvador</span>
+                            <span class="leading-relaxed">Colonia Los Santos, C. Grimaldi Final,<br>Usulután, El Salvador</span>
                         </li>
                         <li class="flex items-center justify-center md:justify-start gap-3 group">
                             <i class="fas fa-phone-alt text-verde-quirurgico group-hover:scale-110 transition-transform"></i>

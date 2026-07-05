@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Catálogo | Martex</title>
     <script src="../config.js"></script>
+    <script src="../sistema/js/security.js"></script>
     <script src="/tailwind-cdn.js"></script>
     <script src="js/tailwind-config.js"></script>
     <link rel="stylesheet" href="css/style.css">
@@ -73,6 +74,31 @@
         </section>
     </main>
 
+    <!-- Modal de Detalle de Producto -->
+    <div id="product-modal" class="fixed inset-0 z-[60] invisible">
+        <div class="absolute inset-0 bg-azul-marino/60 backdrop-blur-sm transition-opacity opacity-0" id="product-modal-overlay" onclick="cerrarModal()"></div>
+        <div class="absolute inset-4 md:inset-8 lg:inset-y-8 lg:inset-x-auto lg:left-1/2 lg:-translate-x-1/2 lg:max-w-4xl lg:w-full bg-white shadow-2xl rounded-3xl transform scale-95 opacity-0 transition-all duration-300 flex flex-col overflow-hidden" id="product-modal-content">
+            
+            <!-- Header del modal -->
+            <div class="p-5 border-b border-gray-100 flex justify-between items-center bg-gray-50/80 backdrop-blur-sm shrink-0">
+                <div class="flex items-center gap-3">
+                    <div class="w-10 h-10 bg-verde-quirurgico/10 rounded-xl flex items-center justify-center text-verde-quirurgico">
+                        <i class="fas fa-tshirt"></i>
+                    </div>
+                    <h2 class="text-xl font-display font-bold text-azul-marino">Detalle del Producto</h2>
+                </div>
+                <button onclick="cerrarModal()" class="w-10 h-10 rounded-full bg-white shadow-sm flex items-center justify-center text-gray-400 hover:text-red-500 hover:bg-gray-50 transition-colors">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            
+            <!-- Contenido del modal (scrollable) -->
+            <div class="flex-grow overflow-y-auto" id="product-modal-body">
+                <!-- Se llena dinámicamente -->
+            </div>
+        </div>
+    </div>
+
     <!-- Slide-over Cart -->
     <div id="cart-panel" class="fixed inset-0 z-50 invisible">
         <div class="absolute inset-0 bg-azul-marino/50 backdrop-blur-sm transition-opacity opacity-0" id="cart-overlay" onclick="toggleCart()"></div>
@@ -110,7 +136,159 @@
 
     <script src="js/carrito.js"></script>
     <script>
-        // Lógica de Renderizado y Filtros
+        // --- Modal de Producto ---
+        let productosCache = [];
+
+        function verProducto(productId) {
+            const prod = productosCache.find(p => p.id === productId);
+            if (!prod) return;
+
+            const precioFinal = prod.precio_base - (prod.precio_base * (prod.porcentaje_descuento / 100));
+            const imageUrl = prod.imagen_url ? `${CONFIG.BASE_URL}${prod.imagen_url}` : 'https://placehold.co/600x600/0A1128/FFFFFF?text=Martex';
+            const tieneDescuento = prod.porcentaje_descuento > 0;
+            const descripcion = prod.descripcion || 'Uniforme profesional de alta calidad confeccionado con telas modernas y resistentes. Ideal para largas jornadas de trabajo.';
+
+            const body = document.getElementById('product-modal-body');
+            body.innerHTML = `
+                <div class="grid md:grid-cols-2 gap-0">
+                    <!-- Imagen -->
+                    <div class="relative bg-gray-100 min-h-[300px] md:min-h-full">
+                        <img src="${escapeHTML(imageUrl)}" alt="${escapeHTML(prod.nombre)}" class="w-full h-full object-cover object-top">
+                        <div class="absolute top-5 left-5">
+                            <span class="bg-white/90 backdrop-blur-sm text-azul-marino text-xs font-bold px-4 py-2 rounded-full shadow-sm">
+                                ${escapeHTML(prod.categoria)}
+                            </span>
+                        </div>
+                        ${tieneDescuento ? `
+                        <div class="absolute top-5 right-5">
+                            <span class="bg-red-500 text-white text-xs font-bold px-3 py-1.5 rounded-full shadow-md">
+                                -${prod.porcentaje_descuento}%
+                            </span>
+                        </div>` : ''}
+                    </div>
+
+                    <!-- Info -->
+                    <div class="p-8 flex flex-col">
+                        <div class="mb-2">
+                            <span class="text-verde-quirurgico text-xs font-bold uppercase tracking-widest">${escapeHTML(prod.categoria)}</span>
+                        </div>
+                        <h2 class="font-display text-3xl font-bold text-azul-marino mb-4">${escapeHTML(prod.nombre)}</h2>
+                        
+                        <p class="text-gray-500 leading-relaxed mb-6">${escapeHTML(descripcion)}</p>
+
+                        <!-- Características -->
+                        <div class="grid grid-cols-2 gap-3 mb-6">
+                            <div class="flex items-center gap-2 text-sm text-gray-600 bg-gray-50 rounded-xl p-3">
+                                <i class="fas fa-wind text-verde-quirurgico"></i>
+                                <span>Secado rápido</span>
+                            </div>
+                            <div class="flex items-center gap-2 text-sm text-gray-600 bg-gray-50 rounded-xl p-3">
+                                <i class="fas fa-shield-alt text-azul-pantera"></i>
+                                <span>Muy resistente</span>
+                            </div>
+                            <div class="flex items-center gap-2 text-sm text-gray-600 bg-gray-50 rounded-xl p-3">
+                                <i class="fas fa-tint-slash text-verde-quirurgico"></i>
+                                <span>Anti-fluidos</span>
+                            </div>
+                            <div class="flex items-center gap-2 text-sm text-gray-600 bg-gray-50 rounded-xl p-3">
+                                <i class="fas fa-feather text-azul-pantera"></i>
+                                <span>Ultra ligero</span>
+                            </div>
+                        </div>
+
+                        <!-- Tallas -->
+                        <div class="mb-6">
+                            <div class="flex justify-between items-center mb-3">
+                                <label class="text-sm font-bold text-azul-marino uppercase tracking-wide">Elige tu talla</label>
+                            </div>
+                            <div class="flex gap-3">
+                                <label class="cursor-pointer">
+                                    <input type="radio" name="talla-modal-${escapeHTML(prod.id)}" value="XS" class="peer sr-only">
+                                    <div class="w-12 h-12 rounded-xl border-2 border-gray-200 flex items-center justify-center text-sm font-semibold text-gray-600 peer-checked:border-verde-quirurgico peer-checked:bg-verde-quirurgico peer-checked:text-white transition-all hover:border-verde-quirurgico/50 hover:shadow-sm">XS</div>
+                                </label>
+                                <label class="cursor-pointer">
+                                    <input type="radio" name="talla-modal-${escapeHTML(prod.id)}" value="S" class="peer sr-only">
+                                    <div class="w-12 h-12 rounded-xl border-2 border-gray-200 flex items-center justify-center text-sm font-semibold text-gray-600 peer-checked:border-verde-quirurgico peer-checked:bg-verde-quirurgico peer-checked:text-white transition-all hover:border-verde-quirurgico/50 hover:shadow-sm">S</div>
+                                </label>
+                                <label class="cursor-pointer">
+                                    <input type="radio" name="talla-modal-${escapeHTML(prod.id)}" value="M" class="peer sr-only" checked>
+                                    <div class="w-12 h-12 rounded-xl border-2 border-gray-200 flex items-center justify-center text-sm font-semibold text-gray-600 peer-checked:border-verde-quirurgico peer-checked:bg-verde-quirurgico peer-checked:text-white transition-all hover:border-verde-quirurgico/50 hover:shadow-sm">M</div>
+                                </label>
+                                <label class="cursor-pointer">
+                                    <input type="radio" name="talla-modal-${escapeHTML(prod.id)}" value="L" class="peer sr-only">
+                                    <div class="w-12 h-12 rounded-xl border-2 border-gray-200 flex items-center justify-center text-sm font-semibold text-gray-600 peer-checked:border-verde-quirurgico peer-checked:bg-verde-quirurgico peer-checked:text-white transition-all hover:border-verde-quirurgico/50 hover:shadow-sm">L</div>
+                                </label>
+                                <label class="cursor-pointer">
+                                    <input type="radio" name="talla-modal-${escapeHTML(prod.id)}" value="XL" class="peer sr-only">
+                                    <div class="w-12 h-12 rounded-xl border-2 border-gray-200 flex items-center justify-center text-sm font-semibold text-gray-600 peer-checked:border-verde-quirurgico peer-checked:bg-verde-quirurgico peer-checked:text-white transition-all hover:border-verde-quirurgico/50 hover:shadow-sm">XL</div>
+                                </label>
+                            </div>
+                        </div>
+
+                        <!-- Precio -->
+                        <div class="bg-gray-50 rounded-2xl p-5 mb-6 mt-auto">
+                            <div class="flex items-end justify-between">
+                                <div>
+                                    <span class="text-xs text-gray-400 block mb-1 uppercase tracking-wide font-semibold">Precio</span>
+                                    <div class="flex items-end gap-3">
+                                        <span class="font-display font-bold text-3xl text-azul-marino">$${precioFinal.toFixed(2)}</span>
+                                        ${tieneDescuento ? `<span class="text-gray-400 line-through text-lg mb-0.5">$${parseFloat(prod.precio_base).toFixed(2)}</span>` : ''}
+                                    </div>
+                                </div>
+                                ${tieneDescuento ? `
+                                <span class="bg-red-50 text-red-500 text-sm font-bold px-3 py-1.5 rounded-full">
+                                    Ahorras $${(prod.precio_base - precioFinal).toFixed(2)}
+                                </span>` : ''}
+                            </div>
+                        </div>
+
+                        <!-- Botones de acción -->
+                        <div class="flex gap-3">
+                            <button onclick="agregarAlCarritoConTalla('${escapeHTML(prod.id)}', '${escapeHTML(prod.nombre)}', ${precioFinal}, '${escapeHTML(imageUrl)}', 'talla-modal-'); cerrarModal();" class="flex-1 py-3.5 rounded-xl bg-azul-marino text-white flex items-center justify-center hover:bg-azul-pantera transition-all hover:-translate-y-0.5 hover:shadow-lg font-bold text-sm gap-2">
+                                <i class="fas fa-cart-plus"></i> Agregar al Carrito
+                            </button>
+                            <button onclick="agregarAlCarritoConTalla('${escapeHTML(prod.id)}', '${escapeHTML(prod.nombre)}', ${precioFinal}, '${escapeHTML(imageUrl)}', 'talla-modal-', true)" class="flex-1 py-3.5 rounded-xl bg-verde-quirurgico text-white flex items-center justify-center hover:bg-verde-quirurgico-dark transition-all hover:-translate-y-0.5 hover:shadow-lg font-bold text-sm gap-2">
+                                Comprar Ya <i class="fas fa-arrow-right"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            `;
+
+            // Abrir modal con animación
+            const modal = document.getElementById('product-modal');
+            const overlay = document.getElementById('product-modal-overlay');
+            const content = document.getElementById('product-modal-content');
+            
+            modal.classList.remove('invisible');
+            document.body.style.overflow = 'hidden';
+            setTimeout(() => {
+                overlay.classList.remove('opacity-0');
+                content.classList.remove('scale-95', 'opacity-0');
+                content.classList.add('scale-100', 'opacity-100');
+            }, 10);
+        }
+
+        function cerrarModal() {
+            const modal = document.getElementById('product-modal');
+            const overlay = document.getElementById('product-modal-overlay');
+            const content = document.getElementById('product-modal-content');
+            
+            overlay.classList.add('opacity-0');
+            content.classList.remove('scale-100', 'opacity-100');
+            content.classList.add('scale-95', 'opacity-0');
+            document.body.style.overflow = '';
+            setTimeout(() => {
+                modal.classList.add('invisible');
+            }, 300);
+        }
+
+        // Cerrar modal con Escape
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') cerrarModal();
+        });
+
+        // --- Lógica de Renderizado y Filtros ---
         document.addEventListener("DOMContentLoaded", async () => {
             let allProducts = [];
             
@@ -118,6 +296,7 @@
                 const res = await fetch(CONFIG.API_URL + '/productos');
                 if (res.ok) {
                     allProducts = await res.json();
+                    productosCache = allProducts;
                 }
             } catch (err) {
                 console.error('Error al cargar productos:', err);
@@ -135,17 +314,28 @@
                 grid.innerHTML = products.map(prod => {
                     const precioFinal = prod.precio_base - (prod.precio_base * (prod.porcentaje_descuento / 100));
                     const imageUrl = prod.imagen_url ? `${CONFIG.BASE_URL}${prod.imagen_url}` : 'https://placehold.co/400x400/0A1128/FFFFFF?text=Martex';
+                    const tieneDescuento = prod.porcentaje_descuento > 0;
                     
                     return `
                     <div class="bg-white rounded-3xl overflow-hidden card-premium shadow-lg border border-gray-100 flex flex-col group">
-                        <div class="h-64 bg-gray-100 relative overflow-hidden">
+                        <div class="h-64 bg-gray-100 relative overflow-hidden cursor-pointer" onclick="verProducto('${escapeHTML(prod.id)}')">
                             <img src="${escapeHTML(imageUrl)}" alt="${escapeHTML(prod.nombre)}" class="w-full h-full object-cover object-top img-hover-zoom">
                             <div class="absolute top-4 left-4">
                                 <span class="glass text-azul-marino text-xs font-bold px-3 py-1 rounded-full shadow-sm">${escapeHTML(prod.categoria)}</span>
                             </div>
+                            ${tieneDescuento ? `
+                            <div class="absolute top-4 right-4">
+                                <span class="bg-red-500 text-white text-xs font-bold px-2.5 py-1 rounded-full shadow-sm">-${prod.porcentaje_descuento}%</span>
+                            </div>` : ''}
+                            <!-- Overlay de "Ver detalle" al pasar el mouse -->
+                            <div class="absolute inset-0 bg-azul-marino/0 group-hover:bg-azul-marino/40 transition-all duration-300 flex items-center justify-center">
+                                <span class="bg-white/90 backdrop-blur-sm text-azul-marino font-bold px-5 py-2.5 rounded-full opacity-0 group-hover:opacity-100 transform translate-y-4 group-hover:translate-y-0 transition-all duration-300 shadow-lg text-sm">
+                                    <i class="fas fa-eye mr-2"></i>Ver detalle
+                                </span>
+                            </div>
                         </div>
                         <div class="p-6 flex flex-col flex-grow">
-                            <h3 class="font-display font-bold text-xl text-azul-marino mb-2 group-hover:text-verde-quirurgico transition-colors">${escapeHTML(prod.nombre)}</h3>
+                            <h3 class="font-display font-bold text-xl text-azul-marino mb-2 group-hover:text-verde-quirurgico transition-colors cursor-pointer" onclick="verProducto('${escapeHTML(prod.id)}')">${escapeHTML(prod.nombre)}</h3>
                             
                             <!-- Talla Selector -->
                             <div class="mb-4 mt-2">
@@ -168,13 +358,14 @@
                             <div class="flex flex-col mt-auto pt-4 gap-3">
                                 <div class="flex justify-between items-center">
                                     <span class="font-display font-bold text-2xl text-azul-marino">$${precioFinal.toFixed(2)}</span>
+                                    ${tieneDescuento ? `<span class="text-gray-400 line-through text-sm">$${parseFloat(prod.precio_base).toFixed(2)}</span>` : ''}
                                 </div>
                                 <div class="flex gap-2 w-full">
                                     <button onclick="agregarAlCarritoConTalla('${escapeHTML(prod.id)}', '${escapeHTML(prod.nombre)}', ${precioFinal}, '${escapeHTML(imageUrl)}', 'talla-cat-')" class="flex-1 py-2 rounded-xl bg-azul-marino text-white flex items-center justify-center hover:bg-verde-quirurgico transition-all hover:-translate-y-1 font-semibold text-sm">
                                         <i class="fas fa-cart-plus mr-2"></i> Carrito
                                     </button>
-                                    <button onclick="agregarAlCarritoConTalla('${escapeHTML(prod.id)}', '${escapeHTML(prod.nombre)}', ${precioFinal}, '${escapeHTML(imageUrl)}', 'talla-cat-', true)" class="flex-1 py-2 rounded-xl bg-verde-quirurgico text-white flex items-center justify-center hover:bg-verde-quirurgico-dark transition-all hover:-translate-y-1 font-semibold text-sm">
-                                        Comprar <i class="fas fa-arrow-right ml-2"></i>
+                                    <button onclick="verProducto('${escapeHTML(prod.id)}')" class="flex-1 py-2 rounded-xl bg-verde-quirurgico text-white flex items-center justify-center hover:bg-verde-quirurgico-dark transition-all hover:-translate-y-1 font-semibold text-sm">
+                                        <i class="fas fa-eye mr-2"></i> Ver más
                                     </button>
                                 </div>
                             </div>
