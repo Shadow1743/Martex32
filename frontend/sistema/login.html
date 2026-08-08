@@ -3,6 +3,7 @@
 <head>
     <script src="../config.js"></script>
     <script src="js/security.js"></script>
+    <script src="js/ui-security.js"></script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login | Sistema de gestión Martex</title>
@@ -194,9 +195,15 @@
                 <span></span>
             </div>
 
-            <form id="login-form" class="space-y-5">
+            <!-- Info alert (cierre por inactividad, etc.) -->
+            <div id="alert-info" class="bg-amber-50 border border-amber-200 text-amber-700 px-4 py-3 rounded-xl text-sm text-center hidden font-medium mb-6 flex items-center justify-center gap-2">
+                <i class="fas fa-clock"></i>
+                <span></span>
+            </div>
+
+            <form id="login-form" class="space-y-5" novalidate>
                 <!-- Email -->
-                <div>
+                <div class="form-field">
                     <label for="email" class="block text-xs font-bold uppercase tracking-wider text-gray-400 mb-2.5">
                         Correo Electrónico
                     </label>
@@ -204,19 +211,20 @@
                         <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
                             <i class="fas fa-envelope text-gray-300 text-sm"></i>
                         </div>
-                        <input 
-                            type="email" 
-                            id="email" 
-                            name="email" 
-                            required 
+                        <input
+                            type="email"
+                            id="email"
+                            name="email"
+                            required
+                            autocomplete="username"
                             placeholder="usuario@martex.com"
                             class="input-glow w-full bg-gray-50/50 text-gray-900 border border-gray-200 rounded-xl pl-11 pr-4 py-3.5 text-sm focus:border-medical-primary outline-none transition-all duration-200 placeholder:text-gray-300 hover:border-gray-300"
                         >
                     </div>
                 </div>
-                
+
                 <!-- Password -->
-                <div>
+                <div class="form-field">
                     <label for="password" class="block text-xs font-bold uppercase tracking-wider text-gray-400 mb-2.5">
                         Contraseña
                     </label>
@@ -224,15 +232,16 @@
                         <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
                             <i class="fas fa-lock text-gray-300 text-sm"></i>
                         </div>
-                        <input 
-                            type="password" 
-                            id="password" 
-                            name="password" 
-                            required 
+                        <input
+                            type="password"
+                            id="password"
+                            name="password"
+                            required
+                            autocomplete="current-password"
                             placeholder="••••••••"
                             class="input-glow w-full bg-gray-50/50 text-gray-900 border border-gray-200 rounded-xl pl-11 pr-12 py-3.5 text-sm focus:border-medical-primary outline-none transition-all duration-200 placeholder:text-gray-300 hover:border-gray-300"
                         >
-                        <button type="button" onclick="togglePassword()" class="absolute inset-y-0 right-0 pr-4 flex items-center password-toggle text-gray-300">
+                        <button type="button" onclick="togglePassword()" aria-label="Mostrar contraseña" aria-pressed="false" class="absolute inset-y-0 right-0 pr-4 flex items-center password-toggle text-gray-300">
                             <i id="password-eye" class="fas fa-eye text-sm"></i>
                         </button>
                     </div>
@@ -263,14 +272,39 @@
         function togglePassword() {
             const input = document.getElementById('password');
             const icon = document.getElementById('password-eye');
+            const btn = icon.closest('button');
             if (input.type === 'password') {
                 input.type = 'text';
                 icon.className = 'fas fa-eye-slash text-sm';
+                if (btn) { btn.setAttribute('aria-label', 'Ocultar contraseña'); btn.setAttribute('aria-pressed', 'true'); }
             } else {
                 input.type = 'password';
                 icon.className = 'fas fa-eye text-sm';
+                if (btn) { btn.setAttribute('aria-label', 'Mostrar contraseña'); btn.setAttribute('aria-pressed', 'false'); }
             }
         }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            // Aviso visual cuando la sesión anterior se cerró por inactividad
+            const reason = sessionStorage.getItem('logout_reason');
+            if (reason === 'inactividad') {
+                const info = document.getElementById('alert-info');
+                info.querySelector('span').textContent = 'Tu sesión se cerró automáticamente por inactividad. Ingresa de nuevo.';
+                info.classList.remove('hidden');
+                sessionStorage.removeItem('logout_reason');
+            }
+
+            // Validación en tiempo real con indicadores visuales
+            if (window.MartexUI) {
+                MartexUI.attachValidation(document.getElementById('email'), [
+                    { check: MartexUI.validators.required, message: 'El correo es obligatorio' },
+                    { check: MartexUI.validators.email, message: 'Ingresa un correo válido (ej. usuario@martex.com)' }
+                ]);
+                MartexUI.attachValidation(document.getElementById('password'), [
+                    { check: MartexUI.validators.required, message: 'La contraseña es obligatoria' }
+                ]);
+            }
+        });
     </script>
     <script src="js/login.js"></script>
 </body>

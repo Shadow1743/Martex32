@@ -110,8 +110,14 @@
 
     <!-- Loading State -->
     <div id="loading" class="text-center text-gray-500 py-20 w-full flex flex-col items-center justify-center">
-        <i class="fas fa-spinner fa-spin text-4xl mb-4 text-verde-quirurgico"></i>
-        <p>Generando factura...</p>
+        <div class="relative mb-6">
+            <div class="w-16 h-16 rounded-full border-4 border-gray-200 border-t-verde-quirurgico animate-spin"></div>
+            <div class="absolute inset-0 flex items-center justify-center">
+                <i class="fas fa-receipt text-verde-quirurgico text-lg"></i>
+            </div>
+        </div>
+        <p class="font-display font-bold text-xl text-azul-marino mb-2">Generando tu comprobante</p>
+        <p class="text-sm text-gray-400">Un momento por favor...</p>
     </div>
 
     <!-- Error State -->
@@ -124,15 +130,43 @@
 
     <!-- Controles (No imprimibles) -->
     <div class="fixed bottom-6 right-6 flex flex-col gap-3 no-print" id="controls" style="display:none;">
-        <button onclick="window.print()" class="bg-verde-quirurgico hover:bg-teal-500 text-white w-14 h-14 rounded-full shadow-lg flex items-center justify-center text-xl transition-transform hover:scale-110" title="Imprimir Factura">
+        <button onclick="window.print()" class="bg-verde-quirurgico hover:bg-teal-500 text-white w-14 h-14 rounded-full shadow-lg flex items-center justify-center text-xl transition-all hover:scale-110 hover:-translate-y-1 shadow-glow" title="Imprimir Factura">
             <i class="fas fa-print"></i>
         </button>
-        <a href="index.html" class="bg-azul-marino hover:bg-azul-pantera text-white w-14 h-14 rounded-full shadow-lg flex items-center justify-center text-xl transition-transform hover:scale-110" title="Volver a Inicio">
-            <i class="fas fa-home"></i>
+        <button onclick="descargarFactura()" class="bg-azul-pantera hover:bg-azul-pantera-light text-white w-14 h-14 rounded-full shadow-lg flex items-center justify-center text-xl transition-all hover:scale-110 hover:-translate-y-1" title="Descargar PDF">
+            <i class="fas fa-file-pdf"></i>
+        </button>
+        <a href="catalogo.html" class="bg-azul-marino hover:bg-azul-pantera text-white w-14 h-14 rounded-full shadow-lg flex items-center justify-center text-xl transition-all hover:scale-110 hover:-translate-y-1" title="Seguir Comprando">
+            <i class="fas fa-shopping-bag"></i>
         </a>
     </div>
 
+    <!-- Toast Notification Container -->
+    <div class="toast-container" id="toast-container"></div>
+
     <script>
+        // ── Toast System ──────────────────────────
+        function showToast(message, type = 'success', duration = 3500) {
+            const container = document.getElementById('toast-container');
+            if (!container) return;
+            const toast = document.createElement('div');
+            toast.className = `toast toast-${type}`;
+            const icons = { success: 'fa-check-circle', error: 'fa-exclamation-circle', info: 'fa-info-circle' };
+            toast.innerHTML = `<i class="fas ${icons[type] || icons.info} toast-icon"></i><span>${message}</span>`;
+            container.appendChild(toast);
+            requestAnimationFrame(() => toast.classList.add('show'));
+            setTimeout(() => {
+                toast.classList.remove('show');
+                setTimeout(() => toast.remove(), 500);
+            }, duration);
+        }
+
+        // ── Descargar (simulado) ─────────────────
+        function descargarFactura() {
+            showToast('La impresión está lista. Usa el botón de imprimir para guardar como PDF.', 'info', 5000);
+            window.print();
+        }
+
         document.addEventListener('DOMContentLoaded', async () => {
             const urlParams = new URLSearchParams(window.location.search);
             const pedidoId = urlParams.get('id');
@@ -161,7 +195,15 @@
 
         function renderizarFactura(pedido) {
             document.getElementById('loading').style.display = 'none';
-            document.getElementById('factura-container').style.display = 'block';
+            const container = document.getElementById('factura-container');
+            container.style.display = 'block';
+            container.style.opacity = '0';
+            container.style.transform = 'translateY(20px)';
+            setTimeout(() => {
+                container.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+                container.style.opacity = '1';
+                container.style.transform = 'translateY(0)';
+            }, 50);
             document.getElementById('controls').style.display = 'flex';
 
             // Datos generales

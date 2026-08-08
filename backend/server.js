@@ -23,6 +23,7 @@ const corsOptions = {
 
 app.use(helmet({
     contentSecurityPolicy: false,
+    crossOriginResourcePolicy: false,
 }));
 app.use(cors(corsOptions));
 app.use(compression());

@@ -52,15 +52,16 @@
             </div>
         </div>
 
-        <!-- Tabs -->
-        <div class="flex gap-1 bg-white rounded-2xl p-1.5 shadow-sm border border-gray-100 mb-8 overflow-x-auto">
-            <button class="account-tab active flex items-center gap-2 px-5 py-3 rounded-xl text-sm font-semibold transition-all whitespace-nowrap" data-tab="perfil">
+        <!-- Tabs with indicator -->
+        <div class="relative bg-white rounded-2xl p-1.5 shadow-sm border border-gray-100 mb-8 overflow-x-auto flex gap-1" id="tabs-container">
+            <div class="absolute bottom-1.5 left-1.5 h-[calc(100%-12px)] bg-verde-quirurgico rounded-xl transition-all duration-300 z-0" id="tab-indicator" style="width: 80px;"></div>
+            <button class="account-tab active flex items-center gap-2 px-5 py-3 rounded-xl text-sm font-semibold transition-all whitespace-nowrap relative z-10" data-tab="perfil">
                 <i class="fas fa-user"></i> Perfil
             </button>
-            <button class="account-tab flex items-center gap-2 px-5 py-3 rounded-xl text-sm font-semibold transition-all whitespace-nowrap" data-tab="pedidos">
+            <button class="account-tab flex items-center gap-2 px-5 py-3 rounded-xl text-sm font-semibold transition-all whitespace-nowrap relative z-10" data-tab="pedidos">
                 <i class="fas fa-box"></i> Mis Pedidos
             </button>
-            <button class="account-tab flex items-center gap-2 px-5 py-3 rounded-xl text-sm font-semibold transition-all whitespace-nowrap" data-tab="favoritos">
+            <button class="account-tab flex items-center gap-2 px-5 py-3 rounded-xl text-sm font-semibold transition-all whitespace-nowrap relative z-10" data-tab="favoritos">
                 <i class="fas fa-heart"></i> Favoritos
             </button>
         </div>
@@ -127,7 +128,23 @@
 
 
     <auth-modal></auth-modal>
+
+    <!-- Botón Scroll to Top -->
+    <button id="scroll-top-btn" aria-label="Volver arriba" onclick="window.scrollTo({top:0,behavior:'smooth'})">
+        <i class="fas fa-chevron-up"></i>
+    </button>
+
     <footer-component></footer-component>
+    
+    <script>
+        // ── Scroll to Top ────────────────────────────
+        const scrollBtn = document.getElementById('scroll-top-btn');
+        if (scrollBtn) {
+            window.addEventListener('scroll', () => {
+                scrollBtn.classList.toggle('visible', window.scrollY > 400);
+            }, { passive: true });
+        }
+    </script>
 
     <a href="https://wa.me/50360497383?text=Hola,%20quisiera%20más%20información%20sobre%20los%20uniformes" class="whatsapp-float" target="_blank" rel="noopener noreferrer" aria-label="Contactar por WhatsApp">
         <i class="fab fa-whatsapp"></i>
@@ -135,6 +152,117 @@
 
     <script src="js/carrito.js"></script>
     <script src="js/mi-cuenta.js"></script>
+
+    <!-- Toast Notification Container -->
+    <div class="toast-container" id="toast-container"></div>
+
+    <script>
+        // ── Toast System ──────────────────────────
+        function showToast(message, type = 'success', duration = 3500) {
+            const container = document.getElementById('toast-container');
+            if (!container) return;
+            const toast = document.createElement('div');
+            toast.className = `toast toast-${type}`;
+            const icons = { success: 'fa-check-circle', error: 'fa-exclamation-circle', info: 'fa-info-circle' };
+            toast.innerHTML = `<i class="fas ${icons[type] || icons.info} toast-icon"></i><span>${message}</span>`;
+            container.appendChild(toast);
+            requestAnimationFrame(() => toast.classList.add('show'));
+            setTimeout(() => {
+                toast.classList.remove('show');
+                setTimeout(() => toast.remove(), 500);
+            }, duration);
+        }
+
+        // ── Tab Navigation Enhancement ────────────
+        document.addEventListener('DOMContentLoaded', () => {
+            const tabs = document.querySelectorAll('.account-tab');
+            const indicator = document.getElementById('tab-indicator');
+            const container = document.getElementById('tabs-container');
+
+            function moveIndicator(tab) {
+                if (!indicator || !tab) return;
+                const tabRect = tab.getBoundingClientRect();
+                const containerRect = container.getBoundingClientRect();
+                indicator.style.width = tabRect.width + 'px';
+                indicator.style.left = (tabRect.left - containerRect.left) + 'px';
+            }
+
+            // Move indicator to active tab on load
+            const activeTab = document.querySelector('.account-tab.active');
+            if (activeTab) setTimeout(() => moveIndicator(activeTab), 100);
+
+            tabs.forEach(tab => {
+                tab.addEventListener('click', () => {
+                    tabs.forEach(t => t.classList.remove('active'));
+                    tab.classList.add('active');
+                    moveIndicator(tab);
+
+                    // Show corresponding tab content
+                    document.querySelectorAll('.tab-content').forEach(tc => tc.classList.add('hidden'));
+                    const target = document.getElementById('tab-' + tab.dataset.tab);
+                    if (target) {
+                        target.classList.remove('hidden');
+                        target.style.opacity = '0';
+                        setTimeout(() => {
+                            target.style.transition = 'opacity 0.3s ease';
+                            target.style.opacity = '1';
+                        }, 50);
+                    }
+                });
+            });
+
+            // Handle URL hash for direct tab access
+            const hash = window.location.hash.replace('#', '');
+            if (hash) {
+                const targetTab = document.querySelector(`.account-tab[data-tab="${hash}"]`);
+                if (targetTab) targetTab.click();
+            }
+        });
+
+        // ── Profile Form Enhancement ──────────────
+        document.addEventListener('DOMContentLoaded', () => {
+            const form = document.getElementById('profile-form');
+            if (form) {
+                form.addEventListener('submit', async (e) => {
+                    e.preventDefault();
+                    const submitBtn = form.querySelector('button[type="submit"]');
+                    submitBtn.classList.add('btn-loading');
+                    submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i> Guardando...';
+                    
+                    try {
+                        const clienteToken = localStorage.getItem('cliente_token');
+                        const res = await fetch(CONFIG.API_URL + '/clientes/perfil', {
+                            method: 'PUT',
+                            headers: {
+                                'Content-Type': 'application/json',
+                                'Authorization': `Bearer ${clienteToken}`
+                            },
+                            body: JSON.stringify({
+                                nombre: document.getElementById('input-nombre').value,
+                                telefono: document.getElementById('input-telefono').value
+                            })
+                        });
+                        if (res.ok) {
+                            showToast('Datos actualizados correctamente', 'success');
+                            const clienteData = JSON.parse(localStorage.getItem('cliente') || '{}');
+                            clienteData.nombre = document.getElementById('input-nombre').value;
+                            clienteData.telefono = document.getElementById('input-telefono').value;
+                            localStorage.setItem('cliente', JSON.stringify(clienteData));
+                            window.dispatchEvent(new Event('cliente_auth_change'));
+                        } else {
+                            showToast('Error al guardar los datos', 'error');
+                        }
+                    } catch (err) {
+                        showToast('Error de conexión', 'error');
+                    } finally {
+                        submitBtn.classList.remove('btn-loading');
+                        submitBtn.innerHTML = '<i class="fas fa-save mr-2"></i> Guardar Cambios';
+                    }
+                });
+            }
+        });
+    </script>
+
     <!-- Social SDKs -->
     <script src="https://accounts.google.com/gsi/client" async defer></script>
     <script async defer crossorigin="anonymous" src="https://connect.facebook.net/es_LA/sdk.js"></script>

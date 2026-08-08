@@ -25,6 +25,25 @@
             <h1 class="text-3xl sm:text-4xl font-display font-bold mb-3 sm:mb-4">Finalizar Compra</h1>
             <p class="text-gray-300 text-sm sm:text-base">Estás a un paso de recibir tus uniformes.</p>
         </div>
+        <!-- Step Indicator -->
+        <div class="container mx-auto px-5 sm:px-6 mt-6 sm:mt-8">
+            <div class="step-indicator">
+                <div class="step-item">
+                    <div class="step-number completed"><i class="fas fa-check text-xs"></i></div>
+                    <span class="step-label completed active hidden sm:inline">Carrito</span>
+                </div>
+                <div class="step-connector active"></div>
+                <div class="step-item">
+                    <div class="step-number active">2</div>
+                    <span class="step-label active hidden sm:inline">Checkout</span>
+                </div>
+                <div class="step-connector"></div>
+                <div class="step-item">
+                    <div class="step-number">3</div>
+                    <span class="step-label hidden sm:inline">Confirmación</span>
+                </div>
+            </div>
+        </div>
     </div>
 
     <main class="flex-grow container mx-auto px-4 sm:px-6 py-8 sm:py-12 flex flex-col lg:flex-row gap-8 sm:gap-10 max-w-6xl">
@@ -56,34 +75,49 @@
                 <div class="bg-white p-8 rounded-3xl shadow-sm border border-gray-100 card-premium">
                     <h2 class="text-2xl font-display font-bold mb-6 border-b border-gray-100 pb-4">2. Método de Pago</h2>
                     <div class="space-y-4">
-                        <label class="flex items-center p-4 border border-gray-200 rounded-xl cursor-pointer hover:border-verde-quirurgico transition-colors group">
-                            <input type="radio" name="metodoPago" value="Efectivo" checked class="w-5 h-5 text-verde-quirurgico focus:ring-verde-quirurgico">
+                        <label class="payment-method-card flex items-center p-4 sm:p-5 border-2 border-gray-200 rounded-xl cursor-pointer group" onclick="seleccionarMetodoPago(this)">
+                            <input type="radio" name="metodoPago" value="Efectivo" checked class="w-5 h-5 text-verde-quirurgico focus:ring-verde-quirurgico sr-only peer">
+                            <div class="w-10 h-10 rounded-xl bg-verde-quirurgico/10 flex items-center justify-center text-verde-quirurgico shrink-0">
+                                <i class="fas fa-money-bill-wave text-lg"></i>
+                            </div>
                             <div class="ml-4 flex items-center justify-between w-full">
                                 <div>
-                                    <span class="block font-bold text-azul-marino">Efectivo contra entrega</span>
+                                    <span class="block font-bold text-azul-marino group-hover:text-verde-quirurgico transition-colors">Efectivo contra entrega</span>
                                     <span class="text-sm text-gray-500">Pagas al recibir en la puerta de tu casa o tienda.</span>
                                 </div>
-                                <i class="fas fa-money-bill-wave text-2xl text-gray-300 group-hover:text-verde-quirurgico transition-colors"></i>
+                                <div class="w-5 h-5 rounded-full border-2 border-gray-300 flex items-center justify-center peer-checked:border-verde-quirurgico shrink-0 ml-3">
+                                    <div class="w-2.5 h-2.5 rounded-full bg-verde-quirurgico scale-0 peer-checked:scale-100 transition-transform"></div>
+                                </div>
                             </div>
                         </label>
-                        <label class="flex items-center p-4 border border-gray-200 rounded-xl cursor-pointer hover:border-verde-quirurgico transition-colors group">
-                            <input type="radio" name="metodoPago" value="Deposito" class="w-5 h-5 text-verde-quirurgico focus:ring-verde-quirurgico">
+                        <label class="payment-method-card flex items-center p-4 sm:p-5 border-2 border-gray-200 rounded-xl cursor-pointer group" onclick="seleccionarMetodoPago(this)">
+                            <input type="radio" name="metodoPago" value="Deposito" class="w-5 h-5 text-verde-quirurgico focus:ring-verde-quirurgico sr-only peer">
+                            <div class="w-10 h-10 rounded-xl bg-azul-pantera/10 flex items-center justify-center text-azul-pantera shrink-0">
+                                <i class="fas fa-university text-lg"></i>
+                            </div>
                             <div class="ml-4 flex items-center justify-between w-full">
                                 <div>
-                                    <span class="block font-bold text-azul-marino">Depósito Bancario</span>
+                                    <span class="block font-bold text-azul-marino group-hover:text-verde-quirurgico transition-colors">Depósito Bancario</span>
                                     <span class="text-sm text-gray-500">A cuenta de Banco Cuscatlán.</span>
                                 </div>
-                                <i class="fas fa-university text-2xl text-gray-300 group-hover:text-verde-quirurgico transition-colors"></i>
+                                <div class="w-5 h-5 rounded-full border-2 border-gray-300 flex items-center justify-center peer-checked:border-verde-quirurgico shrink-0 ml-3">
+                                    <div class="w-2.5 h-2.5 rounded-full bg-verde-quirurgico scale-0 peer-checked:scale-100 transition-transform"></div>
+                                </div>
                             </div>
                         </label>
-                        <label class="flex items-center p-4 border border-gray-200 rounded-xl cursor-pointer hover:border-verde-quirurgico transition-colors group">
-                            <input type="radio" name="metodoPago" value="Transferencia" class="w-5 h-5 text-verde-quirurgico focus:ring-verde-quirurgico">
+                        <label class="payment-method-card flex items-center p-4 sm:p-5 border-2 border-gray-200 rounded-xl cursor-pointer group" onclick="seleccionarMetodoPago(this)">
+                            <input type="radio" name="metodoPago" value="Transferencia" class="w-5 h-5 text-verde-quirurgico focus:ring-verde-quirurgico sr-only peer">
+                            <div class="w-10 h-10 rounded-xl bg-verde-quirurgico/10 flex items-center justify-center text-verde-quirurgico shrink-0">
+                                <i class="fas fa-mobile-alt text-lg"></i>
+                            </div>
                             <div class="ml-4 flex items-center justify-between w-full">
                                 <div>
-                                    <span class="block font-bold text-azul-marino">Transferencia Electrónica</span>
-                                    <span class="text-sm text-gray-500">UNI o transferencia directa (Enviar comprobante).</span>
+                                    <span class="block font-bold text-azul-marino group-hover:text-verde-quirurgico transition-colors">Transferencia Electrónica</span>
+                                    <span class="text-sm text-gray-500">UNI o transferencia directa (Enviar comprobante de pago).</span>
                                 </div>
-                                <i class="fas fa-mobile-alt text-2xl text-gray-300 group-hover:text-verde-quirurgico transition-colors"></i>
+                                <div class="w-5 h-5 rounded-full border-2 border-gray-300 flex items-center justify-center peer-checked:border-verde-quirurgico shrink-0 ml-3">
+                                    <div class="w-2.5 h-2.5 rounded-full bg-verde-quirurgico scale-0 peer-checked:scale-100 transition-transform"></div>
+                                </div>
                             </div>
                         </label>
                     </div>
@@ -131,9 +165,23 @@
         </div>
     </main>
 
+    <!-- Botón Scroll to Top -->
+    <button id="scroll-top-btn" aria-label="Volver arriba" onclick="window.scrollTo({top:0,behavior:'smooth'})">
+        <i class="fas fa-chevron-up"></i>
+    </button>
+
     <footer-component></footer-component>
 
     <script>
+        // ── Scroll to Top ────────────────────────────
+        const scrollBtn = document.getElementById('scroll-top-btn');
+        if (scrollBtn) {
+            window.addEventListener('scroll', () => {
+                scrollBtn.classList.toggle('visible', window.scrollY > 400);
+            }, { passive: true });
+        }
+
+        
         document.addEventListener('DOMContentLoaded', () => {
             const carrito = JSON.parse(localStorage.getItem('martex_carrito')) || [];
             const container = document.getElementById('checkout-items');
@@ -237,6 +285,41 @@
         }
     </script>
     <auth-modal></auth-modal>
+    <!-- Toast Notification Container -->
+    <div class="toast-container" id="toast-container"></div>
+
+    <script>
+        // ── Toast System ──────────────────────────
+        function showToast(message, type = 'success', duration = 3500) {
+            const container = document.getElementById('toast-container');
+            if (!container) return;
+            const toast = document.createElement('div');
+            toast.className = `toast toast-${type}`;
+            const icons = { success: 'fa-check-circle', error: 'fa-exclamation-circle', info: 'fa-info-circle' };
+            toast.innerHTML = `<i class="fas ${icons[type] || icons.info} toast-icon"></i><span>${message}</span>`;
+            container.appendChild(toast);
+            requestAnimationFrame(() => toast.classList.add('show'));
+            setTimeout(() => {
+                toast.classList.remove('show');
+                setTimeout(() => toast.remove(), 500);
+            }, duration);
+        }
+
+        // ── Payment method selection ─────────────
+        function seleccionarMetodoPago(label) {
+            const radio = label.querySelector('input[type="radio"]');
+            if (radio) radio.checked = true;
+            document.querySelectorAll('.payment-method-card').forEach(c => c.classList.remove('selected'));
+            label.classList.add('selected');
+        }
+
+        // Initialize first payment method as selected
+        document.addEventListener('DOMContentLoaded', () => {
+            const firstMethod = document.querySelector('.payment-method-card');
+            if (firstMethod) firstMethod.classList.add('selected');
+        });
+    </script>
+
     <!-- Social SDKs -->
     <script src="https://accounts.google.com/gsi/client" async defer></script>
     <script async defer crossorigin="anonymous" src="https://connect.facebook.net/es_LA/sdk.js"></script>

@@ -3,6 +3,13 @@
     const token = localStorage.getItem('token');
     if (!token) return;
 
+    // Localiza el badge de la campana soportando el markup nuevo (#notification-badge)
+    // y el legado (.header-icon-btn .badge) de vistas aún no refactorizadas.
+    function getBadge() {
+        return document.getElementById('notification-badge') ||
+               document.querySelector('.header-icon-btn .badge');
+    }
+
     // Función para reproducir un sonido sutil (sin depender de archivos externos)
     function playNotificationSound() {
         // Prevenir que múltiples pestañas suenen al mismo tiempo
@@ -64,7 +71,7 @@
                         }
                         
                         // 3. Actualizar la campana (badge rojo y animación)
-                        const badge = document.querySelector('.header-icon-btn .badge');
+                        const badge = getBadge();
                         if (badge) badge.classList.remove('hidden');
                         
                         const bell = document.getElementById('notification-bell');
@@ -108,7 +115,7 @@
         const bell = document.getElementById('notification-bell');
         if (bell) {
             bell.addEventListener('click', () => {
-                const badge = document.querySelector('.header-icon-btn .badge');
+                const badge = getBadge();
                 if (badge) badge.classList.add('hidden');
                 
                 // Ir a la vista de pedidos si no estamos allí

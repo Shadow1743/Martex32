@@ -71,22 +71,22 @@
     <section class="py-24 bg-gray-50 border-t border-gray-200">
         <div class="container mx-auto px-6 max-w-5xl text-center">
             <h2 class="text-4xl font-display font-bold mb-16 text-azul-marino">Nuestros Valores</h2>
-            <div class="grid md:grid-cols-3 gap-6 sm:gap-8">
-                <div class="bg-white p-8 rounded-3xl shadow-sm border border-gray-100 card-premium">
+            <div class="grid md:grid-cols-3 gap-6 sm:gap-8 stagger-children">
+                <div class="bg-white p-8 rounded-3xl shadow-sm border border-gray-100 card-premium reveal-on-scroll">
                     <div class="w-14 h-14 bg-verde-quirurgico/10 text-verde-quirurgico rounded-2xl flex items-center justify-center mx-auto mb-6 text-2xl">
                         <i class="fas fa-gem"></i>
                     </div>
                     <h3 class="text-xl font-bold mb-3">Calidad Premium</h3>
                     <p class="text-gray-500">Seleccionamos los mejores materiales para garantizar una vida útil prolongada en cada prenda.</p>
                 </div>
-                <div class="bg-white p-8 rounded-3xl shadow-sm border border-gray-100 card-premium">
+                <div class="bg-white p-8 rounded-3xl shadow-sm border border-gray-100 card-premium reveal-on-scroll">
                     <div class="w-14 h-14 bg-azul-pantera/10 text-azul-pantera rounded-2xl flex items-center justify-center mx-auto mb-6 text-2xl">
                         <i class="fas fa-handshake"></i>
                     </div>
                     <h3 class="text-xl font-bold mb-3">Compromiso Local</h3>
                     <p class="text-gray-500">Impulsamos la economía de Usulután contratando talento y mano de obra 100% local.</p>
                 </div>
-                <div class="bg-white p-8 rounded-3xl shadow-sm border border-gray-100 card-premium">
+                <div class="bg-white p-8 rounded-3xl shadow-sm border border-gray-100 card-premium reveal-on-scroll">
                     <div class="w-14 h-14 bg-verde-quirurgico/10 text-verde-quirurgico rounded-2xl flex items-center justify-center mx-auto mb-6 text-2xl">
                         <i class="fas fa-ruler"></i>
                     </div>
@@ -96,6 +96,10 @@
             </div>
         </div>
     </section>
+
+
+
+
 
     <!-- Sección de Ubicación (Google Maps) -->
     <section class="py-24 bg-white border-t border-gray-150 relative z-10">
@@ -155,8 +159,23 @@
         </div>
     </section>
 
+    <!-- Botón Scroll to Top -->
+    <button id="scroll-top-btn" aria-label="Volver arriba" onclick="window.scrollTo({top:0,behavior:'smooth'})">
+        <i class="fas fa-chevron-up"></i>
+    </button>
+
     <!-- Footer Component -->
     <footer-component></footer-component>
+
+    <script>
+        // ── Scroll to Top ────────────────────────────
+        const scrollBtn = document.getElementById('scroll-top-btn');
+        if (scrollBtn) {
+            window.addEventListener('scroll', () => {
+                scrollBtn.classList.toggle('visible', window.scrollY > 400);
+            }, { passive: true });
+        }
+    </script>
 
     <!-- Botón flotante WhatsApp -->
     <a href="https://wa.me/50360497383?text=Hola,%20quisiera%20más%20información%20sobre%20Martex" class="whatsapp-float" target="_blank" rel="noopener noreferrer" aria-label="Contactar por WhatsApp">
@@ -164,9 +183,44 @@
     </a>
 
     <auth-modal></auth-modal>
+
+    <!-- Toast Notification Container -->
+    <div class="toast-container" id="toast-container"></div>
+
+    <script>
+        // ── Toast System ──────────────────────────
+        function showToast(message, type = 'success', duration = 3500) {
+            const container = document.getElementById('toast-container');
+            if (!container) return;
+            const toast = document.createElement('div');
+            toast.className = `toast toast-${type}`;
+            const icons = { success: 'fa-check-circle', error: 'fa-exclamation-circle', info: 'fa-info-circle' };
+            toast.innerHTML = `<i class="fas ${icons[type] || icons.info} toast-icon"></i><span>${message}</span>`;
+            container.appendChild(toast);
+            requestAnimationFrame(() => toast.classList.add('show'));
+            setTimeout(() => {
+                toast.classList.remove('show');
+                setTimeout(() => toast.remove(), 500);
+            }, duration);
+        }
+
+        // ── Scroll Reveal ─────────────────────────
+        document.addEventListener('DOMContentLoaded', () => {
+            const observerOptions = { threshold: 0.15, rootMargin: '0px 0px -50px 0px' };
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('is-visible');
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, observerOptions);
+            document.querySelectorAll('.reveal-on-scroll').forEach(el => observer.observe(el));
+        });
+    </script>
+
     <!-- Social SDKs -->
     <script src="https://accounts.google.com/gsi/client" async defer></script>
     <script async defer crossorigin="anonymous" src="https://connect.facebook.net/es_LA/sdk.js"></script>
-    <!-- Scripts -->
 </body>
 </html>
