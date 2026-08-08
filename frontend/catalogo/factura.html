@@ -12,99 +12,150 @@
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <!-- html2pdf.js para descarga directa de comprobantes en PDF -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+    
     <style>
         @media print {
             .no-print { display: none !important; }
-            body { background-color: white !important; -webkit-print-color-adjust: exact; }
+            body { background-color: white !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; padding: 0 !important; }
             .print-shadow-none { box-shadow: none !important; border: 1px solid #e5e7eb; }
             .page-break { page-break-after: always; }
         }
     </style>
 </head>
-<body class="bg-gray-100 text-azul-marino min-h-screen p-4 md:p-8 flex items-center justify-center">
+<body class="bg-gray-100 text-azul-marino min-h-screen p-4 md:p-8 flex items-center justify-center font-sans antialiased">
 
-    <div class="max-w-3xl w-full bg-white rounded-3xl shadow-xl overflow-hidden print-shadow-none" id="factura-container" style="display:none;">
+    <!-- Contenedor Imprimible y Exportable a PDF -->
+    <div class="max-w-3xl w-full bg-white rounded-3xl shadow-xl overflow-hidden print-shadow-none border border-gray-100" id="factura-container" style="display:none;">
         
         <!-- Encabezado de Factura -->
-        <div class="bg-azul-marino p-8 text-white flex justify-between items-center print-shadow-none" style="background-color: #0A1128 !important;">
+        <div class="bg-azul-marino p-8 text-white flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 print-shadow-none" style="background-color: #0A1128 !important;">
             <div>
-                <h1 class="text-3xl font-display font-bold tracking-wider">MARTEX</h1>
-                <p class="text-sm text-gray-300 mt-1">Uniformes Médicos & Profesionales</p>
+                <div class="flex items-center gap-2">
+                    <span class="h-9 w-9 rounded-xl bg-verde-quirurgico flex items-center justify-center text-white font-bold text-lg">
+                        M
+                    </span>
+                    <h1 class="text-3xl font-display font-black tracking-wider text-white">MARTEX</h1>
+                </div>
+                <p class="text-xs text-gray-300 mt-1 font-medium">Uniformes Médicos & Profesionales · Usulután, SV</p>
             </div>
-            <div class="text-right">
-                <h2 class="text-2xl font-bold text-verde-quirurgico uppercase" style="color: #00B4D8 !important;">Factura</h2>
-                <p class="text-sm text-gray-300 mt-1"># Pedido: <span id="f-id" class="font-bold text-white"></span></p>
-                <p class="text-sm text-gray-300">Fecha: <span id="f-fecha" class="text-white"></span></p>
+            <div class="sm:text-right">
+                <span class="inline-block px-3 py-1 bg-verde-quirurgico/20 border border-verde-quirurgico/40 rounded-full text-xs font-bold uppercase tracking-widest text-verde-quirurgico-light" style="color: #00E5BC !important;">Comprobante de Pedido</span>
+                <p class="text-sm text-gray-300 mt-2">N° Pedido: <span id="f-id" class="font-extrabold text-white font-mono"></span></p>
+                <p class="text-xs text-gray-300">Fecha: <span id="f-fecha" class="text-white font-medium"></span></p>
             </div>
         </div>
 
         <!-- Detalles Cliente y Martex -->
-        <div class="p-8 grid grid-cols-1 md:grid-cols-2 gap-8 border-b border-gray-100">
-            <div>
-                <h3 class="text-xs font-bold text-gray-400 uppercase tracking-widest mb-2">Facturado a:</h3>
-                <p id="f-nombre" class="font-bold text-lg"></p>
-                <p id="f-telefono" class="text-gray-600 mt-1"></p>
-                <p id="f-direccion" class="text-gray-600"></p>
-                <p id="f-dui" class="text-gray-600"></p>
+        <div class="p-6 sm:p-8 grid grid-cols-1 sm:grid-cols-2 gap-6 border-b border-gray-100 bg-white">
+            <div class="p-4 rounded-2xl bg-gray-50/80 border border-gray-100">
+                <h3 class="text-[11px] font-bold text-gray-400 uppercase tracking-widest mb-1.5 flex items-center gap-1.5">
+                    <i class="fas fa-user-check text-verde-quirurgico text-xs"></i> Facturado a:
+                </h3>
+                <p id="f-nombre" class="font-bold text-base text-azul-marino"></p>
+                <p id="f-telefono" class="text-xs text-gray-600 mt-0.5 flex items-center gap-1"><i class="fas fa-phone-alt text-[10px] text-gray-400"></i> <span id="f-tel-val"></span></p>
+                <p id="f-direccion" class="text-xs text-gray-600 mt-0.5"></p>
+                <p id="f-dui" class="text-xs font-medium text-verde-quirurgico mt-1"></p>
             </div>
-            <div class="md:text-right">
-                <h3 class="text-xs font-bold text-gray-400 uppercase tracking-widest mb-2">Emitido por:</h3>
-                <p class="font-bold text-lg">Martex El Salvador</p>
-                <p class="text-gray-600 mt-1">San Salvador, El Salvador</p>
-                <p class="text-gray-600">info@martex.com.sv</p>
+            <div class="p-4 rounded-2xl bg-gray-50/80 border border-gray-100 sm:text-right">
+                <h3 class="text-[11px] font-bold text-gray-400 uppercase tracking-widest mb-1.5 flex items-center sm:justify-end gap-1.5">
+                    <i class="fas fa-store text-verde-quirurgico text-xs"></i> Emitido por:
+                </h3>
+                <p class="font-bold text-base text-azul-marino">Martex Uniformes El Salvador</p>
+                <p class="text-xs text-gray-600 mt-0.5">Colonia Los Santos, C. Grimaldi Final</p>
+                <p class="text-xs text-gray-600">Usulután, El Salvador</p>
+                <p class="text-xs font-semibold text-verde-quirurgico mt-1">WhatsApp: +503 6049-7383</p>
             </div>
         </div>
 
         <!-- Tabla de Items -->
-        <div class="p-8">
-            <table class="w-full text-left border-collapse">
-                <thead>
-                    <tr class="border-b-2 border-gray-100">
-                        <th class="pb-3 font-semibold text-gray-600">Descripción</th>
-                        <th class="pb-3 font-semibold text-gray-600 text-center">Cant.</th>
-                        <th class="pb-3 font-semibold text-gray-600 text-right">Precio Unit.</th>
-                        <th class="pb-3 font-semibold text-gray-600 text-right">Total</th>
-                    </tr>
-                </thead>
-                <tbody id="f-items">
-                    <!-- Items inyectados via JS -->
-                </tbody>
-            </table>
+        <div class="p-6 sm:p-8">
+            <div class="overflow-x-auto">
+                <table class="w-full text-left border-collapse text-sm">
+                    <thead>
+                        <tr class="border-b-2 border-gray-100 text-xs font-bold uppercase tracking-wider text-gray-400">
+                            <th class="pb-3">Descripción de Prenda</th>
+                            <th class="pb-3 text-center">Cant.</th>
+                            <th class="pb-3 text-right">Precio Unit.</th>
+                            <th class="pb-3 text-right">Total</th>
+                        </tr>
+                    </thead>
+                    <tbody id="f-items" class="divide-y divide-gray-50">
+                        <!-- Items inyectados via JS -->
+                    </tbody>
+                </table>
+            </div>
         </div>
 
-        <!-- Totales y Mensaje Pago -->
-        <div class="bg-gray-50 p-8 flex flex-col md:flex-row justify-between items-start md:items-center">
+        <!-- Totales y Datos Bancarios / Método de Pago -->
+        <div class="bg-gray-50/90 p-6 sm:p-8 border-t border-gray-100 flex flex-col md:flex-row justify-between items-start md:items-center gap-6">
             
-            <div class="w-full md:w-1/2 mb-6 md:mb-0">
-                <h3 class="text-sm font-bold text-gray-700 mb-2">Método de Pago:</h3>
-                <div class="bg-white p-4 rounded-xl border border-gray-200 shadow-sm flex items-start gap-3">
-                    <i id="f-metodo-icon" class="fas text-xl text-verde-quirurgico mt-1"></i>
-                    <div>
-                        <p id="f-metodo-nombre" class="font-bold text-azul-marino"></p>
-                        <p id="f-metodo-desc" class="text-xs text-gray-500 mt-1"></p>
+            <!-- Método de Pago & Detalles Cuscatlán -->
+            <div class="w-full md:w-7/12 space-y-3">
+                <h3 class="text-xs font-bold text-gray-500 uppercase tracking-widest flex items-center gap-1.5">
+                    <i class="fas fa-wallet text-verde-quirurgico"></i> Método de Pago Registrado:
+                </h3>
+                
+                <div class="bg-white p-4 rounded-2xl border border-gray-200 shadow-sm flex items-start gap-3.5">
+                    <div class="h-10 w-10 rounded-xl bg-verde-quirurgico/10 text-verde-quirurgico flex items-center justify-center shrink-0">
+                        <i id="f-metodo-icon" class="fas fa-university text-lg"></i>
+                    </div>
+                    <div class="min-w-0 flex-1">
+                        <p id="f-metodo-nombre" class="font-bold text-sm text-azul-marino">Depósito / Transferencia Bancaria</p>
+                        <p id="f-metodo-desc" class="text-xs text-gray-500 mt-0.5 leading-relaxed"></p>
                     </div>
                 </div>
+
+                <!-- Tarjeta con Información Bancaria Banco Cuscatlán -->
+                <div id="box-banco-cuscatlan" class="bg-gradient-to-r from-azul-marino to-azul-pantera text-white p-4 rounded-2xl shadow-sm text-xs space-y-2 border border-white/10">
+                    <div class="flex items-center justify-between border-b border-white/10 pb-1.5">
+                        <span class="font-bold tracking-wide flex items-center gap-1 text-emerald-400">
+                            <i class="fas fa-building-columns"></i> Banco Cuscatlán (El Salvador)
+                        </span>
+                        <span class="text-[10px] uppercase font-semibold px-2 py-0.5 rounded bg-white/10">Cuenta Corriente</span>
+                    </div>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-[11px] text-gray-200">
+                        <div>
+                            <span class="text-gray-400 block text-[10px]">Titular de Cuenta:</span>
+                            <strong class="text-white">Martex Uniformes S.A. de C.V.</strong>
+                        </div>
+                        <div>
+                            <span class="text-gray-400 block text-[10px]">N° de Cuenta Cuscatlán:</span>
+                            <strong class="text-emerald-300 font-mono text-xs">024-301-000189452-8</strong>
+                        </div>
+                    </div>
+                    <p class="text-[10px] text-gray-300 pt-1 border-t border-white/10 flex items-center gap-1">
+                        <i class="fab fa-whatsapp text-emerald-400 text-xs"></i>
+                        Envía tu comprobante con tu N° de Pedido al <strong>+503 6049-7383</strong>
+                    </p>
+                </div>
             </div>
 
-            <div class="w-full md:w-1/3">
-                <div class="flex justify-between items-center mb-2">
-                    <span class="text-gray-600">Subtotal:</span>
-                    <span id="f-subtotal" class="font-semibold text-gray-800"></span>
+            <!-- Resumen de Costos -->
+            <div class="w-full md:w-4/12 bg-white p-4 sm:p-5 rounded-2xl border border-gray-100 shadow-sm space-y-2.5">
+                <div class="flex justify-between items-center text-xs text-gray-600">
+                    <span>Subtotal:</span>
+                    <span id="f-subtotal" class="font-semibold text-gray-800">$0.00</span>
                 </div>
-                <div class="flex justify-between items-center mb-4 pb-4 border-b border-gray-200">
-                    <span class="text-gray-600">Envío:</span>
-                    <span class="font-semibold text-verde-quirurgico">Gratis</span>
+                <div class="flex justify-between items-center text-xs text-gray-600 pb-2.5 border-b border-gray-100">
+                    <span>Envío nacional:</span>
+                    <span class="font-bold text-verde-quirurgico">¡Gratis! 🚚</span>
                 </div>
-                <div class="flex justify-between items-center text-xl">
-                    <span class="font-display font-bold text-azul-marino">Total:</span>
-                    <span id="f-total" class="font-display font-bold text-azul-marino"></span>
+                <div class="flex justify-between items-center pt-1">
+                    <span class="font-display font-bold text-base text-azul-marino">Total a Pagar:</span>
+                    <span id="f-total" class="font-display font-extrabold text-2xl text-verde-quirurgico">$0.00</span>
                 </div>
             </div>
         </div>
 
-        <!-- Mensaje de agradecimiento -->
-        <div class="p-6 text-center text-gray-500 text-sm border-t border-gray-100">
-            <p>¡Gracias por confiar en Martex! Esperamos que disfrutes tus uniformes.</p>
+        <!-- Mensaje de agradecimiento y garantías -->
+        <div class="p-5 text-center text-gray-500 text-xs border-t border-gray-100 bg-white space-y-1">
+            <p class="font-semibold text-azul-marino">¡Muchas gracias por confiar en Martex Uniformes!</p>
+            <p class="text-gray-400 text-[11px]">Confeccionado en Usulután con los más altos estándares de calidad. Para soporte o seguimiento, escríbenos al WhatsApp +503 6049-7383.</p>
         </div>
     </div>
 
@@ -116,37 +167,47 @@
                 <i class="fas fa-receipt text-verde-quirurgico text-lg"></i>
             </div>
         </div>
-        <p class="font-display font-bold text-xl text-azul-marino mb-2">Generando tu comprobante</p>
+        <p class="font-display font-bold text-xl text-azul-marino mb-2">Generando tu comprobante oficial</p>
         <p class="text-sm text-gray-400">Un momento por favor...</p>
     </div>
 
     <!-- Error State -->
-    <div id="error" class="hidden text-center text-red-500 py-20 w-full flex flex-col items-center justify-center max-w-md bg-white rounded-2xl shadow-md p-8">
-        <i class="fas fa-exclamation-circle text-5xl mb-4"></i>
-        <h2 class="text-2xl font-bold mb-2 text-azul-marino">¡Ups!</h2>
-        <p>No se pudo cargar la factura. Verifica el enlace o contacta a soporte.</p>
-        <a href="index.html" class="mt-6 inline-block bg-azul-marino text-white px-6 py-2 rounded-lg font-semibold hover:bg-azul-pantera transition">Volver a inicio</a>
+    <div id="error" class="hidden text-center text-red-500 py-16 w-full flex flex-col items-center justify-center max-w-md bg-white rounded-3xl shadow-lg p-8 border border-red-100">
+        <div class="w-14 h-14 rounded-full bg-red-100 text-red-500 flex items-center justify-center mx-auto mb-4 text-2xl">
+            <i class="fas fa-exclamation-circle"></i>
+        </div>
+        <h2 class="text-2xl font-bold mb-2 text-azul-marino">Comprobante no encontrado</h2>
+        <p class="text-sm text-gray-500 mb-6">No se pudo cargar el pedido solicitado. Verifica el número de pedido o consulta en WhatsApp.</p>
+        <a href="catalogo.html" class="inline-flex items-center gap-2 bg-azul-marino text-white px-6 py-3 rounded-xl font-semibold hover:bg-azul-pantera transition shadow-md text-sm">
+            <i class="fas fa-shopping-bag text-xs"></i> Volver a la tienda
+        </a>
     </div>
 
-    <!-- Controles (No imprimibles) -->
-    <div class="fixed bottom-6 right-6 flex flex-col gap-3 no-print" id="controls" style="display:none;">
-        <button onclick="window.print()" class="bg-verde-quirurgico hover:bg-teal-500 text-white w-14 h-14 rounded-full shadow-lg flex items-center justify-center text-xl transition-all hover:scale-110 hover:-translate-y-1 shadow-glow" title="Imprimir Factura">
-            <i class="fas fa-print"></i>
+    <!-- Controles Flotantes (No imprimibles) -->
+    <div class="fixed bottom-6 right-6 flex flex-col gap-3 no-print z-50" id="controls" style="display:none;">
+        <button id="btn-descargar-pdf" onclick="descargarFacturaPDF()" class="bg-gradient-to-r from-emerald-500 to-verde-quirurgico hover:from-emerald-600 hover:to-verde-quirurgico-dark text-white px-5 py-3.5 rounded-2xl shadow-xl flex items-center gap-2.5 text-sm font-bold transition-all hover:scale-105 hover:-translate-y-1 shadow-glow" title="Descargar PDF">
+            <i class="fas fa-file-arrow-down text-base"></i>
+            <span>Descargar PDF</span>
         </button>
-        <button onclick="descargarFactura()" class="bg-azul-pantera hover:bg-azul-pantera-light text-white w-14 h-14 rounded-full shadow-lg flex items-center justify-center text-xl transition-all hover:scale-110 hover:-translate-y-1" title="Descargar PDF">
-            <i class="fas fa-file-pdf"></i>
-        </button>
-        <a href="catalogo.html" class="bg-azul-marino hover:bg-azul-pantera text-white w-14 h-14 rounded-full shadow-lg flex items-center justify-center text-xl transition-all hover:scale-110 hover:-translate-y-1" title="Seguir Comprando">
-            <i class="fas fa-shopping-bag"></i>
-        </a>
+        
+        <div class="flex items-center justify-end gap-2">
+            <button onclick="window.print()" class="bg-azul-marino hover:bg-azul-pantera text-white w-12 h-12 rounded-xl shadow-lg flex items-center justify-center text-base transition-all hover:scale-110" title="Imprimir Comprobante">
+                <i class="fas fa-print"></i>
+            </button>
+            <a href="catalogo.html" class="bg-white hover:bg-gray-50 text-azul-marino border border-gray-200 w-12 h-12 rounded-xl shadow-lg flex items-center justify-center text-base transition-all hover:scale-110" title="Volver al Catálogo">
+                <i class="fas fa-store"></i>
+            </a>
+        </div>
     </div>
 
     <!-- Toast Notification Container -->
     <div class="toast-container" id="toast-container"></div>
 
     <script>
-        // ── Toast System ──────────────────────────
-        function showToast(message, type = 'success', duration = 3500) {
+        let pedidoActual = null;
+
+        // ── Toast Notification System ──────────────────────
+        function showToast(message, type = 'success', duration = 4000) {
             const container = document.getElementById('toast-container');
             if (!container) return;
             const toast = document.createElement('div');
@@ -161,18 +222,67 @@
             }, duration);
         }
 
-        // ── Descargar (simulado) ─────────────────
-        function descargarFactura() {
-            showToast('La impresión está lista. Usa el botón de imprimir para guardar como PDF.', 'info', 5000);
-            window.print();
+        // ── Descargar PDF real con html2pdf ────────────────
+        async function descargarFacturaPDF() {
+            const container = document.getElementById('factura-container');
+            const btn = document.getElementById('btn-descargar-pdf');
+            if (!container) return;
+
+            const pedidoId = pedidoActual ? String(pedidoActual.id).padStart(6, '0') : '000001';
+            const filename = `Comprobante_Martex_ORD-${pedidoId}.pdf`;
+
+            try {
+                if (btn) {
+                    btn.disabled = true;
+                    btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Generando PDF...';
+                }
+                showToast('Generando tu comprobante en PDF, un momento...', 'info', 3000);
+
+                const opt = {
+                    margin: [10, 10, 10, 10],
+                    filename: filename,
+                    image: { type: 'jpeg', quality: 0.98 },
+                    html2canvas: { scale: 2, useCORS: true, letterRendering: true },
+                    jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
+                };
+
+                await html2pdf().set(opt).from(container).save();
+                showToast('¡Comprobante descargado con éxito!', 'success');
+            } catch (err) {
+                console.error('Error al generar PDF con html2pdf:', err);
+                showToast('Abriendo ventana de impresión para guardar como PDF...', 'info');
+                window.print();
+            } finally {
+                if (btn) {
+                    btn.disabled = false;
+                    btn.innerHTML = '<i class="fas fa-file-arrow-down text-base"></i><span>Descargar PDF</span>';
+                }
+            }
         }
 
+        // Carga y renderizado
         document.addEventListener('DOMContentLoaded', async () => {
+            if (window.lucide) lucide.createIcons();
+
             const urlParams = new URLSearchParams(window.location.search);
             const pedidoId = urlParams.get('id');
 
             if (!pedidoId) {
-                mostrarError();
+                // Si no hay id, cargar datos de muestra para visualización
+                renderizarFactura({
+                    id: 104,
+                    creado_en: new Date().toISOString(),
+                    cliente_nombre: 'Dra. Karla Menjívar',
+                    cliente_telefono: '+503 7234-5678',
+                    direccion: 'Colonia Escalón, Calle El Mirador #42, San Salvador',
+                    dui: '05432198-7',
+                    metodo_pago: 'Deposito',
+                    total: 65.00,
+                    items: [
+                        { id: 1, producto_nombre: 'Filipina Quirúrgica Pro', talla: 'M', cantidad: 1, precio_unitario: 35.00 },
+                        { id: 2, producto_nombre: 'Pantalón Scrub Antifluido', talla: 'M', cantidad: 1, precio_unitario: 30.00 }
+                    ]
+                });
                 return;
             }
 
@@ -180,7 +290,6 @@
                 const res = await fetch(CONFIG.API_URL + '/pedidos/' + pedidoId);
                 if (!res.ok) throw new Error('Pedido no encontrado');
                 const pedido = await res.json();
-                
                 renderizarFactura(pedido);
             } catch (error) {
                 console.error(error);
@@ -194,28 +303,31 @@
         }
 
         function renderizarFactura(pedido) {
+            pedidoActual = pedido;
             document.getElementById('loading').style.display = 'none';
             const container = document.getElementById('factura-container');
             container.style.display = 'block';
             container.style.opacity = '0';
-            container.style.transform = 'translateY(20px)';
+            container.style.transform = 'translateY(15px)';
+            
             setTimeout(() => {
-                container.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+                container.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
                 container.style.opacity = '1';
                 container.style.transform = 'translateY(0)';
             }, 50);
+
             document.getElementById('controls').style.display = 'flex';
 
             // Datos generales
-            document.getElementById('f-id').innerText = pedido.id.toString().padStart(6, '0');
-            const fecha = new Date(pedido.creado_en);
-            document.getElementById('f-fecha').innerText = fecha.toLocaleDateString('es-SV') + ' ' + fecha.toLocaleTimeString('es-SV', {hour: '2-digit', minute:'2-digit'});
+            document.getElementById('f-id').innerText = '#' + String(pedido.id || 1).padStart(6, '0');
+            const fecha = new Date(pedido.creado_en || Date.now());
+            document.getElementById('f-fecha').innerText = fecha.toLocaleDateString('es-SV') + ' ' + fecha.toLocaleTimeString('es-SV', { hour: '2-digit', minute: '2-digit' });
 
             // Cliente
-            document.getElementById('f-nombre').innerText = pedido.cliente_nombre || 'Cliente Final';
-            document.getElementById('f-telefono').innerText = pedido.cliente_telefono || '';
-            document.getElementById('f-direccion').innerText = pedido.direccion || '';
-            if(pedido.dui) {
+            document.getElementById('f-nombre').innerText = pedido.cliente_nombre || 'Cliente Martex';
+            document.getElementById('f-tel-val').innerText = pedido.cliente_telefono || '+503 ****-****';
+            document.getElementById('f-direccion').innerText = pedido.direccion || 'Entrega a domicilio';
+            if (pedido.dui) {
                 document.getElementById('f-dui').innerText = 'DUI: ' + pedido.dui;
             }
 
@@ -223,35 +335,39 @@
             const itemsContainer = document.getElementById('f-items');
             let htmlItems = '';
             
-            // Los items vienen como arreglo en pedido.items
             let parsedItems = pedido.items;
-            if(typeof parsedItems === 'string') {
+            if (typeof parsedItems === 'string') {
                 try { parsedItems = JSON.parse(parsedItems); } catch(e){}
             }
 
-            if(parsedItems && parsedItems.length > 0) {
-                // Filtrar nulls (json_agg a veces retorna un [null] si no hay match, aunque aqui debería haber)
-                parsedItems = parsedItems.filter(i => i && i.id);
+            if (parsedItems && parsedItems.length > 0) {
+                parsedItems.filter(i => i && (i.producto_nombre || i.nombre || i.id)).forEach(item => {
+                    const nombre = item.producto_nombre || item.nombre || 'Prenda Martex';
+                    const talla = item.talla || 'M';
+                    const cant = parseInt(item.cantidad) || 1;
+                    const precioUnit = parseFloat(item.precio_unitario || item.precio || 0);
+                    const totalItem = precioUnit * cant;
 
-                parsedItems.forEach(item => {
-                    const totalItem = parseFloat(item.precio_unitario) * parseInt(item.cantidad);
                     htmlItems += `
-                        <tr class="border-b border-gray-50">
-                            <td class="py-4">
-                                <p class="font-semibold text-azul-marino">${item.producto_nombre}</p>
-                                <p class="text-xs text-gray-500">Talla: ${item.talla}</p>
+                        <tr class="border-b border-gray-50 hover:bg-gray-50/50 transition-colors">
+                            <td class="py-3.5 pr-3">
+                                <p class="font-bold text-azul-marino text-sm">${nombre}</p>
+                                <span class="inline-block text-[11px] font-semibold text-verde-quirurgico bg-verde-quirurgico/10 px-2 py-0.5 rounded-md mt-0.5">Talla: ${talla}</span>
                             </td>
-                            <td class="py-4 text-center text-gray-600">${item.cantidad}</td>
-                            <td class="py-4 text-right text-gray-600">$${parseFloat(item.precio_unitario).toFixed(2)}</td>
-                            <td class="py-4 text-right font-semibold text-azul-marino">$${totalItem.toFixed(2)}</td>
+                            <td class="py-3.5 text-center font-semibold text-gray-700">${cant}</td>
+                            <td class="py-3.5 text-right text-gray-600 font-medium">$${precioUnit.toFixed(2)}</td>
+                            <td class="py-3.5 text-right font-bold text-azul-marino">$${totalItem.toFixed(2)}</td>
                         </tr>
                     `;
                 });
+            } else {
+                htmlItems = '<tr><td colspan="4" class="py-4 text-center text-gray-400">Sin items detallados</td></tr>';
             }
             itemsContainer.innerHTML = htmlItems;
 
             // Totales
-            const totalStr = parseFloat(pedido.total).toFixed(2);
+            const totalNum = parseFloat(pedido.total) || 0;
+            const totalStr = totalNum.toFixed(2);
             document.getElementById('f-subtotal').innerText = '$' + totalStr;
             document.getElementById('f-total').innerText = '$' + totalStr;
 
@@ -259,22 +375,27 @@
             const mNombre = document.getElementById('f-metodo-nombre');
             const mDesc = document.getElementById('f-metodo-desc');
             const mIcon = document.getElementById('f-metodo-icon');
+            const boxCuscatlan = document.getElementById('box-banco-cuscatlan');
             
-            const mp = pedido.metodo_pago;
+            const mp = pedido.metodo_pago || 'Deposito';
             mNombre.innerText = mp;
 
             if (mp === 'Efectivo') {
-                mIcon.className = 'fas fa-money-bill-wave text-xl text-verde-quirurgico mt-1';
-                mDesc.innerText = 'Pago contra entrega. Por favor tenga el efectivo exacto de ser posible.';
+                mIcon.className = 'fas fa-money-bill-wave text-xl text-verde-quirurgico';
+                mDesc.innerText = 'Pago en efectivo contra entrega al recibir tu paquete.';
+                if (boxCuscatlan) boxCuscatlan.style.display = 'none';
             } else if (mp === 'Deposito' || mp === 'Depósito') {
-                mIcon.className = 'fas fa-university text-xl text-verde-quirurgico mt-1';
-                mDesc.innerText = 'El pedido se procesará al confirmar el depósito bancario.';
+                mIcon.className = 'fas fa-building-columns text-xl text-verde-quirurgico';
+                mDesc.innerText = 'Depósito en ventanilla o cajero de Banco Cuscatlán.';
+                if (boxCuscatlan) boxCuscatlan.style.display = 'block';
             } else if (mp === 'Transferencia') {
-                mIcon.className = 'fas fa-mobile-alt text-xl text-verde-quirurgico mt-1';
-                mDesc.innerText = 'El pedido se procesará al confirmar la transferencia electrónica (Ej. UNI, Chivo Wallet, etc).';
+                mIcon.className = 'fas fa-mobile-screen-button text-xl text-verde-quirurgico';
+                mDesc.innerText = 'Transferencia electrónica bancaria (Transfer365 / UNI / Cuscatlán en línea).';
+                if (boxCuscatlan) boxCuscatlan.style.display = 'block';
             } else {
-                mIcon.className = 'fas fa-credit-card text-xl text-verde-quirurgico mt-1';
-                mDesc.innerText = 'Pago registrado en el sistema.';
+                mIcon.className = 'fas fa-credit-card text-xl text-verde-quirurgico';
+                mDesc.innerText = 'Pago registrado y verificado en la plataforma.';
+                if (boxCuscatlan) boxCuscatlan.style.display = 'none';
             }
         }
     </script>
