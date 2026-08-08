@@ -14,9 +14,25 @@ const storage = multer.diskStorage({
     }
 });
 
-const upload = multer({ storage: storage });
+const fileFilter = (req, file, cb) => {
+    const allowedMimeTypes = ['image/jpeg', 'image/png', 'image/webp'];
+    if (allowedMimeTypes.includes(file.mimetype)) {
+        cb(null, true);
+    } else {
+        cb(new Error('Tipo de archivo no permitido. Solo se permiten imágenes (JPG, PNG, WebP).'), false);
+    }
+};
+
+const upload = multer({ 
+    storage: storage,
+    limits: { fileSize: 5 * 1024 * 1024 }, // 5MB limit
+    fileFilter: fileFilter
+});
+const { verificarCliente } = require('../middlewares/auth');
 
 router.get('/', pedidosController.getAll);
+router.get('/mis-pedidos', verificarCliente, pedidosController.getByCliente);
+router.get('/:id', pedidosController.getById);
 router.post('/', upload.single('comprobante'), pedidosController.create);
 router.put('/:id/estado', pedidosController.updateStatus);
 

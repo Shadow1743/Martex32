@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mi Cuenta | Martex</title>
+    <meta name="description" content="Gestiona tu cuenta Martex: pedidos, favoritos, medidas y perfil.">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🩺</text></svg>">
+    
+    <script src="../config.js"></script>
+    <script src="../sistema/js/security.js"></script>
+    <script src="/tailwind-cdn.js"></script>
+    <script src="js/tailwind-config.js"></script>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <script src="componentes/navbar.js" defer></script>
+    <script src="componentes/footer.js" defer></script>
+    <script src="componentes/auth-modal.js" defer></script>
+</head>
+
+<body class="bg-gray-50 text-azul-marino flex flex-col min-h-screen">
+    
+    <main-navbar></main-navbar>
+
+    <!-- Spacer for fixed navbar -->
+    <div class="pt-24"></div>
+
+    <!-- Guest State -->
+    <section id="guest-state" class="hidden max-w-lg mx-auto px-6 py-20 text-center">
+        <div class="w-20 h-20 bg-verde-quirurgico/10 rounded-3xl flex items-center justify-center mx-auto mb-6">
+            <i class="fas fa-user-lock text-verde-quirurgico text-3xl"></i>
+        </div>
+        <h2 class="font-display text-3xl font-bold text-azul-marino mb-4">Inicia sesión para continuar</h2>
+        <p class="text-gray-500 mb-8">Crea una cuenta o inicia sesión para ver tus pedidos, favoritos y medidas guardadas.</p>
+        <button id="guest-login-btn" class="bg-verde-quirurgico hover:bg-verde-quirurgico-dark text-white font-bold py-3.5 px-10 rounded-full transition-all shadow-lg hover:shadow-glow hover:-translate-y-1">
+            <i class="fas fa-sign-in-alt mr-2"></i> Iniciar Sesión
+        </button>
+    </section>
+
+    <!-- Logged-in State -->
+    <section id="account-section" class="hidden max-w-6xl mx-auto px-6 pb-20">
+        
+        <!-- Header -->
+        <div class="mb-8">
+            <div class="flex items-center gap-4 mb-2">
+                <div id="profile-avatar" class="w-14 h-14 rounded-2xl bg-gradient-to-br from-verde-quirurgico to-azul-pantera flex items-center justify-center text-white text-xl font-bold shadow-md">U</div>
+                <div>
+                    <h1 class="font-display text-3xl font-bold" id="profile-name">Mi Cuenta</h1>
+                    <p class="text-gray-400 text-sm" id="profile-email">cargando...</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Tabs -->
+        <div class="flex gap-1 bg-white rounded-2xl p-1.5 shadow-sm border border-gray-100 mb-8 overflow-x-auto">
+            <button class="account-tab active flex items-center gap-2 px-5 py-3 rounded-xl text-sm font-semibold transition-all whitespace-nowrap" data-tab="perfil">
+                <i class="fas fa-user"></i> Perfil
+            </button>
+            <button class="account-tab flex items-center gap-2 px-5 py-3 rounded-xl text-sm font-semibold transition-all whitespace-nowrap" data-tab="pedidos">
+                <i class="fas fa-box"></i> Mis Pedidos
+            </button>
+            <button class="account-tab flex items-center gap-2 px-5 py-3 rounded-xl text-sm font-semibold transition-all whitespace-nowrap" data-tab="favoritos">
+                <i class="fas fa-heart"></i> Favoritos
+            </button>
+        </div>
+
+        <!-- Tab: Perfil -->
+        <div id="tab-perfil" class="tab-content">
+            <div class="bg-white rounded-3xl p-8 shadow-sm border border-gray-100 max-w-2xl">
+                <h2 class="font-display text-xl font-bold mb-6 flex items-center gap-2">
+                    <i class="fas fa-user-edit text-verde-quirurgico"></i> Datos Personales
+                </h2>
+                <form id="profile-form" class="space-y-5">
+                    <div>
+                        <label class="block text-xs font-bold uppercase tracking-wider text-gray-400 mb-2">Nombre Completo</label>
+                        <input type="text" name="nombre" id="input-nombre" required class="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 text-sm focus:border-verde-quirurgico focus:ring-2 focus:ring-verde-quirurgico/20 outline-none transition-all">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-bold uppercase tracking-wider text-gray-400 mb-2">Correo Electrónico</label>
+                        <input type="email" id="input-email" disabled class="w-full bg-gray-100 border border-gray-200 rounded-xl px-4 py-3 text-sm text-gray-500 cursor-not-allowed">
+                        <p class="text-xs text-gray-400 mt-1">El correo no se puede cambiar</p>
+                    </div>
+                    <div>
+                        <label class="block text-xs font-bold uppercase tracking-wider text-gray-400 mb-2">Teléfono</label>
+                        <input type="tel" name="telefono" id="input-telefono" class="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 text-sm focus:border-verde-quirurgico focus:ring-2 focus:ring-verde-quirurgico/20 outline-none transition-all" placeholder="+503 7000-0000">
+                    </div>
+                    <button type="submit" class="bg-verde-quirurgico hover:bg-verde-quirurgico-dark text-white font-bold py-3 px-8 rounded-xl transition-all shadow-md hover:shadow-lg text-sm">
+                        <i class="fas fa-save mr-2"></i> Guardar Cambios
+                    </button>
+                </form>
+            </div>
+        </div>
+
+        <!-- Tab: Pedidos -->
+        <div id="tab-pedidos" class="tab-content hidden">
+            <div class="bg-white rounded-3xl p-8 shadow-sm border border-gray-100">
+                <h2 class="font-display text-xl font-bold mb-6 flex items-center gap-2">
+                    <i class="fas fa-box text-verde-quirurgico"></i> Historial de Pedidos
+                </h2>
+                <div id="pedidos-lista" class="space-y-4">
+                    <div class="text-center py-12 text-gray-400">
+                        <i class="fas fa-spinner fa-spin text-2xl mb-3 block"></i>
+                        <p>Cargando pedidos...</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Tab: Favoritos -->
+        <div id="tab-favoritos" class="tab-content hidden">
+            <div class="bg-white rounded-3xl p-8 shadow-sm border border-gray-100">
+                <h2 class="font-display text-xl font-bold mb-6 flex items-center gap-2">
+                    <i class="fas fa-heart text-red-500"></i> Mis Favoritos
+                </h2>
+                <div id="favoritos-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    <div class="text-center py-12 text-gray-400 col-span-full">
+                        <i class="fas fa-spinner fa-spin text-2xl mb-3 block"></i>
+                        <p>Cargando favoritos...</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </section>
+
+
+
+    <auth-modal></auth-modal>
+    <footer-component></footer-component>
+
+    <a href="https://wa.me/50360497383?text=Hola,%20quisiera%20más%20información%20sobre%20los%20uniformes" class="whatsapp-float" target="_blank" rel="noopener noreferrer" aria-label="Contactar por WhatsApp">
+        <i class="fab fa-whatsapp"></i>
+    </a>
+
+    <script src="js/carrito.js"></script>
+    <script src="js/mi-cuenta.js"></script>
+    <!-- Social SDKs -->
+    <script src="https://accounts.google.com/gsi/client" async defer></script>
+    <script async defer crossorigin="anonymous" src="https://connect.facebook.net/es_LA/sdk.js"></script>
+</body>
+</html>

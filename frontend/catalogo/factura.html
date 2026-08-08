@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Comprobante de Pedido | Martex</title>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🩺</text></svg>">
+    
+    <script src="../config.js"></script>
+    <script src="/tailwind-cdn.js"></script>
+    <script src="js/tailwind-config.js"></script>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        @media print {
+            .no-print { display: none !important; }
+            body { background-color: white !important; -webkit-print-color-adjust: exact; }
+            .print-shadow-none { box-shadow: none !important; border: 1px solid #e5e7eb; }
+            .page-break { page-break-after: always; }
+        }
+    </style>
+</head>
+<body class="bg-gray-100 text-azul-marino min-h-screen p-4 md:p-8 flex items-center justify-center">
+
+    <div class="max-w-3xl w-full bg-white rounded-3xl shadow-xl overflow-hidden print-shadow-none" id="factura-container" style="display:none;">
+        
+        <!-- Encabezado de Factura -->
+        <div class="bg-azul-marino p-8 text-white flex justify-between items-center print-shadow-none" style="background-color: #0A1128 !important;">
+            <div>
+                <h1 class="text-3xl font-display font-bold tracking-wider">MARTEX</h1>
+                <p class="text-sm text-gray-300 mt-1">Uniformes Médicos & Profesionales</p>
+            </div>
+            <div class="text-right">
+                <h2 class="text-2xl font-bold text-verde-quirurgico uppercase" style="color: #00B4D8 !important;">Factura</h2>
+                <p class="text-sm text-gray-300 mt-1"># Pedido: <span id="f-id" class="font-bold text-white"></span></p>
+                <p class="text-sm text-gray-300">Fecha: <span id="f-fecha" class="text-white"></span></p>
+            </div>
+        </div>
+
+        <!-- Detalles Cliente y Martex -->
+        <div class="p-8 grid grid-cols-1 md:grid-cols-2 gap-8 border-b border-gray-100">
+            <div>
+                <h3 class="text-xs font-bold text-gray-400 uppercase tracking-widest mb-2">Facturado a:</h3>
+                <p id="f-nombre" class="font-bold text-lg"></p>
+                <p id="f-telefono" class="text-gray-600 mt-1"></p>
+                <p id="f-direccion" class="text-gray-600"></p>
+                <p id="f-dui" class="text-gray-600"></p>
+            </div>
+            <div class="md:text-right">
+                <h3 class="text-xs font-bold text-gray-400 uppercase tracking-widest mb-2">Emitido por:</h3>
+                <p class="font-bold text-lg">Martex El Salvador</p>
+                <p class="text-gray-600 mt-1">San Salvador, El Salvador</p>
+                <p class="text-gray-600">info@martex.com.sv</p>
+            </div>
+        </div>
+
+        <!-- Tabla de Items -->
+        <div class="p-8">
+            <table class="w-full text-left border-collapse">
+                <thead>
+                    <tr class="border-b-2 border-gray-100">
+                        <th class="pb-3 font-semibold text-gray-600">Descripción</th>
+                        <th class="pb-3 font-semibold text-gray-600 text-center">Cant.</th>
+                        <th class="pb-3 font-semibold text-gray-600 text-right">Precio Unit.</th>
+                        <th class="pb-3 font-semibold text-gray-600 text-right">Total</th>
+                    </tr>
+                </thead>
+                <tbody id="f-items">
+                    <!-- Items inyectados via JS -->
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Totales y Mensaje Pago -->
+        <div class="bg-gray-50 p-8 flex flex-col md:flex-row justify-between items-start md:items-center">
+            
+            <div class="w-full md:w-1/2 mb-6 md:mb-0">
+                <h3 class="text-sm font-bold text-gray-700 mb-2">Método de Pago:</h3>
+                <div class="bg-white p-4 rounded-xl border border-gray-200 shadow-sm flex items-start gap-3">
+                    <i id="f-metodo-icon" class="fas text-xl text-verde-quirurgico mt-1"></i>
+                    <div>
+                        <p id="f-metodo-nombre" class="font-bold text-azul-marino"></p>
+                        <p id="f-metodo-desc" class="text-xs text-gray-500 mt-1"></p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="w-full md:w-1/3">
+                <div class="flex justify-between items-center mb-2">
+                    <span class="text-gray-600">Subtotal:</span>
+                    <span id="f-subtotal" class="font-semibold text-gray-800"></span>
+                </div>
+                <div class="flex justify-between items-center mb-4 pb-4 border-b border-gray-200">
+                    <span class="text-gray-600">Envío:</span>
+                    <span class="font-semibold text-verde-quirurgico">Gratis</span>
+                </div>
+                <div class="flex justify-between items-center text-xl">
+                    <span class="font-display font-bold text-azul-marino">Total:</span>
+                    <span id="f-total" class="font-display font-bold text-azul-marino"></span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Mensaje de agradecimiento -->
+        <div class="p-6 text-center text-gray-500 text-sm border-t border-gray-100">
+            <p>¡Gracias por confiar en Martex! Esperamos que disfrutes tus uniformes.</p>
+        </div>
+    </div>
+
+    <!-- Loading State -->
+    <div id="loading" class="text-center text-gray-500 py-20 w-full flex flex-col items-center justify-center">
+        <i class="fas fa-spinner fa-spin text-4xl mb-4 text-verde-quirurgico"></i>
+        <p>Generando factura...</p>
+    </div>
+
+    <!-- Error State -->
+    <div id="error" class="hidden text-center text-red-500 py-20 w-full flex flex-col items-center justify-center max-w-md bg-white rounded-2xl shadow-md p-8">
+        <i class="fas fa-exclamation-circle text-5xl mb-4"></i>
+        <h2 class="text-2xl font-bold mb-2 text-azul-marino">¡Ups!</h2>
+        <p>No se pudo cargar la factura. Verifica el enlace o contacta a soporte.</p>
+        <a href="index.html" class="mt-6 inline-block bg-azul-marino text-white px-6 py-2 rounded-lg font-semibold hover:bg-azul-pantera transition">Volver a inicio</a>
+    </div>
+
+    <!-- Controles (No imprimibles) -->
+    <div class="fixed bottom-6 right-6 flex flex-col gap-3 no-print" id="controls" style="display:none;">
+        <button onclick="window.print()" class="bg-verde-quirurgico hover:bg-teal-500 text-white w-14 h-14 rounded-full shadow-lg flex items-center justify-center text-xl transition-transform hover:scale-110" title="Imprimir Factura">
+            <i class="fas fa-print"></i>
+        </button>
+        <a href="index.html" class="bg-azul-marino hover:bg-azul-pantera text-white w-14 h-14 rounded-full shadow-lg flex items-center justify-center text-xl transition-transform hover:scale-110" title="Volver a Inicio">
+            <i class="fas fa-home"></i>
+        </a>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', async () => {
+            const urlParams = new URLSearchParams(window.location.search);
+            const pedidoId = urlParams.get('id');
+
+            if (!pedidoId) {
+                mostrarError();
+                return;
+            }
+
+            try {
+                const res = await fetch(CONFIG.API_URL + '/pedidos/' + pedidoId);
+                if (!res.ok) throw new Error('Pedido no encontrado');
+                const pedido = await res.json();
+                
+                renderizarFactura(pedido);
+            } catch (error) {
+                console.error(error);
+                mostrarError();
+            }
+        });
+
+        function mostrarError() {
+            document.getElementById('loading').style.display = 'none';
+            document.getElementById('error').classList.remove('hidden');
+        }
+
+        function renderizarFactura(pedido) {
+            document.getElementById('loading').style.display = 'none';
+            document.getElementById('factura-container').style.display = 'block';
+            document.getElementById('controls').style.display = 'flex';
+
+            // Datos generales
+            document.getElementById('f-id').innerText = pedido.id.toString().padStart(6, '0');
+            const fecha = new Date(pedido.creado_en);
+            document.getElementById('f-fecha').innerText = fecha.toLocaleDateString('es-SV') + ' ' + fecha.toLocaleTimeString('es-SV', {hour: '2-digit', minute:'2-digit'});
+
+            // Cliente
+            document.getElementById('f-nombre').innerText = pedido.cliente_nombre || 'Cliente Final';
+            document.getElementById('f-telefono').innerText = pedido.cliente_telefono || '';
+            document.getElementById('f-direccion').innerText = pedido.direccion || '';
+            if(pedido.dui) {
+                document.getElementById('f-dui').innerText = 'DUI: ' + pedido.dui;
+            }
+
+            // Items
+            const itemsContainer = document.getElementById('f-items');
+            let htmlItems = '';
+            
+            // Los items vienen como arreglo en pedido.items
+            let parsedItems = pedido.items;
+            if(typeof parsedItems === 'string') {
+                try { parsedItems = JSON.parse(parsedItems); } catch(e){}
+            }
+
+            if(parsedItems && parsedItems.length > 0) {
+                // Filtrar nulls (json_agg a veces retorna un [null] si no hay match, aunque aqui debería haber)
+                parsedItems = parsedItems.filter(i => i && i.id);
+
+                parsedItems.forEach(item => {
+                    const totalItem = parseFloat(item.precio_unitario) * parseInt(item.cantidad);
+                    htmlItems += `
+                        <tr class="border-b border-gray-50">
+                            <td class="py-4">
+                                <p class="font-semibold text-azul-marino">${item.producto_nombre}</p>
+                                <p class="text-xs text-gray-500">Talla: ${item.talla}</p>
+                            </td>
+                            <td class="py-4 text-center text-gray-600">${item.cantidad}</td>
+                            <td class="py-4 text-right text-gray-600">$${parseFloat(item.precio_unitario).toFixed(2)}</td>
+                            <td class="py-4 text-right font-semibold text-azul-marino">$${totalItem.toFixed(2)}</td>
+                        </tr>
+                    `;
+                });
+            }
+            itemsContainer.innerHTML = htmlItems;
+
+            // Totales
+            const totalStr = parseFloat(pedido.total).toFixed(2);
+            document.getElementById('f-subtotal').innerText = '$' + totalStr;
+            document.getElementById('f-total').innerText = '$' + totalStr;
+
+            // Método de Pago
+            const mNombre = document.getElementById('f-metodo-nombre');
+            const mDesc = document.getElementById('f-metodo-desc');
+            const mIcon = document.getElementById('f-metodo-icon');
+            
+            const mp = pedido.metodo_pago;
+            mNombre.innerText = mp;
+
+            if (mp === 'Efectivo') {
+                mIcon.className = 'fas fa-money-bill-wave text-xl text-verde-quirurgico mt-1';
+                mDesc.innerText = 'Pago contra entrega. Por favor tenga el efectivo exacto de ser posible.';
+            } else if (mp === 'Deposito' || mp === 'Depósito') {
+                mIcon.className = 'fas fa-university text-xl text-verde-quirurgico mt-1';
+                mDesc.innerText = 'El pedido se procesará al confirmar el depósito bancario.';
+            } else if (mp === 'Transferencia') {
+                mIcon.className = 'fas fa-mobile-alt text-xl text-verde-quirurgico mt-1';
+                mDesc.innerText = 'El pedido se procesará al confirmar la transferencia electrónica (Ej. UNI, Chivo Wallet, etc).';
+            } else {
+                mIcon.className = 'fas fa-credit-card text-xl text-verde-quirurgico mt-1';
+                mDesc.innerText = 'Pago registrado en el sistema.';
+            }
+        }
+    </script>
+</body>
+</html>

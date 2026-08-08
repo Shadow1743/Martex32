@@ -4,26 +4,30 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Checkout | Martex</title>
+    <meta name="description" content="Finaliza tu compra de uniformes médicos y profesionales Martex. Pago seguro.">
+    <meta name="robots" content="noindex, nofollow">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🩺</text></svg>">
+    
     <script src="../config.js"></script>
-    <script src="../sistema/js/security.js"></script>
-    <script src="/tailwind-cdn.js"></script>
+    <script src="../sistema/js/security.js"></script><script src="/tailwind-cdn.js"></script>
     <script src="js/tailwind-config.js"></script>
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <script src="componentes/navbar.js" defer></script>
     <script src="componentes/footer.js" defer></script>
+    <script src="componentes/auth-modal.js" defer></script>
 </head>
 <body class="bg-gray-50 text-azul-marino flex flex-col min-h-screen">
     <main-navbar></main-navbar>
 
-    <div class="pt-24 bg-azul-marino text-white pb-12">
-        <div class="container mx-auto px-6 text-center">
-            <h1 class="text-4xl font-display font-bold mb-4">Finalizar Compra</h1>
-            <p class="text-gray-300">Estás a un paso de recibir tus uniformes premium.</p>
+    <div class="pt-24 bg-azul-marino text-white pb-8 sm:pb-12">
+        <div class="container mx-auto px-5 sm:px-6 text-center">
+            <h1 class="text-3xl sm:text-4xl font-display font-bold mb-3 sm:mb-4">Finalizar Compra</h1>
+            <p class="text-gray-300 text-sm sm:text-base">Estás a un paso de recibir tus uniformes.</p>
         </div>
     </div>
 
-    <main class="flex-grow container mx-auto px-6 py-12 flex flex-col lg:flex-row gap-10 max-w-6xl">
+    <main class="flex-grow container mx-auto px-4 sm:px-6 py-8 sm:py-12 flex flex-col lg:flex-row gap-8 sm:gap-10 max-w-6xl">
         <!-- Formulario -->
         <div class="w-full lg:w-2/3">
             <form id="checkout-form" class="space-y-8">
@@ -67,7 +71,7 @@
                             <div class="ml-4 flex items-center justify-between w-full">
                                 <div>
                                     <span class="block font-bold text-azul-marino">Depósito Bancario</span>
-                                    <span class="text-sm text-gray-500">A cuenta de Banco Agrícola.</span>
+                                    <span class="text-sm text-gray-500">A cuenta de Banco Cuscatlán.</span>
                                 </div>
                                 <i class="fas fa-university text-2xl text-gray-300 group-hover:text-verde-quirurgico transition-colors"></i>
                             </div>
@@ -135,6 +139,15 @@
             const container = document.getElementById('checkout-items');
             const subtotalEl = document.getElementById('checkout-subtotal');
             const totalEl = document.getElementById('checkout-total');
+
+            // Pre-llenar datos del cliente si está logueado
+            try {
+                const clienteData = JSON.parse(localStorage.getItem('cliente'));
+                if (clienteData) {
+                    if (clienteData.nombre) document.getElementById('cliente_nombre').value = clienteData.nombre;
+                    if (clienteData.telefono) document.getElementById('cliente_telefono').value = clienteData.telefono;
+                }
+            } catch(e) {}
             
             if (carrito.length === 0) {
                 container.innerHTML = '<p class="text-gray-400 text-sm">No hay productos en tu carrito.</p>';
@@ -191,17 +204,26 @@
                 }))
             };
 
+            // Construir headers — incluir token de cliente si está logueado
+            const headers = { 'Content-Type': 'application/json' };
+            const clienteToken = localStorage.getItem('cliente_token');
+            if (clienteToken) {
+                headers['Authorization'] = `Bearer ${clienteToken}`;
+            }
+
             try {
                 const res = await fetch(CONFIG.API_URL + '/pedidos', {
                     method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
+                    headers: headers,
                     body: JSON.stringify(payload)
                 });
 
                 if (res.ok) {
-                    alert('¡Gracias por tu compra! Tu pedido ha sido enviado al sistema de Martex. Nos pondremos en contacto contigo.');
+                    const data = await res.json();
+                    alert('¡Gracias por tu compra! Tu pedido ha sido procesado exitosamente.');
                     localStorage.removeItem('martex_carrito');
-                    window.location.href = 'index.html';
+                    window.dispatchEvent(new CustomEvent('carrito_actualizado'));
+                    window.location.href = 'factura.html?id=' + data.id;
                 } else {
                     alert('Hubo un error al procesar el pedido. Intenta nuevamente.');
                 }
@@ -214,5 +236,9 @@
             }
         }
     </script>
+    <auth-modal></auth-modal>
+    <!-- Social SDKs -->
+    <script src="https://accounts.google.com/gsi/client" async defer></script>
+    <script async defer crossorigin="anonymous" src="https://connect.facebook.net/es_LA/sdk.js"></script>
 </body>
 </html>

@@ -14,6 +14,13 @@ class MainNavbar extends HTMLElement {
         this.clickCount = 0;
         this.clickTimeout = null;
 
+        const isLoggedIn = !!localStorage.getItem('cliente_token');
+        let clienteNombre = '';
+        try {
+            const c = JSON.parse(localStorage.getItem('cliente'));
+            if (c) clienteNombre = c.nombre;
+        } catch(e) {}
+
         this.innerHTML = `
             <div class="fixed w-full top-4 z-50 px-4 transition-all duration-300" id="navbar-container">
                 <nav class="max-w-6xl mx-auto glass-dark text-white rounded-full px-6 py-3 shadow-glass border border-white/10 transition-all duration-300 flex justify-between items-center">
@@ -32,15 +39,51 @@ class MainNavbar extends HTMLElement {
                     </div>
                     
                     <!-- Acciones -->
-                    <div class="flex items-center gap-4">
+                    <div class="flex items-center gap-3">
                         <!-- Toggle de Tema Claro/Oscuro -->
                         <button id="theme-toggle" class="w-10 h-10 rounded-full flex items-center justify-center text-white/80 hover:text-white hover:bg-white/10 transition-all duration-300 text-lg" aria-label="Cambiar Tema">
                             <i id="theme-icon" class="fas fa-moon"></i>
                         </button>
                         
+                        <!-- Botón Mi Cuenta -->
+                        <div class="relative" id="account-dropdown-container">
+                            ${isLoggedIn ? `
+                                <button id="account-btn" class="flex items-center gap-2 bg-white/10 hover:bg-white/20 px-3 py-2 rounded-full transition-all duration-300 text-sm">
+                                    <div class="w-7 h-7 rounded-full bg-verde-quirurgico flex items-center justify-center text-xs font-bold text-white">${(clienteNombre || 'U').charAt(0).toUpperCase()}</div>
+                                    <span class="hidden sm:inline text-white/90 font-medium max-w-[80px] truncate">${clienteNombre ? clienteNombre.split(' ')[0] : 'Mi Cuenta'}</span>
+                                    <i class="fas fa-chevron-down text-[10px] text-white/50"></i>
+                                </button>
+                                <div id="account-dropdown" class="invisible opacity-0 absolute right-0 top-full mt-2 w-56 bg-white rounded-2xl shadow-2xl border border-gray-100 py-2 transform scale-95 transition-all duration-200 z-50">
+                                    <div class="px-4 py-3 border-b border-gray-100">
+                                        <p class="text-sm font-bold text-azul-marino truncate">${clienteNombre || 'Mi Cuenta'}</p>
+                                        <p class="text-xs text-gray-400">Cliente Martex</p>
+                                    </div>
+                                    <a href="mi-cuenta.html" class="flex items-center gap-3 px-4 py-2.5 text-sm text-gray-600 hover:bg-gray-50 hover:text-verde-quirurgico transition-colors">
+                                        <i class="fas fa-user w-4 text-center"></i> Mi Perfil
+                                    </a>
+                                    <a href="mi-cuenta.html#pedidos" class="flex items-center gap-3 px-4 py-2.5 text-sm text-gray-600 hover:bg-gray-50 hover:text-verde-quirurgico transition-colors">
+                                        <i class="fas fa-box w-4 text-center"></i> Mis Pedidos
+                                    </a>
+                                    <a href="mi-cuenta.html#favoritos" class="flex items-center gap-3 px-4 py-2.5 text-sm text-gray-600 hover:bg-gray-50 hover:text-verde-quirurgico transition-colors">
+                                        <i class="fas fa-heart w-4 text-center"></i> Mis Favoritos
+                                    </a>
+                                    <div class="border-t border-gray-100 mt-1 pt-1">
+                                        <button id="client-logout-btn" class="flex items-center gap-3 px-4 py-2.5 text-sm text-red-500 hover:bg-red-50 transition-colors w-full text-left">
+                                            <i class="fas fa-sign-out-alt w-4 text-center"></i> Cerrar Sesión
+                                        </button>
+                                    </div>
+                                </div>
+                            ` : `
+                                <button id="login-btn" class="flex items-center gap-2 bg-white/10 hover:bg-white/20 px-4 py-2.5 rounded-full transition-all duration-300 text-sm font-medium">
+                                    <i class="fas fa-user text-xs"></i>
+                                    <span class="hidden sm:inline">Mi Cuenta</span>
+                                </button>
+                            `}
+                        </div>
+                        
                         <button id="nav-cart-btn" class="group relative flex items-center gap-2 bg-verde-quirurgico hover:bg-verde-quirurgico-dark px-5 py-2.5 rounded-full transition-all duration-300 shadow-glow hover:scale-105">
                             <i class="fas fa-shopping-cart text-sm"></i>
-                            <span class="font-semibold text-sm">Carrito</span>
+                            <span class="font-semibold text-sm hidden sm:inline">Carrito</span>
                             <span id="cart-count" class="absolute -top-2 -right-2 bg-white text-azul-marino w-6 h-6 rounded-full flex items-center justify-center text-xs font-bold border-2 border-verde-quirurgico">0</span>
                         </button>
                         
@@ -59,6 +102,22 @@ class MainNavbar extends HTMLElement {
                     <a href="index.html" class="text-2xl font-bold text-white hover:text-verde-quirurgico transition-colors">Inicio</a>
                     <a href="nosotros.html" class="text-2xl font-bold text-white hover:text-verde-quirurgico transition-colors">Nosotros</a>
                     <a href="catalogo.html" class="text-2xl font-bold text-white hover:text-verde-quirurgico transition-colors">Catálogo</a>
+                    ${isLoggedIn ? `
+                        <div class="border-t border-white/10 pt-6 w-48 text-center space-y-4">
+                            <a href="mi-cuenta.html" class="block text-lg font-semibold text-verde-quirurgico hover:text-white transition-colors">
+                                <i class="fas fa-user mr-2"></i>Mi Cuenta
+                            </a>
+                            <button class="mobile-logout text-lg font-semibold text-red-400 hover:text-red-300 transition-colors">
+                                <i class="fas fa-sign-out-alt mr-2"></i>Cerrar Sesión
+                            </button>
+                        </div>
+                    ` : `
+                        <div class="border-t border-white/10 pt-6">
+                            <button class="mobile-login text-xl font-bold text-verde-quirurgico hover:text-white transition-colors">
+                                <i class="fas fa-user mr-2"></i>Iniciar Sesión
+                            </button>
+                        </div>
+                    `}
                 </div>
             </div>
         `;
@@ -127,14 +186,29 @@ class MainNavbar extends HTMLElement {
         const closeMobileMenuBtn = this.querySelector('#close-mobile-menu');
         const mobileMenu = this.querySelector('#mobile-menu');
         
-        if (mobileMenuBtn && mobileMenu) {
-            mobileMenuBtn.addEventListener('click', () => {
+        const openMobileMenu = () => {
+            if (mobileMenu) {
                 mobileMenu.classList.remove('translate-x-full');
-            });
-        }
-        if (closeMobileMenuBtn && mobileMenu) {
-            closeMobileMenuBtn.addEventListener('click', () => {
+                document.body.classList.add('menu-open');
+            }
+        };
+        const closeMobileMenu = () => {
+            if (mobileMenu) {
                 mobileMenu.classList.add('translate-x-full');
+                document.body.classList.remove('menu-open');
+            }
+        };
+
+        if (mobileMenuBtn) {
+            mobileMenuBtn.addEventListener('click', openMobileMenu);
+        }
+        if (closeMobileMenuBtn) {
+            closeMobileMenuBtn.addEventListener('click', closeMobileMenu);
+        }
+        // Auto-close mobile menu when a navigation link is clicked
+        if (mobileMenu) {
+            mobileMenu.querySelectorAll('a').forEach(link => {
+                link.addEventListener('click', closeMobileMenu);
             });
         }
 
@@ -164,7 +238,73 @@ class MainNavbar extends HTMLElement {
         window.addEventListener('carrito_actualizado', updateCartCount);
         // Llamar inicialmente para setear valor on-load
         setTimeout(updateCartCount, 50);
+
+        // ===== ACCOUNT BUTTON LOGIC =====
+        const loginBtn = this.querySelector('#login-btn');
+        if (loginBtn) {
+            loginBtn.addEventListener('click', () => {
+                const modal = document.querySelector('auth-modal');
+                if (modal) modal.open('login');
+            });
+        }
+
+        // Mobile login button
+        const mobileLoginBtn = this.querySelector('.mobile-login');
+        if (mobileLoginBtn) {
+            mobileLoginBtn.addEventListener('click', () => {
+                closeMobileMenu();
+                const modal = document.querySelector('auth-modal');
+                if (modal) modal.open('login');
+            });
+        }
+
+        // Account dropdown toggle
+        const accountBtn = this.querySelector('#account-btn');
+        const accountDropdown = this.querySelector('#account-dropdown');
+        if (accountBtn && accountDropdown) {
+            accountBtn.addEventListener('click', () => {
+                const isVisible = !accountDropdown.classList.contains('invisible');
+                if (isVisible) {
+                    accountDropdown.classList.add('invisible', 'opacity-0', 'scale-95');
+                } else {
+                    accountDropdown.classList.remove('invisible', 'opacity-0', 'scale-95');
+                }
+            });
+
+            // Close dropdown on click outside
+            document.addEventListener('click', (e) => {
+                if (!accountBtn.contains(e.target) && !accountDropdown.contains(e.target)) {
+                    accountDropdown.classList.add('invisible', 'opacity-0', 'scale-95');
+                }
+            });
+        }
+
+        // Logout buttons
+        const logoutBtn = this.querySelector('#client-logout-btn');
+        if (logoutBtn) {
+            logoutBtn.addEventListener('click', () => this.clientLogout());
+        }
+        const mobileLogoutBtn = this.querySelector('.mobile-logout');
+        if (mobileLogoutBtn) {
+            mobileLogoutBtn.addEventListener('click', () => this.clientLogout());
+        }
+
+        // Listen for auth changes
+        window.addEventListener('cliente_auth_change', () => {
+            // Re-render navbar
+            this.innerHTML = '';
+            this.connectedCallback();
+        });
     } 
+
+    clientLogout() {
+        localStorage.removeItem('cliente_token');
+        localStorage.removeItem('cliente');
+        window.dispatchEvent(new CustomEvent('cliente_auth_change'));
+        if (window.location.pathname.includes('mi-cuenta')) {
+            window.location.href = 'index.html';
+        }
+    }
 
     handleSecretClick() { 
         clearTimeout(this.clickTimeout);

@@ -63,13 +63,20 @@ function agregarAlCarrito(id, nombre, precio, imagen, talla = 'M') {
 }
 
 function agregarAlCarritoConTalla(id, nombre, precio, imagen, prefix = 'talla-dest-', redirect = false) {
-    const radios = document.getElementsByName(prefix + id);
     let tallaSel = 'M'; // Default
-    if (radios && radios.length > 0) {
-        for (const radio of radios) {
-            if (radio.checked) {
-                tallaSel = radio.value;
-                break;
+    // Primero intentar con input hidden (nuevo enfoque mobile-friendly)
+    const hiddenInput = document.querySelector(`input[type="hidden"][name="${prefix}${id}"]`);
+    if (hiddenInput) {
+        tallaSel = hiddenInput.value;
+    } else {
+        // Fallback: radio buttons (enfoque anterior)
+        const radios = document.getElementsByName(prefix + id);
+        if (radios && radios.length > 0) {
+            for (const radio of radios) {
+                if (radio.checked) {
+                    tallaSel = radio.value;
+                    break;
+                }
             }
         }
     }

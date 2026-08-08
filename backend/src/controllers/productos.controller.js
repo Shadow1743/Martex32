@@ -2,7 +2,14 @@ const pool = require('../config/db');
 
 exports.getAll = async (req, res) => {
     try {
-        const { rows } = await pool.query('SELECT * FROM productos ORDER BY creado_en DESC');
+        const page = parseInt(req.query.page) || 1;
+        const limit = parseInt(req.query.limit) || 100; // Limit defaults to 100 to not break current frontend logic easily
+        const offset = (page - 1) * limit;
+
+        const { rows } = await pool.query(
+            'SELECT * FROM productos ORDER BY creado_en DESC LIMIT $1 OFFSET $2',
+            [limit, offset]
+        );
         res.json(rows);
     } catch (error) {
         res.status(500).json({ error: "Error al obtener los productos" });
@@ -23,6 +30,16 @@ exports.getById = async (req, res) => {
 exports.create = async (req, res) => {
     try {
         const { nombre, descripcion, precio_base, porcentaje_descuento, categoria } = req.body;
+        
+        if (!nombre || !precio_base) {
+            return res.status(400).json({ error: "El nombre y el precio base son requeridos" });
+        }
+
+        const precioNumerico = parseFloat(precio_base);
+        if (isNaN(precioNumerico) || precioNumerico <= 0) {
+            return res.status(400).json({ error: "El precio base debe ser un número mayor a 0" });
+        }
+
         let imagen_url = null;
         if (req.file) {
             imagen_url = `/uploads/${req.file.filename}`;

@@ -18,7 +18,9 @@ CREATE TABLE productos (
     porcentaje_descuento DECIMAL(5,2) DEFAULT 0.00,
     imagen_url VARCHAR(255),
     categoria VARCHAR(50), -- Ej: 'Médico', 'Belleza'
-    creado_en TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    stock INT DEFAULT 0,
+    creado_en TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    actualizado_en TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
 CREATE TABLE medidas (
@@ -47,7 +49,9 @@ CREATE TABLE medidas (
 
     precio DECIMAL(10,2), -- Precio de confección del uniforme
     estado VARCHAR(50) DEFAULT 'Pendiente', -- Pendiente, En confección, Terminado, Entregado
-    creado_en TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    creado_en TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    actualizado_en TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    CONSTRAINT chk_medidas_estado CHECK (estado IN ('Pendiente', 'En confección', 'Terminado', 'Entregado'))
 );
 
 CREATE TABLE pedidos (
@@ -59,8 +63,11 @@ CREATE TABLE pedidos (
     dui VARCHAR(20),
     metodo_pago VARCHAR(50) NOT NULL, -- 'Efectivo', 'Depósito', 'Transferencia'
     total DECIMAL(10,2) NOT NULL,
-    estado VARCHAR(50) DEFAULT 'Nuevo', -- Nuevo, Procesando, Enviado, Entregado
-    creado_en TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    comprobante_url VARCHAR(255),
+    estado VARCHAR(50) DEFAULT 'Nuevo', -- Nuevo, Procesando, Enviado, Entregado, Cancelado
+    creado_en TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    actualizado_en TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    CONSTRAINT chk_pedido_estado CHECK (estado IN ('Nuevo', 'Procesando', 'Enviado', 'Entregado', 'Cancelado'))
 );
 
 CREATE TABLE pedido_items (
@@ -68,5 +75,13 @@ CREATE TABLE pedido_items (
     pedido_id INT REFERENCES pedidos(id) ON DELETE CASCADE,
     producto_id UUID REFERENCES productos(id),
     cantidad INT NOT NULL,
-    precio_unitario DECIMAL(10,2) NOT NULL
+    precio_unitario DECIMAL(10,2) NOT NULL,
+    talla VARCHAR(10) DEFAULT 'M'
 );
+
+-- Índices de Rendimiento
+CREATE INDEX idx_pedidos_estado ON pedidos(estado);
+CREATE INDEX idx_pedidos_creado_en ON pedidos(creado_en DESC);
+CREATE INDEX idx_productos_categoria ON productos(categoria);
+CREATE INDEX idx_medidas_estado ON medidas(estado);
+CREATE INDEX idx_medidas_cliente ON medidas(cliente_nombre);

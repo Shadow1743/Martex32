@@ -6,7 +6,7 @@ class FooterComponent extends HTMLElement {
             <div class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-verde-quirurgico to-transparent opacity-50"></div>
             <div class="absolute bottom-0 right-0 w-96 h-96 bg-verde-quirurgico/10 rounded-full blur-[100px] translate-y-1/2"></div>
             
-            <div class="relative z-10 max-w-7xl mx-auto px-6 grid grid-cols-1 md:grid-cols-4 gap-12 text-center md:text-left">
+            <div class="relative z-10 max-w-7xl mx-auto px-5 sm:px-6 grid grid-cols-1 md:grid-cols-4 gap-8 sm:gap-12 text-center md:text-left">
                 <!-- Brand Column -->
                 <div class="md:col-span-2">
                     <h3 class="font-display text-3xl font-bold text-verde-quirurgico mb-4 flex items-center justify-center md:justify-start gap-2">

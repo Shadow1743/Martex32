@@ -31,8 +31,11 @@
 </head>
 <body class="flex h-screen overflow-hidden">
 
+    <!-- Sidebar Overlay para móviles -->
+    <div class="sidebar-overlay" id="sidebar-overlay" onclick="toggleSidebar()"></div>
+
     <!-- Sidebar -->
-    <aside class="admin-sidebar hidden md:flex">
+    <aside class="admin-sidebar" id="admin-sidebar">
         <div class="sidebar-brand">
             <span class="text-xl font-bold tracking-tight">Mar<span class="text-teal-400">tex</span></span>
             <span class="ml-2 text-[10px] font-medium bg-white/10 px-2 py-0.5 rounded-md text-white/50 uppercase tracking-wider">Admin</span>
@@ -50,6 +53,9 @@
             </a>
             <a href="catalogo.html" class="sidebar-link">
                 <i class="fas fa-tshirt"></i> Catálogo
+            </a>
+            <a href="clientes.html" class="sidebar-link">
+                <i class="fas fa-users"></i> Clientes
             </a>
         </nav>
         <div class="sidebar-footer" id="sidebar-user">
@@ -69,8 +75,9 @@
         
         <!-- Header -->
         <header class="admin-header">
-            <button class="md:hidden text-gray-500 hover:text-azul-marino">
-                <i class="fas fa-bars text-xl"></i>
+
+            <button id="mobile-menu-btn" class="header-icon-btn md:hidden mr-3" onclick="toggleSidebar()">
+                <i class="fas fa-bars"></i>
             </button>
             <div class="page-title">
                 Dashboard
@@ -158,6 +165,32 @@
                     </div>
                 </div>
 
+                <!-- Clients metric -->
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-5 mb-8">
+                    <div class="metric-card animate-fade-in">
+                        <div class="flex justify-between items-start">
+                            <div>
+                                <p class="metric-label">Clientes Registrados</p>
+                                <h3 class="metric-value" id="metric-clientes">0</h3>
+                            </div>
+                            <div class="metric-icon" style="background: #ecfdf5; color: #10b981;">
+                                <i class="fas fa-users"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="metric-card animate-fade-in">
+                        <div class="flex justify-between items-start">
+                            <div>
+                                <p class="metric-label">Productos Más Vendidos</p>
+                                <div id="top-productos-mini" class="mt-2 space-y-1.5"></div>
+                            </div>
+                            <div class="metric-icon" style="background: #fef3c7; color: #f59e0b;">
+                                <i class="fas fa-fire"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
                 <!-- Quick Actions -->
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
                     <a href="medidas.html" class="group bg-white rounded-xl border border-gray-100 p-4 flex items-center gap-4 hover:border-teal-200 hover:shadow-sm transition-all">
@@ -194,15 +227,15 @@
 
                 <!-- Recent Activity -->
                 <div class="data-table-wrapper">
-                    <div class="table-header">
+                    <div class="table-header flex justify-between items-center">
                         <h2><i class="fas fa-clock text-gray-300 mr-2"></i>Pedidos Recientes</h2>
                         <a href="pedidos.html" class="text-sm text-verde-quirurgico hover:underline font-medium">Ver todos →</a>
                     </div>
-                    <div class="overflow-x-auto">
+                    <div class="table-responsive">
                         <table class="data-table">
                             <thead>
                                 <tr>
-                                    <th>ID Pedido</th>
+                                    <th>ID</th>
                                     <th>Cliente</th>
                                     <th>Fecha</th>
                                     <th>Total</th>
@@ -210,11 +243,7 @@
                                 </tr>
                             </thead>
                             <tbody id="tabla-pedidos-recientes">
-                                <tr>
-                                    <td colspan="5" class="text-center text-gray-400 py-8">
-                                        <i class="fas fa-spinner fa-spin mr-2"></i> Cargando datos...
-                                    </td>
-                                </tr>
+                                <tr><td colspan="5" class="text-center py-8 text-gray-400">Cargando pedidos...</td></tr>
                             </tbody>
                         </table>
                     </div>
@@ -223,9 +252,17 @@
         </main>
     </div>
 
+    <script src="js/auth-guard.js"></script>
+    <script src="js/security.js"></script>
     <script>
         const token = localStorage.getItem('token');
-        if (!token) window.location.href = 'login.html';
+        function toggleSidebar() {
+            const sidebar = document.getElementById('admin-sidebar');
+            const overlay = document.getElementById('sidebar-overlay');
+            sidebar.classList.toggle('mobile-open');
+            overlay.classList.toggle('show');
+        }
+
         const authHeaders = { 'Authorization': `Bearer ${token}`, 'Content-Type': 'application/json' };
 
         // Set user info
@@ -275,62 +312,72 @@
                 }
             }
         }
+        
+        async function fetchDashboardStats() {
+            try {
+                const res = await fetch(CONFIG.API_URL + '/dashboard/stats', { headers: authHeaders });
+                if (res.ok) {
+                    const stats = await res.json();
+                    document.getElementById('metric-ventas').textContent = '$' + stats.ingresos.toFixed(2);
+                    document.getElementById('metric-pedidos').textContent = stats.pedidos;
+                    document.getElementById('metric-medidas').textContent = stats.pendientes;
+                    document.getElementById('metric-productos').textContent = stats.productos;
+                    document.getElementById('metric-clientes').textContent = stats.clientes || 0;
 
-        // Obtiene todas las métricas necesarias (pedidos, ventas, medidas pendientes, catálogo) desde la API y las muestra en la interfaz
+                    // Top productos
+                    const topContainer = document.getElementById('top-productos-mini');
+                    if (stats.topProductos && stats.topProductos.length > 0) {
+                        topContainer.innerHTML = stats.topProductos.slice(0, 3).map((p, idx) => `
+                            <div class="flex items-center gap-2 text-sm">
+                                <span class="w-5 h-5 rounded-md bg-gray-100 flex items-center justify-center text-xs font-bold text-gray-500">${idx + 1}</span>
+                                <span class="text-gray-700 font-medium truncate">${escapeHTML(p.nombre)}</span>
+                                <span class="text-gray-400 text-xs ml-auto">${p.total_vendido} uds</span>
+                            </div>
+                        `).join('');
+                    } else {
+                        topContainer.innerHTML = '<p class="text-xs text-gray-400">Sin datos aún</p>';
+                    }
+                }
+            } catch (e) {
+                console.error("Error fetching stats:", e);
+            }
+        }
+
+        async function fetchPedidosRecientes() {
+            try {
+                const res = await fetch(CONFIG.API_URL + '/pedidos', { headers: authHeaders });
+                if (res.ok) {
+                    const pedidos = await res.json();
+                    renderPedidosRecientes(pedidos.slice(0, 5));
+                }
+            } catch (e) {
+                console.error("Error fetching pedidos:", e);
+            }
+        }
+
         async function cargarDashboard() {
             try {
                 await checkServerStatus();
                 if (!serverOnline) return;
 
-                // Fetch pedidos
-                const resPedidos = await fetch(CONFIG.API_URL + '/pedidos', { headers: authHeaders });
-                if (resPedidos.status === 401 || resPedidos.status === 403 || resPedidos.status === 400) {
-                    window.location.href = 'login.html';
-                    return;
-                }
-                if (resPedidos.ok) {
-                    const pedidos = await resPedidos.json();
-                    
-                    document.getElementById('metric-pedidos').textContent = pedidos.length;
-                    const totalVentas = pedidos.reduce((sum, p) => sum + parseFloat(p.total), 0);
-                    document.getElementById('metric-ventas').textContent = `$${totalVentas.toFixed(2)}`;
-
-                    renderPedidosRecientes(pedidos.slice(0,5));
-                }
-
-                // Fetch medidas para metricas
-                const resMedidas = await fetch(CONFIG.API_URL + '/medidas', { headers: authHeaders });
-                if (resMedidas.status === 401 || resMedidas.status === 403 || resMedidas.status === 400) {
-                    window.location.href = 'login.html';
-                    return;
-                }
-                if (resMedidas.ok) {
-                    const medidas = await resMedidas.json();
-                    const pendientes = medidas.filter(m => m.estado === 'Pendiente').length;
-                    document.getElementById('metric-medidas').textContent = pendientes;
-                }
-
-                // Fetch productos para metricas
-                const resProductos = await fetch(CONFIG.API_URL + '/productos', { headers: authHeaders });
-                if (resProductos.status === 401 || resProductos.status === 403 || resProductos.status === 400) {
-                    window.location.href = 'login.html';
-                    return;
-                }
-                if (resProductos.ok) {
-                    const productos = await resProductos.json();
-                    document.getElementById('metric-productos').textContent = productos.length;
-                }
-
+                fetchPedidosRecientes();
+                fetchDashboardStats();
             } catch (error) {
                 console.error("Error cargando dashboard:", error);
                 document.getElementById('tabla-pedidos-recientes').innerHTML = `<tr><td colspan="5" class="text-center py-4 text-red-500">Error al conectar con el servidor</td></tr>`;
             }
         }
 
-        document.addEventListener('DOMContentLoaded', async () => {
-            await cargarDashboard();
-            // Monitorear y actualizar el dashboard cada 15 segundos
-            setInterval(cargarDashboard, 15000);
+        document.addEventListener('DOMContentLoaded', () => {
+            fetchPedidosRecientes();
+            fetchDashboardStats(); // Cargar analíticas reales
+            setInterval(checkServerStatus, 10000);
+            
+            // Refrescar cada minuto en background
+            setInterval(() => {
+                fetchPedidosRecientes();
+                fetchDashboardStats();
+            }, 60000);
             
             // Escuchar el evento del sistema de alertas para recargar inmediatamente
             window.addEventListener('martex_new_order', cargarDashboard);

@@ -31,8 +31,11 @@
 </head>
 <body class="flex h-screen overflow-hidden">
 
+    <!-- Sidebar Overlay para móviles -->
+    <div class="sidebar-overlay" id="sidebar-overlay" onclick="toggleSidebar()"></div>
+
     <!-- Sidebar -->
-    <aside class="admin-sidebar hidden md:flex">
+    <aside class="admin-sidebar" id="admin-sidebar">
         <div class="sidebar-brand">
             <span class="text-xl font-bold tracking-tight">Mar<span class="text-teal-400">tex</span></span>
             <span class="ml-2 text-[10px] font-medium bg-white/10 px-2 py-0.5 rounded-md text-white/50 uppercase tracking-wider">Admin</span>
@@ -66,8 +69,9 @@
 
     <div class="flex-grow flex flex-col h-full overflow-hidden">
         <header class="admin-header">
-            <button class="md:hidden text-gray-500 hover:text-azul-marino">
-                <i class="fas fa-bars text-xl"></i>
+
+            <button id="mobile-menu-btn" class="header-icon-btn md:hidden mr-3" onclick="toggleSidebar()">
+                <i class="fas fa-bars"></i>
             </button>
             <div class="page-title">
                 Gestión de Pedidos
@@ -101,7 +105,7 @@
                     <div class="table-header" style="background: #fafbfc;">
                         <p class="text-sm text-gray-400 font-medium"><i class="fas fa-info-circle mr-1"></i> Los pedidos de la tienda online aparecerán aquí automáticamente.</p>
                     </div>
-                    <div class="overflow-x-auto">
+                    <div class="table-responsive">
                         <table class="data-table">
                             <thead>
                                 <tr>
@@ -187,6 +191,7 @@
                         <option value="Procesando">Procesando</option>
                         <option value="Enviado">Enviado</option>
                         <option value="Entregado">Entregado</option>
+                        <option value="Cancelado">Cancelado</option>
                     </select>
                     <button onclick="actualizarEstado()" class="btn-primary">
                         <i class="fas fa-check"></i> Guardar
@@ -196,9 +201,16 @@
         </div>
     </div>
 
+    <script src="js/auth-guard.js"></script>
     <script>
+        function toggleSidebar() {
+            const sidebar = document.getElementById('admin-sidebar');
+            const overlay = document.getElementById('sidebar-overlay');
+            sidebar.classList.toggle('mobile-open');
+            overlay.classList.toggle('show');
+        }
+
         const token = localStorage.getItem('token');
-        if (!token) window.location.href = 'login.html';
         const authHeaders = { 'Authorization': `Bearer ${token}`, 'Content-Type': 'application/json' };
 
         // Set user info
@@ -251,7 +263,8 @@
             if (estado === 'Procesando') return 'procesando';
             if (estado === 'Enviado') return 'enviado';
             if (estado === 'Entregado') return 'entregado';
-            return 'nuevo';
+            if (estado === 'Cancelado') return 'bg-red-100 text-red-800 border-red-200';
+            return 'bg-gray-100 text-gray-800';
         };
 
         // Genera dinámicamente las filas HTML de la tabla iterando sobre el array de pedidos

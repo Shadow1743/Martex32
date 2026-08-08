@@ -5,13 +5,23 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Nosotros | Martex</title>
     <script src="/tailwind-cdn.js"></script>
+    <meta name="description" content="Conoce la historia de Martex, nuestra misión y visión en la creación de uniformes médicos y profesionales.">
+    <meta name="keywords" content="nosotros, historia Martex, misión Martex, uniformes El Salvador">
+    <meta property="og:title" content="Nosotros | Martex">
+    <meta property="og:description" content="Nuestra historia y compromiso con la calidad en cada uniforme.">
+    <meta property="og:type" content="website">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🩺</text></svg>">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preconnect" href="https://cdnjs.cloudflare.com">
+
     <script src="../config.js"></script>
-    <script src="../sistema/js/security.js"></script>
-    <script src="js/tailwind-config.js"></script>
+    <script src="../sistema/js/security.js"></script><script src="js/tailwind-config.js"></script>
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <script src="componentes/navbar.js" defer></script>
     <script src="componentes/footer.js" defer></script>
+    <script src="componentes/auth-modal.js" defer></script>
 </head>
 <body class="bg-gray-50 text-azul-marino flex flex-col min-h-screen">
     <main-navbar></main-navbar>
@@ -21,8 +31,8 @@
         <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-verde-quirurgico/10 rounded-full blur-[100px] pointer-events-none"></div>
         <div class="relative container mx-auto px-6 text-center z-10 animate-slide-up">
             <span class="text-verde-quirurgico-light uppercase tracking-widest text-sm font-bold mb-4 inline-block">Nuestra Historia</span>
-            <h1 class="text-5xl md:text-6xl font-display font-bold mb-6">Confeccionando <span class="text-gradient">Excelencia</span> en Usulután</h1>
-            <p class="text-xl text-gray-300 max-w-2xl mx-auto font-light leading-relaxed">
+            <h1 class="text-3xl sm:text-5xl md:text-6xl font-display font-bold mb-4 sm:mb-6 px-2">Confeccionando <span class="text-gradient">Excelencia</span> en Usulután</h1>
+            <p class="text-base sm:text-xl text-gray-300 max-w-2xl mx-auto font-light leading-relaxed px-2">
                 Desde nuestros inicios, nos hemos dedicado a crear uniformes que combinan funcionalidad, resistencia y elegancia para los profesionales de El Salvador.
             </p>
         </div>
@@ -30,27 +40,27 @@
 
     <section class="py-24 bg-white relative z-10">
         <div class="container mx-auto px-6 max-w-6xl">
-            <div class="grid md:grid-cols-2 gap-16 items-center">
+            <div class="grid md:grid-cols-2 gap-8 sm:gap-16 items-center">
                 <div class="relative animate-fade-in">
                     <div class="absolute -inset-4 bg-gradient-to-r from-verde-quirurgico to-azul-pantera rounded-3xl opacity-20 blur-lg"></div>
-                    <img src="imagenes/tienda-martex.png" alt="Tienda Martex - Colonia Los Santos, Usulután" class="relative rounded-3xl shadow-premium object-cover h-[500px] w-full">
+                    <img src="imagenes/tienda-martex.png" alt="Tienda Martex - Colonia Los Santos, Usulután" class="relative rounded-2xl sm:rounded-3xl shadow-premium object-cover h-[300px] sm:h-[500px] w-full" loading="lazy">
                 </div>
                 <div class="animate-slide-up" style="animation-delay: 0.2s">
-                    <h2 class="text-4xl font-display font-bold mb-6 text-azul-marino">Tradición y Tecnología</h2>
-                    <p class="text-gray-600 mb-6 leading-relaxed text-lg">
+                    <h2 class="text-3xl sm:text-4xl font-display font-bold mb-4 sm:mb-6 text-azul-marino">Tradición y Tecnología</h2>
+                    <p class="text-gray-600 mb-4 sm:mb-6 leading-relaxed text-base sm:text-lg">
                         En Martex, creemos que quienes dedican su vida a cuidar a los demás, merecen ser cuidados también. Nacimos en Usulután con la visión de transformar el concepto del uniforme tradicional.
                     </p>
                     <p class="text-gray-600 mb-8 leading-relaxed text-lg">
                         Utilizamos telas de última generación: fluidas, de secado rápido y alta durabilidad, para asegurar que cada jornada laboral sea lo más cómoda posible, sin comprometer el estilo.
                     </p>
-                    <div class="grid grid-cols-2 gap-6">
+                    <div class="grid grid-cols-2 gap-4 sm:gap-6">
                         <div class="glass p-6 rounded-2xl border border-gray-100 shadow-sm text-center card-premium">
-                            <h4 class="text-4xl font-display font-bold text-verde-quirurgico mb-2">+10</h4>
+                            <h4 class="text-4xl font-display font-bold text-verde-quirurgico mb-2">+8</h4>
                             <p class="text-sm text-gray-500 uppercase tracking-wide font-semibold">Años de Experiencia</p>
                         </div>
                         <div class="glass p-6 rounded-2xl border border-gray-100 shadow-sm text-center card-premium">
-                            <h4 class="text-4xl font-display font-bold text-azul-pantera mb-2">+5k</h4>
-                            <p class="text-sm text-gray-500 uppercase tracking-wide font-semibold">Clientes Satisfechos</p>
+                            <h4 class="text-4xl font-display font-bold text-verde-quirurgico mb-2">100%</h4>
+                            <p class="text-sm text-gray-500 uppercase tracking-wide font-semibold">Producción Local</p>
                         </div>
                     </div>
                 </div>
@@ -61,7 +71,7 @@
     <section class="py-24 bg-gray-50 border-t border-gray-200">
         <div class="container mx-auto px-6 max-w-5xl text-center">
             <h2 class="text-4xl font-display font-bold mb-16 text-azul-marino">Nuestros Valores</h2>
-            <div class="grid md:grid-cols-3 gap-8">
+            <div class="grid md:grid-cols-3 gap-6 sm:gap-8">
                 <div class="bg-white p-8 rounded-3xl shadow-sm border border-gray-100 card-premium">
                     <div class="w-14 h-14 bg-verde-quirurgico/10 text-verde-quirurgico rounded-2xl flex items-center justify-center mx-auto mb-6 text-2xl">
                         <i class="fas fa-gem"></i>
@@ -90,7 +100,7 @@
     <!-- Sección de Ubicación (Google Maps) -->
     <section class="py-24 bg-white border-t border-gray-150 relative z-10">
         <div class="container mx-auto px-6 max-w-6xl">
-            <div class="grid md:grid-cols-2 gap-16 items-center">
+            <div class="grid md:grid-cols-2 gap-8 sm:gap-16 items-center">
                 <div class="animate-slide-up">
                     <span class="text-verde-quirurgico uppercase tracking-widest text-sm font-bold mb-4 inline-block">Visítanos</span>
                     <h2 class="text-4xl md:text-5xl font-display font-bold mb-6 text-azul-marino">¿Dónde estamos ubicados?</h2>
@@ -128,7 +138,7 @@
                     <div class="absolute -inset-4 bg-gradient-to-tr from-azul-pantera to-verde-quirurgico rounded-[2.5rem] opacity-20 blur-xl"></div>
                     
                     <!-- Contenedor del Mapa con borde y sombra premium -->
-                    <div class="relative w-full h-[450px] rounded-[2rem] overflow-hidden shadow-premium border-4 border-white bg-white">
+                    <div class="relative w-full h-[300px] sm:h-[450px] rounded-[1.5rem] sm:rounded-[2rem] overflow-hidden shadow-premium border-2 sm:border-4 border-white bg-white">
                         <iframe 
                             src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3881.23!2d-88.4410!3d13.3478!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x8f7b390744b41e1b%3A0x2b547e03c420ac7b!2sPuma%20Energy%2C%20Colonia%20Los%20Santos%2C%20C.%20Grimaldi%20Final%2C%20Usulut%C3%A1n!5e0!3m2!1ses!2ssv!4v1700000000000!5m2!1ses!2ssv" 
                             width="100%" 
@@ -145,6 +155,18 @@
         </div>
     </section>
 
+    <!-- Footer Component -->
     <footer-component></footer-component>
+
+    <!-- Botón flotante WhatsApp -->
+    <a href="https://wa.me/50360497383?text=Hola,%20quisiera%20más%20información%20sobre%20Martex" class="whatsapp-float" target="_blank" rel="noopener noreferrer" aria-label="Contactar por WhatsApp">
+        <i class="fab fa-whatsapp"></i>
+    </a>
+
+    <auth-modal></auth-modal>
+    <!-- Social SDKs -->
+    <script src="https://accounts.google.com/gsi/client" async defer></script>
+    <script async defer crossorigin="anonymous" src="https://connect.facebook.net/es_LA/sdk.js"></script>
+    <!-- Scripts -->
 </body>
 </html>

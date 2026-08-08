@@ -4,14 +4,24 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Catálogo | Martex</title>
+    <meta name="description" content="Catálogo completo de uniformes médicos y profesionales. Encuentra batas, filipinas, conjuntos y más.">
+    <meta name="keywords" content="catálogo uniformes, uniformes médicos, filipinas, batas, Martex, El Salvador">
+    <meta property="og:title" content="Catálogo de Productos | Martex">
+    <meta property="og:description" content="Explora nuestra variedad de uniformes médicos y profesionales con los mejores diseños.">
+    <meta property="og:type" content="website">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🩺</text></svg>">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preconnect" href="https://cdnjs.cloudflare.com">
+
     <script src="../config.js"></script>
-    <script src="../sistema/js/security.js"></script>
-    <script src="/tailwind-cdn.js"></script>
+    <script src="../sistema/js/security.js"></script><script src="/tailwind-cdn.js"></script>
     <script src="js/tailwind-config.js"></script>
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <script src="componentes/navbar.js" defer></script>
     <script src="componentes/footer.js" defer></script>
+    <script src="componentes/auth-modal.js" defer></script>
 </head>
 <body class="bg-gray-50 text-azul-marino flex flex-col min-h-screen">
     <main-navbar></main-navbar>
@@ -26,32 +36,34 @@
     <main class="flex-grow container mx-auto px-6 py-12 flex flex-col md:flex-row gap-10">
         <!-- Sidebar Filters -->
         <aside class="w-full md:w-1/4">
-            <div class="bg-white p-6 rounded-3xl shadow-sm border border-gray-100 sticky top-28">
-                <h3 class="font-display font-bold text-xl mb-6">Filtros</h3>
+            <div class="bg-white p-4 md:p-6 rounded-2xl md:rounded-3xl shadow-sm border border-gray-100 sticky top-24">
+                <h3 class="font-display font-bold text-lg md:text-xl mb-4 md:mb-6">Filtros</h3>
                 
-                <div class="mb-6">
-                    <label class="block text-sm font-semibold text-gray-700 mb-3">Buscar</label>
-                    <div class="relative">
-                        <input type="text" id="searchInput" placeholder="Ej. Scrub azul..." class="w-full pl-10 pr-4 py-3 rounded-xl border border-gray-200 focus:outline-none focus:border-verde-quirurgico focus:ring-1 focus:ring-verde-quirurgico transition-all">
-                        <i class="fas fa-search absolute left-4 top-3.5 text-gray-400"></i>
+                <div class="flex flex-col sm:flex-row md:flex-col gap-4 md:gap-6">
+                    <div class="flex-1">
+                        <label class="block text-sm font-semibold text-gray-700 mb-2 md:mb-3">Buscar</label>
+                        <div class="relative">
+                            <input type="text" id="searchInput" placeholder="Ej. Scrub azul..." class="w-full pl-10 pr-4 py-2 md:py-3 rounded-xl border border-gray-200 focus:outline-none focus:border-verde-quirurgico focus:ring-1 focus:ring-verde-quirurgico transition-all text-sm">
+                            <i class="fas fa-search absolute left-4 top-3 md:top-3.5 text-gray-400"></i>
+                        </div>
                     </div>
-                </div>
 
-                <div class="mb-6">
-                    <label class="block text-sm font-semibold text-gray-700 mb-3">Categoría</label>
-                    <div class="space-y-3">
-                        <label class="flex items-center gap-3 cursor-pointer group">
-                            <input type="radio" name="categoria" value="Todas" checked class="w-4 h-4 text-verde-quirurgico focus:ring-verde-quirurgico">
-                            <span class="text-gray-600 group-hover:text-azul-marino transition-colors">Todas</span>
-                        </label>
-                        <label class="flex items-center gap-3 cursor-pointer group">
-                            <input type="radio" name="categoria" value="Médico" class="w-4 h-4 text-verde-quirurgico focus:ring-verde-quirurgico">
-                            <span class="text-gray-600 group-hover:text-azul-marino transition-colors">Sector Médico</span>
-                        </label>
-                        <label class="flex items-center gap-3 cursor-pointer group">
-                            <input type="radio" name="categoria" value="Belleza" class="w-4 h-4 text-verde-quirurgico focus:ring-verde-quirurgico">
-                            <span class="text-gray-600 group-hover:text-azul-marino transition-colors">Salones de Belleza</span>
-                        </label>
+                    <div class="flex-1">
+                        <label class="block text-sm font-semibold text-gray-700 mb-2 md:mb-3">Categoría</label>
+                        <div class="space-y-2 md:space-y-3 flex flex-wrap gap-x-4 gap-y-2 sm:block">
+                            <label class="flex items-center gap-2 md:gap-3 cursor-pointer group">
+                                <input type="radio" name="categoria" value="Todas" checked class="w-4 h-4 text-verde-quirurgico focus:ring-verde-quirurgico">
+                                <span class="text-gray-600 group-hover:text-azul-marino transition-colors text-sm">Todas</span>
+                            </label>
+                            <label class="flex items-center gap-2 md:gap-3 cursor-pointer group">
+                                <input type="radio" name="categoria" value="Médico" class="w-4 h-4 text-verde-quirurgico focus:ring-verde-quirurgico">
+                                <span class="text-gray-600 group-hover:text-azul-marino transition-colors text-sm">Sector Médico</span>
+                            </label>
+                            <label class="flex items-center gap-2 md:gap-3 cursor-pointer group">
+                                <input type="radio" name="categoria" value="Belleza" class="w-4 h-4 text-verde-quirurgico focus:ring-verde-quirurgico">
+                                <span class="text-gray-600 group-hover:text-azul-marino transition-colors text-sm">Belleza</span>
+                            </label>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -132,10 +144,32 @@
         </div>
     </div>
 
+    <!-- Footer Component -->
     <footer-component></footer-component>
+
+    <!-- Botón flotante WhatsApp -->
+    <a href="https://wa.me/50360497383?text=Hola,%20quisiera%20más%20información%20sobre%20el%20catálogo" class="whatsapp-float" target="_blank" rel="noopener noreferrer" aria-label="Contactar por WhatsApp">
+        <i class="fab fa-whatsapp"></i>
+    </a>
 
     <script src="js/carrito.js"></script>
     <script>
+        // --- Selección de Tallas (funciona en móvil) ---
+        function seleccionarTalla(btn, prefix, prodId, talla) {
+            // Quitar estilo activo de todos los botones hermanos
+            const container = btn.parentElement;
+            container.querySelectorAll('.talla-btn').forEach(b => {
+                b.classList.remove('border-verde-quirurgico', 'bg-verde-quirurgico', 'text-white');
+                b.classList.add('border-gray-200', 'text-gray-600');
+            });
+            // Aplicar estilo activo al botón seleccionado
+            btn.classList.remove('border-gray-200', 'text-gray-600');
+            btn.classList.add('border-verde-quirurgico', 'bg-verde-quirurgico', 'text-white');
+            // Actualizar el input hidden
+            const hiddenInput = document.querySelector(`input[name="${prefix}${prodId}"]`);
+            if (hiddenInput) hiddenInput.value = talla;
+        }
+
         // --- Modal de Producto ---
         let productosCache = [];
 
@@ -201,28 +235,12 @@
                             <div class="flex justify-between items-center mb-3">
                                 <label class="text-sm font-bold text-azul-marino uppercase tracking-wide">Elige tu talla</label>
                             </div>
-                            <div class="flex gap-3">
-                                <label class="cursor-pointer">
-                                    <input type="radio" name="talla-modal-${escapeHTML(prod.id)}" value="XS" class="peer sr-only">
-                                    <div class="w-12 h-12 rounded-xl border-2 border-gray-200 flex items-center justify-center text-sm font-semibold text-gray-600 peer-checked:border-verde-quirurgico peer-checked:bg-verde-quirurgico peer-checked:text-white transition-all hover:border-verde-quirurgico/50 hover:shadow-sm">XS</div>
-                                </label>
-                                <label class="cursor-pointer">
-                                    <input type="radio" name="talla-modal-${escapeHTML(prod.id)}" value="S" class="peer sr-only">
-                                    <div class="w-12 h-12 rounded-xl border-2 border-gray-200 flex items-center justify-center text-sm font-semibold text-gray-600 peer-checked:border-verde-quirurgico peer-checked:bg-verde-quirurgico peer-checked:text-white transition-all hover:border-verde-quirurgico/50 hover:shadow-sm">S</div>
-                                </label>
-                                <label class="cursor-pointer">
-                                    <input type="radio" name="talla-modal-${escapeHTML(prod.id)}" value="M" class="peer sr-only" checked>
-                                    <div class="w-12 h-12 rounded-xl border-2 border-gray-200 flex items-center justify-center text-sm font-semibold text-gray-600 peer-checked:border-verde-quirurgico peer-checked:bg-verde-quirurgico peer-checked:text-white transition-all hover:border-verde-quirurgico/50 hover:shadow-sm">M</div>
-                                </label>
-                                <label class="cursor-pointer">
-                                    <input type="radio" name="talla-modal-${escapeHTML(prod.id)}" value="L" class="peer sr-only">
-                                    <div class="w-12 h-12 rounded-xl border-2 border-gray-200 flex items-center justify-center text-sm font-semibold text-gray-600 peer-checked:border-verde-quirurgico peer-checked:bg-verde-quirurgico peer-checked:text-white transition-all hover:border-verde-quirurgico/50 hover:shadow-sm">L</div>
-                                </label>
-                                <label class="cursor-pointer">
-                                    <input type="radio" name="talla-modal-${escapeHTML(prod.id)}" value="XL" class="peer sr-only">
-                                    <div class="w-12 h-12 rounded-xl border-2 border-gray-200 flex items-center justify-center text-sm font-semibold text-gray-600 peer-checked:border-verde-quirurgico peer-checked:bg-verde-quirurgico peer-checked:text-white transition-all hover:border-verde-quirurgico/50 hover:shadow-sm">XL</div>
-                                </label>
+                            <div class="flex gap-3" id="tallas-modal-${escapeHTML(prod.id)}">
+                                ${['XS','S','M','L','XL'].map(t => `
+                                <button type="button" onclick="seleccionarTalla(this, 'talla-modal-', '${escapeHTML(prod.id)}', '${t}')" class="talla-btn w-12 h-12 rounded-xl border-2 flex items-center justify-center text-sm font-semibold transition-all hover:shadow-sm ${t === 'M' ? 'border-verde-quirurgico bg-verde-quirurgico text-white' : 'border-gray-200 text-gray-600 hover:border-verde-quirurgico/50'}" data-talla="${t}">${t}</button>
+                                `).join('')}
                             </div>
+                            <input type="hidden" name="talla-modal-${escapeHTML(prod.id)}" value="M">
                         </div>
 
                         <!-- Precio -->
@@ -253,7 +271,25 @@
                         </div>
                     </div>
                 </div>
+
+                <!-- Sección de Reseñas -->
+                <div class="col-span-full border-t border-gray-100">
+                    <div class="p-6 md:p-8">
+                        <h3 class="font-display text-xl font-bold text-azul-marino mb-4 flex items-center gap-2">
+                            <i class="fas fa-star text-yellow-400"></i> Reseñas de Clientes
+                        </h3>
+                        <div id="modal-resenas-container">
+                            <div class="text-center py-6 text-gray-400">
+                                <i class="fas fa-spinner fa-spin text-lg"></i>
+                                <p class="text-sm mt-2">Cargando reseñas...</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             `;
+
+            // Cargar reseñas para este producto
+            cargarResenas(prod.id);
 
             // Abrir modal con animación
             const modal = document.getElementById('product-modal');
@@ -292,17 +328,40 @@
         document.addEventListener("DOMContentLoaded", async () => {
             let allProducts = [];
             
+            const container = document.getElementById("grid-productos");
+            
+            // Skeleton loading state
+            if (container) {
+                container.innerHTML = Array(6).fill(0).map(() => `
+                    <div class="bg-white rounded-3xl overflow-hidden card-premium shadow-lg border border-gray-100 flex flex-col group">
+                        <div class="h-80 skeleton w-full"></div>
+                        <div class="p-8 flex flex-col flex-grow relative">
+                            <div class="h-6 skeleton w-3/4 mb-3"></div>
+                            <div class="h-4 skeleton w-full mb-2"></div>
+                            <div class="h-4 skeleton w-5/6 mb-6"></div>
+                            <div class="h-10 skeleton w-full mb-6"></div>
+                            <div class="flex gap-2 mt-auto pt-6">
+                                <div class="h-12 skeleton flex-1 rounded-xl"></div>
+                                <div class="h-12 skeleton flex-1 rounded-xl"></div>
+                            </div>
+                        </div>
+                    </div>
+                `).join('');
+            }
+            
             try {
                 const res = await fetch(CONFIG.API_URL + '/productos');
                 if (res.ok) {
                     allProducts = await res.json();
                     productosCache = allProducts;
+                    renderProducts(allProducts);
                 }
             } catch (err) {
                 console.error('Error al cargar productos:', err);
+                if (container) container.innerHTML = `<p class="text-red-500 font-bold col-span-3 text-center py-10">Error al cargar el catálogo.</p>`;
             }
             
-            const renderProducts = (products) => {
+            function renderProducts(products) {
                 const grid = document.getElementById('grid-productos');
                 document.getElementById('product-count').innerText = products.length;
                 
@@ -315,16 +374,19 @@
                     const precioFinal = prod.precio_base - (prod.precio_base * (prod.porcentaje_descuento / 100));
                     const imageUrl = prod.imagen_url ? `${CONFIG.BASE_URL}${prod.imagen_url}` : 'https://placehold.co/400x400/0A1128/FFFFFF?text=Martex';
                     const tieneDescuento = prod.porcentaje_descuento > 0;
-                    
+
                     return `
                     <div class="bg-white rounded-3xl overflow-hidden card-premium shadow-lg border border-gray-100 flex flex-col group">
                         <div class="h-64 bg-gray-100 relative overflow-hidden cursor-pointer" onclick="verProducto('${escapeHTML(prod.id)}')">
                             <img src="${escapeHTML(imageUrl)}" alt="${escapeHTML(prod.nombre)}" class="w-full h-full object-cover object-top img-hover-zoom">
-                            <div class="absolute top-4 left-4">
+                            <div class="absolute top-4 left-4 right-4 flex justify-between items-start">
                                 <span class="glass text-azul-marino text-xs font-bold px-3 py-1 rounded-full shadow-sm">${escapeHTML(prod.categoria)}</span>
+                                <button data-fav-id="${escapeHTML(prod.id)}" onclick="event.stopPropagation(); MartexFavoritos.toggle('${escapeHTML(prod.id)}', this)" class="w-9 h-9 rounded-full glass flex items-center justify-center text-gray-400 hover:text-red-500 hover:bg-white transition-all shadow-sm" aria-label="Agregar a favoritos">
+                                    <i class="far fa-heart"></i>
+                                </button>
                             </div>
                             ${tieneDescuento ? `
-                            <div class="absolute top-4 right-4">
+                            <div class="absolute top-14 right-4">
                                 <span class="bg-red-500 text-white text-xs font-bold px-2.5 py-1 rounded-full shadow-sm">-${prod.porcentaje_descuento}%</span>
                             </div>` : ''}
                             <!-- Overlay de "Ver detalle" al pasar el mouse -->
@@ -339,20 +401,12 @@
                             
                             <!-- Talla Selector -->
                             <div class="mb-4 mt-2">
-                                <div class="flex gap-2">
-                                    <label class="cursor-pointer">
-                                        <input type="radio" name="talla-cat-${escapeHTML(prod.id)}" value="S" class="peer sr-only">
-                                        <div class="w-8 h-8 rounded-lg border border-gray-200 flex items-center justify-center text-xs font-medium text-gray-600 peer-checked:border-verde-quirurgico peer-checked:bg-verde-quirurgico peer-checked:text-white transition-all hover:border-verde-quirurgico/50">S</div>
-                                    </label>
-                                    <label class="cursor-pointer">
-                                        <input type="radio" name="talla-cat-${escapeHTML(prod.id)}" value="M" class="peer sr-only" checked>
-                                        <div class="w-8 h-8 rounded-lg border border-gray-200 flex items-center justify-center text-xs font-medium text-gray-600 peer-checked:border-verde-quirurgico peer-checked:bg-verde-quirurgico peer-checked:text-white transition-all hover:border-verde-quirurgico/50">M</div>
-                                    </label>
-                                    <label class="cursor-pointer">
-                                        <input type="radio" name="talla-cat-${escapeHTML(prod.id)}" value="L" class="peer sr-only">
-                                        <div class="w-8 h-8 rounded-lg border border-gray-200 flex items-center justify-center text-xs font-medium text-gray-600 peer-checked:border-verde-quirurgico peer-checked:bg-verde-quirurgico peer-checked:text-white transition-all hover:border-verde-quirurgico/50">L</div>
-                                    </label>
+                                <div class="flex gap-2" id="tallas-cat-${escapeHTML(prod.id)}">
+                                    ${['S','M','L'].map(t => `
+                                    <button type="button" onclick="seleccionarTalla(this, 'talla-cat-', '${escapeHTML(prod.id)}', '${t}')" class="talla-btn w-8 h-8 rounded-lg border flex items-center justify-center text-xs font-medium transition-all ${t === 'M' ? 'border-verde-quirurgico bg-verde-quirurgico text-white' : 'border-gray-200 text-gray-600 hover:border-verde-quirurgico/50'}" data-talla="${t}">${t}</button>
+                                    `).join('')}
                                 </div>
+                                <input type="hidden" name="talla-cat-${escapeHTML(prod.id)}" value="M">
                             </div>
 
                             <div class="flex flex-col mt-auto pt-4 gap-3">
@@ -372,9 +426,14 @@
                         </div>
                     </div>
                 `}).join('');
+
+                // Sincronizar estado de favoritos después de renderizar
+                if (typeof MartexFavoritos !== 'undefined') MartexFavoritos.applyToPage();
             };
 
             renderProducts(allProducts);
+            // Aplicar estado de favoritos inicial
+            if (typeof MartexFavoritos !== 'undefined') MartexFavoritos.applyToPage();
 
             // Búsqueda
             document.getElementById('searchInput').addEventListener('input', (e) => {
@@ -396,6 +455,134 @@
                 });
             });
         });
+
+        // --- Sistema de Reseñas ---
+        async function cargarResenas(productoId) {
+            const container = document.getElementById('modal-resenas-container');
+            if (!container) return;
+
+            try {
+                const res = await fetch(`${CONFIG.API_URL}/resenas/${productoId}`);
+                if (!res.ok) throw new Error('Error al cargar reseñas');
+                const data = await res.json();
+
+                let html = '';
+
+                // Mostrar promedio de estrellas
+                if (data.total > 0) {
+                    const estrellas = Array(5).fill(0).map((_, i) =>
+                        `<i class="fas fa-star ${i < Math.round(data.promedio) ? 'text-yellow-400' : 'text-gray-200'}"></i>`
+                    ).join('');
+                    html += `
+                        <div class="flex items-center gap-3 mb-6 bg-gray-50 rounded-xl p-4">
+                            <div class="text-3xl font-bold text-azul-marino">${data.promedio}</div>
+                            <div>
+                                <div class="flex gap-0.5 text-sm">${estrellas}</div>
+                                <p class="text-xs text-gray-400 mt-1">${data.total} reseña(s)</p>
+                            </div>
+                        </div>
+                    `;
+                }
+
+                // Formulario para dejar reseña (solo si cliente logueado)
+                const clienteToken = localStorage.getItem('cliente_token');
+                if (clienteToken) {
+                    html += `
+                        <div class="mb-6 border border-gray-100 rounded-xl p-4">
+                            <h4 class="text-sm font-bold text-azul-marino mb-3"><i class="fas fa-pen mr-1"></i> Deja tu reseña</h4>
+                            <div class="flex gap-1 mb-3" id="star-selector">
+                                ${[1,2,3,4,5].map(n => `<button type="button" onclick="seleccionarEstrella(${n})" class="star-btn text-xl text-gray-300 hover:text-yellow-400 transition-colors" data-star="${n}"><i class="fas fa-star"></i></button>`).join('')}
+                            </div>
+                            <input type="hidden" id="resena-calificacion" value="0">
+                            <textarea id="resena-comentario" rows="2" class="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm focus:border-verde-quirurgico focus:ring-1 focus:ring-verde-quirurgico/20 outline-none resize-none" placeholder="Cuéntanos tu experiencia con este producto..."></textarea>
+                            <button onclick="enviarResena('${escapeHTML(productoId)}')" class="mt-2 bg-verde-quirurgico hover:bg-verde-quirurgico-dark text-white text-sm font-semibold py-2 px-5 rounded-lg transition-all">
+                                <i class="fas fa-paper-plane mr-1"></i> Enviar
+                            </button>
+                        </div>
+                    `;
+                }
+
+                // Lista de reseñas
+                if (data.resenas && data.resenas.length > 0) {
+                    html += data.resenas.map(r => {
+                        const stars = Array(5).fill(0).map((_, i) =>
+                            `<i class="fas fa-star text-xs ${i < r.calificacion ? 'text-yellow-400' : 'text-gray-200'}"></i>`
+                        ).join('');
+                        const fecha = new Date(r.creado_en).toLocaleDateString('es-ES', { year: 'numeric', month: 'short', day: 'numeric' });
+                        return `
+                            <div class="flex gap-3 py-3 border-b border-gray-50 last:border-0">
+                                <div class="w-8 h-8 rounded-full bg-verde-quirurgico/10 flex items-center justify-center text-verde-quirurgico text-xs font-bold shrink-0">
+                                    ${escapeHTML((r.cliente_nombre || 'U').charAt(0).toUpperCase())}
+                                </div>
+                                <div class="flex-1">
+                                    <div class="flex items-center gap-2 mb-1">
+                                        <span class="font-semibold text-sm text-azul-marino">${escapeHTML(r.cliente_nombre)}</span>
+                                        <div class="flex gap-0.5">${stars}</div>
+                                        <span class="text-xs text-gray-400 ml-auto">${fecha}</span>
+                                    </div>
+                                    ${r.comentario ? `<p class="text-sm text-gray-500">${escapeHTML(r.comentario)}</p>` : ''}
+                                </div>
+                            </div>
+                        `;
+                    }).join('');
+                } else if (!clienteToken) {
+                    html += '<p class="text-sm text-gray-400 text-center py-4">Aún no hay reseñas. ¡Sé el primero en opinar!</p>';
+                } else if (data.total === 0) {
+                    html += '<p class="text-sm text-gray-400 text-center py-2">Aún no hay reseñas para este producto.</p>';
+                }
+
+                container.innerHTML = html;
+            } catch (e) {
+                container.innerHTML = '<p class="text-sm text-gray-400 text-center py-4">No se pudieron cargar las reseñas.</p>';
+                console.error('Error cargando reseñas:', e);
+            }
+        }
+
+        function seleccionarEstrella(n) {
+            document.getElementById('resena-calificacion').value = n;
+            document.querySelectorAll('#star-selector .star-btn').forEach(btn => {
+                const starVal = parseInt(btn.dataset.star);
+                btn.classList.toggle('text-yellow-400', starVal <= n);
+                btn.classList.toggle('text-gray-300', starVal > n);
+            });
+        }
+
+        async function enviarResena(productoId) {
+            const calificacion = parseInt(document.getElementById('resena-calificacion').value);
+            const comentario = document.getElementById('resena-comentario').value.trim();
+            const clienteToken = localStorage.getItem('cliente_token');
+
+            if (!calificacion || calificacion < 1 || calificacion > 5) {
+                alert('Selecciona una calificación de 1 a 5 estrellas.');
+                return;
+            }
+
+            try {
+                const res = await fetch(`${CONFIG.API_URL}/resenas/${productoId}`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${clienteToken}`
+                    },
+                    body: JSON.stringify({ calificacion, comentario })
+                });
+
+                if (res.ok) {
+                    cargarResenas(productoId); // Recargar reseñas
+                } else {
+                    const data = await res.json();
+                    alert(data.error || 'No se pudo enviar la reseña.');
+                }
+            } catch (e) {
+                alert('Error de conexión al enviar reseña.');
+                console.error('Error enviando reseña:', e);
+            }
+        }
     </script>
+    <auth-modal></auth-modal>
+    <!-- Social SDKs -->
+    <script src="https://accounts.google.com/gsi/client" async defer></script>
+    <script async defer crossorigin="anonymous" src="https://connect.facebook.net/es_LA/sdk.js"></script>
+    <script src="js/favoritos.js"></script>
 </body>
 </html>

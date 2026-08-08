@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <script src="../config.js"></script>
+    <script src="js/security.js"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Clientes | Martex Admin</title>
+    <script src="/tailwind-cdn.js"></script>
+    <script src="js/darkmode.js"></script>
+    <script src="js/toast.js"></script>
+    <script src="js/notificaciones.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="css/admin.css">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'verde-quirurgico': '#008080',
+                        'azul-pantera': '#0B1560',
+                        'azul-marino': '#000080',
+                    },
+                    fontFamily: {
+                        'sans': ['Inter', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="flex h-screen overflow-hidden">
+
+    <!-- Sidebar Overlay para móviles -->
+    <div class="sidebar-overlay" id="sidebar-overlay" onclick="toggleSidebar()"></div>
+
+    <!-- Sidebar -->
+    <aside class="admin-sidebar" id="admin-sidebar">
+        <div class="sidebar-brand">
+            <span class="text-xl font-bold tracking-tight">Mar<span class="text-teal-400">tex</span></span>
+            <span class="ml-2 text-[10px] font-medium bg-white/10 px-2 py-0.5 rounded-md text-white/50 uppercase tracking-wider">Admin</span>
+        </div>
+        <div class="sidebar-section-label">Menú principal</div>
+        <nav class="sidebar-nav">
+            <a href="index.html" class="sidebar-link">
+                <i class="fas fa-grid-2"></i> Dashboard
+            </a>
+            <a href="pedidos.html" class="sidebar-link">
+                <i class="fas fa-shopping-bag"></i> Pedidos
+            </a>
+            <a href="medidas.html" class="sidebar-link">
+                <i class="fas fa-ruler-combined"></i> Medidas
+            </a>
+            <a href="catalogo.html" class="sidebar-link">
+                <i class="fas fa-tshirt"></i> Catálogo
+            </a>
+            <a href="clientes.html" class="sidebar-link active">
+                <i class="fas fa-users"></i> Clientes
+            </a>
+        </nav>
+        <div class="sidebar-footer" id="sidebar-user">
+            <div class="avatar" id="user-avatar">A</div>
+            <div class="info">
+                <div class="name" id="user-name">Administrador</div>
+                <div class="role">Admin · Martex</div>
+            </div>
+            <button class="logout-btn" onclick="logout()" title="Cerrar sesión">
+                <i class="fas fa-sign-out-alt"></i>
+            </button>
+        </div>
+    </aside>
+
+    <div class="flex-grow flex flex-col h-full overflow-hidden">
+        <header class="admin-header">
+            <button id="mobile-menu-btn" class="header-icon-btn md:hidden mr-3" onclick="toggleSidebar()">
+                <i class="fas fa-bars"></i>
+            </button>
+            <div class="page-title">
+                Gestión de Clientes
+                <span class="breadcrumb">Admin · Clientes registrados desde la tienda</span>
+            </div>
+            <div class="header-actions ml-auto">
+                <button id="notification-bell" class="header-icon-btn" title="Notificaciones">
+                    <i class="fas fa-bell"></i>
+                    <span class="badge hidden"></span>
+                </button>
+            </div>
+        </header>
+
+        <main class="flex-grow p-6 overflow-auto" style="background: var(--bg-main);">
+            <div class="max-w-7xl mx-auto">
+                <div class="page-section-title">
+                    <div>
+                        <h1>Clientes Registrados</h1>
+                        <p class="text-sm text-gray-400 mt-1" id="clientes-count">Cargando...</p>
+                    </div>
+                    <button onclick="fetchClientes()" class="btn-primary">
+                        <i class="fas fa-sync-alt"></i> Actualizar
+                    </button>
+                </div>
+                
+                <div class="data-table-wrapper">
+                    <div class="table-responsive">
+                        <table class="data-table">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Cliente</th>
+                                    <th>Email</th>
+                                    <th>Teléfono</th>
+                                    <th>Registrado</th>
+                                </tr>
+                            </thead>
+                            <tbody id="tabla-clientes">
+                                <tr>
+                                    <td colspan="5" class="text-center text-gray-400 py-8">
+                                        <i class="fas fa-spinner fa-spin mr-2"></i> Cargando clientes...
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="js/auth-guard.js"></script>
+    <script>
+        function toggleSidebar() {
+            const sidebar = document.getElementById('admin-sidebar');
+            const overlay = document.getElementById('sidebar-overlay');
+            sidebar.classList.toggle('mobile-open');
+            overlay.classList.toggle('show');
+        }
+
+        const token = localStorage.getItem('token');
+        const authHeaders = { 'Authorization': `Bearer ${token}`, 'Content-Type': 'application/json' };
+
+        // Set user info
+        try {
+            const user = JSON.parse(localStorage.getItem('user'));
+            if (user) {
+                document.getElementById('user-name').textContent = user.nombre || 'Administrador';
+                document.getElementById('user-avatar').textContent = (user.nombre || 'A').charAt(0).toUpperCase();
+            }
+        } catch(e) {}
+
+        function logout() {
+            localStorage.removeItem('token');
+            localStorage.removeItem('user');
+            window.location.href = 'login.html';
+        }
+
+        async function fetchClientes() {
+            try {
+                const res = await fetch(CONFIG.API_URL + '/clientes', { headers: authHeaders });
+                if (res.ok) {
+                    const clientes = await res.json();
+                    document.getElementById('clientes-count').textContent = `${clientes.length} cliente(s) registrado(s)`;
+                    renderClientes(clientes);
+                }
+            } catch (e) {
+                console.error('Error fetching clientes:', e);
+                document.getElementById('tabla-clientes').innerHTML = `<tr><td colspan="5" class="empty-state"><i class="fas fa-exclamation-triangle block"></i><p>Error al conectar con el servidor</p></td></tr>`;
+            }
+        }
+
+        function renderClientes(clientes) {
+            const tbody = document.getElementById('tabla-clientes');
+            if (clientes.length === 0) {
+                tbody.innerHTML = `<tr><td colspan="5" class="empty-state"><i class="fas fa-users block"></i><p>Aún no hay clientes registrados</p></td></tr>`;
+                return;
+            }
+
+            tbody.innerHTML = clientes.map(c => `
+                <tr>
+                    <td class="font-semibold" style="color: var(--azul-pantera);">#${escapeHTML(String(c.id).padStart(3, '0'))}</td>
+                    <td>
+                        <div class="flex items-center gap-3">
+                            <div class="w-9 h-9 rounded-xl bg-gradient-to-br from-teal-500 to-blue-600 flex items-center justify-center text-white font-bold text-xs">
+                                ${(c.nombre || 'U').charAt(0).toUpperCase()}
+                            </div>
+                            <span class="font-medium text-gray-800">${escapeHTML(c.nombre)}</span>
+                        </div>
+                    </td>
+                    <td class="text-gray-500">${escapeHTML(c.email)}</td>
+                    <td class="text-gray-500">${escapeHTML(c.telefono || 'No registrado')}</td>
+                    <td class="text-gray-400 text-sm">${new Date(c.creado_en).toLocaleDateString('es-ES', { year: 'numeric', month: 'short', day: 'numeric' })}</td>
+                </tr>
+            `).join('');
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            fetchClientes();
+        });
+    </script>
+</body>
+</html>

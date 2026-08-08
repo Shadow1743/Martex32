@@ -34,8 +34,11 @@
 </head>
 <body class="flex h-screen overflow-hidden">
 
+    <!-- Sidebar Overlay para móviles -->
+    <div class="sidebar-overlay" id="sidebar-overlay" onclick="toggleSidebar()"></div>
+
     <!-- Sidebar -->
-    <aside class="admin-sidebar hidden md:flex">
+    <aside class="admin-sidebar" id="admin-sidebar">
         <div class="sidebar-brand">
             <span class="text-xl font-bold tracking-tight">Mar<span class="text-teal-400">tex</span></span>
             <span class="ml-2 text-[10px] font-medium bg-white/10 px-2 py-0.5 rounded-md text-white/50 uppercase tracking-wider">Admin</span>
@@ -69,8 +72,9 @@
 
     <div class="flex-grow flex flex-col h-full overflow-hidden">
         <header class="admin-header">
-            <button class="md:hidden text-gray-500 hover:text-azul-marino">
-                <i class="fas fa-bars text-xl"></i>
+
+            <button id="mobile-menu-btn" class="header-icon-btn md:hidden mr-3" onclick="toggleSidebar()">
+                <i class="fas fa-bars"></i>
             </button>
             <div class="page-title">
                 Gestión de Catálogo
@@ -107,14 +111,14 @@
                             </select>
                         </div>
                     </div>
-                    <div class="overflow-x-auto">
+                    <div class="table-responsive">
                         <table class="data-table">
                             <thead>
                                 <tr>
                                     <th>Imagen</th>
-                                    <th>Producto</th>
+                                    <th>Nombre del Producto</th>
                                     <th>Categoría</th>
-                                    <th>Precio Base</th>
+                                    <th>Precio Regular</th>
                                     <th>Descuento</th>
                                     <th>Precio Final</th>
                                     <th class="text-right">Acciones</th>
@@ -190,10 +194,17 @@
             </form>
         </div>
     </div>
-
+    <script src="js/auth-guard.js"></script>
+    <script src="js/security.js"></script>
     <script>
+        function toggleSidebar() {
+            const sidebar = document.getElementById('admin-sidebar');
+            const overlay = document.getElementById('sidebar-overlay');
+            sidebar.classList.toggle('mobile-open');
+            overlay.classList.toggle('show');
+        }
+
         const token = localStorage.getItem('token');
-        if (!token) window.location.href = 'login.html';
         const authHeaders = { 'Authorization': `Bearer ${token}` };
 
         // Set user info

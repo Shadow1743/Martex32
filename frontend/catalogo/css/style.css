@@ -1,16 +1,22 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Outfit:wght@400;500;600;700;800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Outfit:wght@400;500;600;700;800;900&display=swap');
+
+/* ===== BASE ===== */
+html {
+    scroll-behavior: smooth;
+}
 
 body {
     font-family: 'Inter', sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+    overflow-x: hidden;
 }
 
 h1, h2, h3, h4, h5, h6, .font-display {
     font-family: 'Outfit', sans-serif;
 }
 
-/* Glassmorphism Utilities */
+/* ===== GLASSMORPHISM ===== */
 .glass {
     background: rgba(255, 255, 255, 0.85);
     backdrop-filter: blur(12px);
@@ -25,7 +31,7 @@ h1, h2, h3, h4, h5, h6, .font-display {
     border: 1px solid rgba(255, 255, 255, 0.05);
 }
 
-/* Premium Card Hover Effects */
+/* ===== PREMIUM CARD EFFECTS ===== */
 .card-premium {
     transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 }
@@ -35,12 +41,20 @@ h1, h2, h3, h4, h5, h6, .font-display {
     box-shadow: 0 25px 50px -12px rgba(10, 17, 40, 0.15);
 }
 
-/* Text Gradients */
+/* On touch devices, reduce hover lift to avoid janky feel */
+@media (hover: none) {
+    .card-premium:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 10px 25px -6px rgba(10, 17, 40, 0.12);
+    }
+}
+
+/* ===== TEXT GRADIENTS ===== */
 .text-gradient {
     background-clip: text;
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
-    background-image: linear-gradient(135deg, #00B391 0%, #00725D 100%);
+    background-image: linear-gradient(135deg, #00B391 0%, #009B7D 50%, #00725D 100%);
 }
 
 .text-gradient-light {
@@ -50,13 +64,13 @@ h1, h2, h3, h4, h5, h6, .font-display {
     background-image: linear-gradient(135deg, #ffffff 0%, #e2e8f0 100%);
 }
 
-/* Pattern Backgrounds */
+/* ===== PATTERN BACKGROUNDS ===== */
 .bg-pattern-dots {
     background-image: radial-gradient(rgba(0, 179, 145, 0.15) 1px, transparent 1px);
     background-size: 24px 24px;
 }
 
-/* Smooth Image Hover */
+/* ===== IMAGE HOVER ===== */
 .img-hover-zoom {
     transition: transform 0.7s ease;
 }
@@ -64,7 +78,7 @@ h1, h2, h3, h4, h5, h6, .font-display {
     transform: scale(1.08);
 }
 
-/* Custom Scrollbar */
+/* ===== CUSTOM SCROLLBAR ===== */
 ::-webkit-scrollbar {
     width: 8px;
 }
@@ -79,7 +93,122 @@ h1, h2, h3, h4, h5, h6, .font-display {
     background: #00B391;
 }
 
-/* --- MODO OSCURO CUSTOM --- */
+/* ===== HERO RESPONSIVE ===== */
+@media (max-width: 640px) {
+    .hero-badge {
+        font-size: 0.75rem;
+        padding: 0.375rem 0.875rem;
+    }
+}
+
+/* ===== BUTTON SYSTEM — ensures all buttons look great on mobile ===== */
+.btn-hero-primary,
+.btn-hero-secondary {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    border-radius: 9999px;
+    transition: all 0.3s ease;
+    text-decoration: none;
+    white-space: nowrap;
+    min-width: 160px;
+    text-align: center;
+}
+
+.btn-hero-primary {
+    background: #00B391;
+    color: #fff;
+    padding: 0.9rem 2rem;
+    font-size: 1rem;
+    box-shadow: 0 0 20px rgba(0, 179, 145, 0.3);
+    position: relative;
+    overflow: hidden;
+}
+
+.btn-hero-primary:hover {
+    background: #009B7D;
+    transform: translateY(-3px);
+    box-shadow: 0 0 30px rgba(0, 179, 145, 0.5);
+}
+
+.btn-hero-secondary {
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    color: #fff;
+    padding: 0.9rem 2rem;
+    font-size: 1rem;
+}
+
+.btn-hero-secondary:hover {
+    background: rgba(255, 255, 255, 0.18);
+    transform: translateY(-3px);
+    border-color: rgba(255, 255, 255, 0.35);
+}
+
+@media (min-width: 640px) {
+    .btn-hero-primary,
+    .btn-hero-secondary {
+        padding: 1rem 2.5rem;
+        font-size: 1.125rem;
+        min-width: 200px;
+    }
+}
+
+/* ===== SECTION HEADING RESPONSIVE ===== */
+.section-badge {
+    display: inline-block;
+    color: #00B391;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    font-size: 0.7rem;
+    font-weight: 700;
+    padding: 0.4rem 1rem;
+    border-radius: 9999px;
+    border: 1px solid rgba(0, 179, 145, 0.3);
+    background: rgba(0, 179, 145, 0.1);
+    box-shadow: 0 1px 3px rgba(0, 179, 145, 0.08);
+    margin-bottom: 1rem;
+}
+
+@media (min-width: 640px) {
+    .section-badge {
+        font-size: 0.75rem;
+        padding: 0.5rem 1.25rem;
+    }
+}
+
+/* ===== STAT CARDS ON MOBILE ===== */
+@media (max-width: 400px) {
+    .stat-grid {
+        grid-template-columns: 1fr !important;
+        gap: 0.75rem;
+    }
+}
+
+/* ===== LOCATION SECTION RESPONSIVE ===== */
+@media (max-width: 768px) {
+    .location-map-container {
+        height: 320px !important;
+    }
+}
+
+/* ===== CTA SECTION RESPONSIVE ===== */
+@media (max-width: 640px) {
+    .cta-buttons {
+        flex-direction: column !important;
+        width: 100%;
+        gap: 0.75rem;
+    }
+    .cta-buttons a {
+        width: 100%;
+        justify-content: center;
+    }
+}
+
+/* ===== DARK MODE ===== */
 body {
     transition: background-color 0.3s ease, color 0.3s ease;
 }
@@ -126,12 +255,10 @@ body {
     color: #cbd5e1 !important;
 }
 
-/* Fix text hover for quantity buttons */
 .dark .hover\:text-azul-marino:hover {
     color: #ffffff !important;
 }
 
-/* Only apply border override if not checked or hovered */
 .dark .border-gray-100:not(.peer-checked\:border-verde-quirurgico),
 .dark .border-gray-200:not(.peer-checked\:border-verde-quirurgico),
 .dark .border-gray-150 {
@@ -161,7 +288,6 @@ body {
     background: #00B391;
 }
 
-/* Fix shadows and card hover in dark mode */
 .dark .shadow-sm,
 .dark .shadow-md,
 .dark .shadow-lg,
@@ -179,7 +305,16 @@ body {
     border-color: rgba(0, 155, 125, 0.3) !important;
 }
 
-/* Particle Animations */
+.dark .btn-hero-secondary {
+    background: rgba(255, 255, 255, 0.08);
+    border-color: rgba(255, 255, 255, 0.12);
+}
+
+.dark .btn-hero-secondary:hover {
+    background: rgba(255, 255, 255, 0.15);
+}
+
+/* ===== PARTICLE ANIMATIONS ===== */
 .particle {
     position: absolute;
     width: 6px;
@@ -202,7 +337,12 @@ body {
     75% { transform: translate(40px, -30px) scale(1.1); opacity: 0.5; }
 }
 
-/* Scroll reveal animation */
+/* Disable particles on very small screens for performance */
+@media (max-width: 480px) {
+    .particle { display: none; }
+}
+
+/* ===== SCROLL REVEAL ===== */
 @keyframes revealUp {
     from { opacity: 0; transform: translateY(40px); }
     to { opacity: 1; transform: translateY(0); }
@@ -210,4 +350,132 @@ body {
 
 .reveal-on-scroll {
     animation: revealUp 0.8s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+
+/* ===== WHATSAPP FLOAT ===== */
+.whatsapp-float {
+    position: fixed;
+    bottom: 24px;
+    right: 24px;
+    width: 56px;
+    height: 56px;
+    background-color: #25d366;
+    color: #FFF;
+    border-radius: 50%;
+    text-align: center;
+    font-size: 28px;
+    box-shadow: 0 4px 18px rgba(37, 211, 102, 0.35);
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+    transition: all 0.3s ease;
+}
+
+.whatsapp-float:hover {
+    background-color: #128c7e;
+    transform: translateY(-4px) scale(1.05);
+    box-shadow: 0 8px 24px rgba(37, 211, 102, 0.4);
+    color: #fff;
+}
+
+@media (max-width: 640px) {
+    .whatsapp-float {
+        width: 50px;
+        height: 50px;
+        font-size: 24px;
+        bottom: 16px;
+        right: 16px;
+    }
+}
+
+/* ===== SKELETON LOADING ===== */
+@keyframes skeleton-loading {
+    0% { background-color: #e2e8f0; }
+    100% { background-color: #f8fafc; }
+}
+
+.skeleton {
+    animation: skeleton-loading 1s linear infinite alternate;
+    border-radius: 8px;
+}
+.dark .skeleton {
+    animation: skeleton-loading-dark 1s linear infinite alternate;
+}
+@keyframes skeleton-loading-dark {
+    0% { background-color: #1e293b; }
+    100% { background-color: #334155; }
+}
+
+/* ===== DIVIDER LINE WITH SHIMMER ===== */
+.divider-shimmer {
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(0, 179, 145, 0.3), transparent);
+}
+
+/* ===== FOCUS STYLES FOR ACCESSIBILITY ===== */
+a:focus-visible,
+button:focus-visible {
+    outline: 2px solid #00B391;
+    outline-offset: 2px;
+    border-radius: 8px;
+}
+
+/* ===== MOBILE PERFORMANCE & TOUCH ===== */
+button,
+a,
+label,
+input,
+select,
+textarea,
+[role="button"] {
+    touch-action: manipulation;
+}
+
+/* Minimum tap target sizes (WCAG 44x44px) */
+@media (max-width: 768px) {
+    button, a, label[class*="cursor-pointer"] {
+        min-height: 44px;
+    }
+}
+
+/* Safe area insets for iPhones with notch */
+@supports (padding: env(safe-area-inset-bottom)) {
+    body {
+        padding-left: env(safe-area-inset-left);
+        padding-right: env(safe-area-inset-right);
+    }
+    .whatsapp-float {
+        bottom: calc(16px + env(safe-area-inset-bottom));
+        right: calc(16px + env(safe-area-inset-right));
+    }
+    footer {
+        padding-bottom: calc(2.5rem + env(safe-area-inset-bottom));
+    }
+}
+
+/* Disable hover effects on touch devices for smoother interactions */
+@media (hover: none) and (pointer: coarse) {
+    .card-premium:hover {
+        transform: none;
+        box-shadow: 0 10px 25px -6px rgba(10, 17, 40, 0.12);
+    }
+    .btn-hero-primary:hover,
+    .btn-hero-secondary:hover {
+        transform: none;
+    }
+    .img-hover-zoom {
+        transition: none;
+    }
+    .card-premium:hover .img-hover-zoom {
+        transform: none;
+    }
+}
+
+/* Mobile body lock when menu is open */
+body.menu-open {
+    overflow: hidden;
+    position: fixed;
+    width: 100%;
 }

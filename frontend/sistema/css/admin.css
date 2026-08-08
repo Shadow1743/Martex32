@@ -29,11 +29,45 @@ body { font-family: 'Inter', sans-serif; background-color: var(--bg-main); }
     color: #fff;
     display: flex;
     flex-direction: column;
-    z-index: 30;
+    z-index: 50;
     flex-shrink: 0;
     position: relative;
     overflow: hidden;
+    transition: transform 0.3s ease;
 }
+@media (max-width: 768px) {
+    .admin-sidebar {
+        position: fixed;
+        top: 0;
+        left: 0;
+        height: 100vh;
+        transform: translateX(-100%);
+    }
+    .admin-sidebar.mobile-open {
+        transform: translateX(0);
+    }
+}
+.sidebar-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 80, 0.5);
+    backdrop-filter: blur(4px);
+    z-index: 40;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+.sidebar-overlay.show {
+    display: block;
+    opacity: 1;
+}
+
+.table-responsive {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    width: 100%;
+}
+
 .admin-sidebar::before {
     content: '';
     position: absolute;
@@ -421,9 +455,7 @@ body { font-family: 'Inter', sans-serif; background-color: var(--bg-main); }
 .animate-fade-in:nth-child(4) { animation-delay: 0.15s; }
 
 /* ---- Mobile hamburger ---- */
-@media (max-width: 767px) {
-    .admin-sidebar { display: none; }
-}
+/* Sidebar visibility on mobile is handled via transform (lines 38-49) */
 
 /* ============================================
    Dark Mode System
@@ -507,4 +539,96 @@ html.dark .border-gray-100 {
 }
 html.dark .group:hover .text-gray-800 {
     color: #fff !important;
+}
+
+/* ============================================
+   Mobile Improvements
+   ============================================ */
+
+/* Touch optimization for all interactive elements */
+button, a, label, input, select, textarea, [role="button"] {
+    touch-action: manipulation;
+}
+
+/* Responsive tables on small screens */
+@media (max-width: 640px) {
+    .data-table thead th {
+        padding: 0.5rem 0.75rem;
+        font-size: 0.6rem;
+    }
+    .data-table tbody td {
+        padding: 0.6rem 0.75rem;
+        font-size: 0.75rem;
+    }
+    .admin-header {
+        padding: 0 0.75rem;
+    }
+    .admin-header .page-title {
+        font-size: 0.95rem;
+    }
+    .admin-header .page-title .breadcrumb {
+        display: none;
+    }
+    main.flex-grow {
+        padding: 0.75rem !important;
+    }
+}
+
+/* Metric cards single column on very small screens */
+@media (max-width: 380px) {
+    .grid-cols-1.md\\:grid-cols-2.lg\\:grid-cols-4 {
+        gap: 0.75rem;
+    }
+    .metric-card {
+        padding: 1rem;
+    }
+    .metric-card .metric-value {
+        font-size: 1.25rem;
+    }
+}
+
+/* Page section title stacks on mobile */
+@media (max-width: 640px) {
+    .page-section-title {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.75rem;
+    }
+    .page-section-title h1 {
+        font-size: 1.25rem;
+    }
+    .btn-primary {
+        width: 100%;
+        justify-content: center;
+    }
+}
+
+/* Modal responsive on mobile */
+@media (max-width: 640px) {
+    #modal-content,
+    #modal-detalle .bg-white {
+        padding: 1.25rem !important;
+        margin: 0.5rem;
+        border-radius: 1rem;
+        max-height: 90vh;
+        overflow-y: auto;
+    }
+    #modal-detalle .grid-cols-2 {
+        grid-template-columns: 1fr !important;
+        gap: 1rem;
+    }
+    #modal-detalle .text-right {
+        text-align: left;
+    }
+}
+
+/* Safe area insets for iPhone notch */
+@supports (padding: env(safe-area-inset-bottom)) {
+    .admin-sidebar {
+        padding-bottom: env(safe-area-inset-bottom);
+    }
+    .admin-header {
+        padding-left: max(0.75rem, env(safe-area-inset-left));
+        padding-right: max(0.75rem, env(safe-area-inset-right));
+    }
 }
