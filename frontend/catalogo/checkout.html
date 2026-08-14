@@ -8,8 +8,31 @@
     
     <script src="../config.js"></script>
     <script src="../sistema/js/security.js"></script>
-    <script src="/tailwind-cdn.js"></script>
+
+    <!-- Inicialización inmediata de Modo Oscuro -->
+    <script>
+        (function() {
+            try {
+                const savedTheme = localStorage.getItem('theme');
+                const prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+                if (savedTheme === 'dark' || (!savedTheme && prefersDark)) {
+                    document.documentElement.classList.add('dark');
+                } else {
+                    document.documentElement.classList.remove('dark');
+                }
+            } catch(e) {}
+        })();
+    </script>
+
+    <!-- Configuración Custom de Tailwind -->
     <script src="js/tailwind-config.js"></script>
+    <!-- Tailwind CSS CDN con Fallback -->
+    <script src="../tailwind-cdn.js"></script>
+    <script>
+        if (typeof tailwind === 'undefined') {
+            document.write('<script src="https://cdn.tailwindcss.com"><\/script>');
+        }
+    </script>
     <link rel="stylesheet" href="css/style.css">
     
     <!-- Lucide Icons & FontAwesome -->
@@ -21,11 +44,11 @@
     <script src="componentes/footer.js" defer></script>
     <script src="componentes/auth-modal.js" defer></script>
 </head>
-<body class="bg-gray-50 text-azul-marino flex flex-col min-h-screen font-sans antialiased">
+<body class="bg-gray-50 dark:bg-[#060D1A] text-azul-marino dark:text-slate-100 flex flex-col min-h-screen font-sans antialiased transition-colors duration-200">
 
     <main-navbar></main-navbar>
 
-    <div class="bg-azul-marino text-white py-12 px-4 text-center relative overflow-hidden">
+    <div class="bg-azul-marino dark:bg-[#0A1428] text-white py-12 px-4 text-center relative overflow-hidden border-b border-white/10">
         <div class="absolute inset-0 hero-grid-bg opacity-30"></div>
         <div class="relative z-10 max-w-4xl mx-auto">
             <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-verde-quirurgico/20 text-verde-quirurgico-light text-xs font-bold uppercase tracking-wider mb-3">

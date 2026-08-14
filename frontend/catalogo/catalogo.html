@@ -64,23 +64,23 @@
     <main class="flex-grow container mx-auto px-6 py-12 flex flex-col md:flex-row gap-10">
         <!-- Sidebar Filters -->
         <aside class="w-full md:w-1/4" id="sidebar-filters">
-            <div class="bg-white p-4 md:p-6 rounded-2xl md:rounded-3xl shadow-sm border border-gray-100 sticky top-24 card-gradient-border">
+            <div class="bg-white dark:bg-[#0A1428] p-4 md:p-6 rounded-2xl md:rounded-3xl shadow-sm border border-slate-100 dark:border-white/10 sticky top-24 card-gradient-border transition-colors">
                 <div class="flex items-center justify-between mb-4 md:mb-6">
-                    <h3 class="font-display font-bold text-lg md:text-xl">Filtros</h3>
-                    <button onclick="limpiarFiltros()" id="clear-filters-btn" class="text-xs text-verde-quirurgico hover:text-verde-quirurgico-dark font-semibold hidden items-center gap-1 transition-colors">
+                    <h3 class="font-display font-bold text-lg md:text-xl text-azul-marino dark:text-white">Filtros</h3>
+                    <button onclick="limpiarFiltros()" id="clear-filters-btn" class="text-xs text-verde-quirurgico dark:text-emerald-400 hover:text-verde-quirurgico-dark font-semibold hidden items-center gap-1 transition-colors">
                         <i class="fas fa-undo"></i> Limpiar
                     </button>
                 </div>
                 
                 <div class="flex flex-col sm:flex-row md:flex-col gap-4 md:gap-6">
                     <div class="flex-1">
-                        <label class="block text-sm font-semibold text-gray-700 mb-2 md:mb-3">
+                        <label class="block text-sm font-semibold text-slate-700 dark:text-slate-200 mb-2 md:mb-3">
                             <i class="fas fa-search text-verde-quirurgico mr-1.5"></i>Buscar
                         </label>
                         <div class="relative">
-                            <input type="text" id="searchInput" placeholder="Ej. Scrub azul..." class="w-full pl-10 pr-4 py-2 md:py-3 rounded-xl border border-gray-200 focus:outline-none focus:border-verde-quirurgico focus:ring-2 focus:ring-verde-quirurgico/20 transition-all text-sm">
-                            <i class="fas fa-search absolute left-4 top-3 md:top-3.5 text-gray-400"></i>
-                            <button id="search-clear-btn" class="absolute right-3 top-3 md:top-3.5 text-gray-300 hover:text-gray-500 hidden">
+                            <input type="text" id="searchInput" placeholder="Ej. Scrub verde..." class="w-full pl-10 pr-4 py-2.5 md:py-3 rounded-xl border border-slate-200 dark:border-white/15 bg-slate-50 dark:bg-[#060D1A] text-slate-900 dark:text-white placeholder:text-slate-400 dark:placeholder:text-slate-500 focus:outline-none focus:border-verde-quirurgico focus:ring-2 focus:ring-verde-quirurgico/20 transition-all text-sm">
+                            <i class="fas fa-search absolute left-3.5 top-3 md:top-3.5 text-slate-400"></i>
+                            <button id="search-clear-btn" class="absolute right-3 top-3 md:top-3.5 text-slate-400 hover:text-slate-600 hidden">
                                 <i class="fas fa-times-circle"></i>
                             </button>
                         </div>
@@ -88,22 +88,22 @@
 
                     <div class="flex-1">
                         <div class="flex items-center justify-between">
-                            <label class="block text-sm font-semibold text-gray-700 mb-2 md:mb-3">
+                            <label class="block text-sm font-semibold text-slate-700 dark:text-slate-200 mb-2 md:mb-3">
                                 <i class="fas fa-tag text-verde-quirurgico mr-1.5"></i>Categoría
                             </label>
                         </div>
                         <div class="space-y-2 md:space-y-2.5 flex flex-wrap gap-x-4 gap-y-2 sm:block">
-                            <label class="flex items-center gap-2 md:gap-3 cursor-pointer group p-2 rounded-xl hover:bg-gray-50 transition-colors -ml-2">
+                            <label class="flex items-center gap-2 md:gap-3 cursor-pointer group p-2 rounded-xl hover:bg-slate-50 dark:hover:bg-white/5 transition-colors -ml-2">
                                 <input type="radio" name="categoria" value="Todas" checked class="w-4 h-4 text-verde-quirurgico focus:ring-verde-quirurgico">
-                                <span class="text-gray-600 group-hover:text-azul-marino transition-colors text-sm font-medium">Todas</span>
+                                <span class="text-slate-600 dark:text-slate-300 group-hover:text-azul-marino dark:group-hover:text-white transition-colors text-sm font-medium">Todas</span>
                             </label>
-                            <label class="flex items-center gap-2 md:gap-3 cursor-pointer group p-2 rounded-xl hover:bg-gray-50 transition-colors -ml-2">
+                            <label class="flex items-center gap-2 md:gap-3 cursor-pointer group p-2 rounded-xl hover:bg-slate-50 dark:hover:bg-white/5 transition-colors -ml-2">
                                 <input type="radio" name="categoria" value="Médico" class="w-4 h-4 text-verde-quirurgico focus:ring-verde-quirurgico">
-                                <span class="text-gray-600 group-hover:text-azul-marino transition-colors text-sm font-medium">Sector Médico</span>
+                                <span class="text-slate-600 dark:text-slate-300 group-hover:text-azul-marino dark:group-hover:text-white transition-colors text-sm font-medium">Sector Médico</span>
                             </label>
-                            <label class="flex items-center gap-2 md:gap-3 cursor-pointer group p-2 rounded-xl hover:bg-gray-50 transition-colors -ml-2">
+                            <label class="flex items-center gap-2 md:gap-3 cursor-pointer group p-2 rounded-xl hover:bg-slate-50 dark:hover:bg-white/5 transition-colors -ml-2">
                                 <input type="radio" name="categoria" value="Belleza" class="w-4 h-4 text-verde-quirurgico focus:ring-verde-quirurgico">
-                                <span class="text-gray-600 group-hover:text-azul-marino transition-colors text-sm font-medium">Belleza</span>
+                                <span class="text-slate-600 dark:text-slate-300 group-hover:text-azul-marino dark:group-hover:text-white transition-colors text-sm font-medium">Belleza & Spa</span>
                             </label>
                         </div>
                     </div>
@@ -454,55 +454,57 @@
                 }
 
                 grid.innerHTML = products.map(prod => {
-                    const precioFinal = prod.precio_base - (prod.precio_base * (prod.porcentaje_descuento / 100));
-                    const imageUrl = prod.imagen_url ? `${CONFIG.BASE_URL}${prod.imagen_url}` : 'https://placehold.co/400x400/0A1128/FFFFFF?text=Martex';
-                    const tieneDescuento = prod.porcentaje_descuento > 0;
+                    const desc = prod.porcentaje_descuento || 0;
+                    const precioBase = parseFloat(prod.precio_base) || 0;
+                    const precioFinal = precioBase - (precioBase * (desc / 100));
+                    const imageUrl = prod.imagen_url ? `${CONFIG.BASE_URL}${prod.imagen_url}` : 'imagenes/conjunto de uniforme médico.jpeg';
+                    const tieneDescuento = desc > 0;
 
                     return `
-                    <div class="bg-white rounded-3xl overflow-hidden card-premium shadow-lg border border-gray-100 flex flex-col group">
-                        <div class="h-64 bg-gray-100 relative overflow-hidden cursor-pointer" onclick="verProducto('${escapeHTML(prod.id)}')">
+                    <div class="bg-white dark:bg-[#0A1428] rounded-3xl overflow-hidden card-premium shadow-sm border border-slate-200/80 dark:border-white/10 flex flex-col group transition-colors">
+                        <div class="h-64 bg-slate-100 dark:bg-white/5 relative overflow-hidden cursor-pointer" onclick="verProducto('${escapeHTML(prod.id)}')">
                             <img src="${escapeHTML(imageUrl)}" alt="${escapeHTML(prod.nombre)}" class="w-full h-full object-cover object-top img-hover-zoom">
                             <div class="absolute top-4 left-4 right-4 flex justify-between items-start">
-                                <span class="glass text-azul-marino text-xs font-bold px-3 py-1 rounded-full shadow-sm">${escapeHTML(prod.categoria)}</span>
-                                <button data-fav-id="${escapeHTML(prod.id)}" onclick="event.stopPropagation(); MartexFavoritos.toggle('${escapeHTML(prod.id)}', this)" class="w-9 h-9 rounded-full glass flex items-center justify-center text-gray-400 hover:text-red-500 hover:bg-white transition-all shadow-sm" aria-label="Agregar a favoritos">
-                                    <i class="far fa-heart"></i>
+                                <span class="bg-white/90 dark:bg-black/70 backdrop-blur-md text-azul-marino dark:text-white text-xs font-semibold px-3 py-1 rounded-full shadow-xs border border-slate-200/50 dark:border-white/10">${escapeHTML(prod.categoria || 'Colección')}</span>
+                                <button data-fav-id="${escapeHTML(prod.id)}" onclick="event.stopPropagation(); MartexFavoritos.toggle('${escapeHTML(prod.id)}', this)" class="w-9 h-9 rounded-full bg-white/90 dark:bg-[#060D1A]/90 backdrop-blur-md flex items-center justify-center text-slate-400 hover:text-red-500 transition-colors shadow-xs border border-slate-200/50 dark:border-white/10" aria-label="Agregar a favoritos">
+                                    <i class="far fa-heart text-sm"></i>
                                 </button>
                             </div>
                             ${tieneDescuento ? `
                             <div class="absolute top-14 right-4">
-                                <span class="bg-red-500 text-white text-xs font-bold px-2.5 py-1 rounded-full shadow-sm">-${prod.porcentaje_descuento}%</span>
+                                <span class="bg-red-500 text-white text-xs font-bold px-2.5 py-0.5 rounded-full shadow-xs">-${desc}% OFF</span>
                             </div>` : ''}
                             <!-- Overlay de "Ver detalle" al pasar el mouse -->
                             <div class="absolute inset-0 bg-azul-marino/0 group-hover:bg-azul-marino/40 transition-all duration-300 flex items-center justify-center">
-                                <span class="bg-white/90 backdrop-blur-sm text-azul-marino font-bold px-5 py-2.5 rounded-full opacity-0 group-hover:opacity-100 transform translate-y-4 group-hover:translate-y-0 transition-all duration-300 shadow-lg text-sm">
-                                    <i class="fas fa-eye mr-2"></i>Ver detalle
+                                <span class="bg-white/95 dark:bg-[#0A1428]/95 backdrop-blur-sm text-azul-marino dark:text-white font-bold px-4 py-2 rounded-xl opacity-0 group-hover:opacity-100 transform translate-y-2 group-hover:translate-y-0 transition-all duration-200 shadow-md text-xs">
+                                    <i class="fas fa-eye mr-1.5 text-verde-quirurgico"></i> Ver detalle
                                 </span>
                             </div>
                         </div>
                         <div class="p-6 flex flex-col flex-grow">
-                            <h3 class="font-display font-bold text-xl text-azul-marino mb-2 group-hover:text-verde-quirurgico transition-colors cursor-pointer" onclick="verProducto('${escapeHTML(prod.id)}')">${escapeHTML(prod.nombre)}</h3>
+                            <h3 class="font-display font-bold text-lg sm:text-xl text-azul-marino dark:text-white mb-2 group-hover:text-verde-quirurgico dark:group-hover:text-emerald-400 transition-colors cursor-pointer" onclick="verProducto('${escapeHTML(prod.id)}')">${escapeHTML(prod.nombre)}</h3>
                             
                             <!-- Talla Selector -->
-                            <div class="mb-4 mt-2">
+                            <div class="mb-4 mt-1">
                                 <div class="flex gap-2" id="tallas-cat-${escapeHTML(prod.id)}">
                                     ${['S','M','L'].map(t => `
-                                    <button type="button" onclick="seleccionarTalla(this, 'talla-cat-', '${escapeHTML(prod.id)}', '${t}')" class="talla-btn w-8 h-8 rounded-lg border flex items-center justify-center text-xs font-medium transition-all ${t === 'M' ? 'border-verde-quirurgico bg-verde-quirurgico text-white' : 'border-gray-200 text-gray-600 hover:border-verde-quirurgico/50'}" data-talla="${t}">${t}</button>
+                                    <button type="button" onclick="seleccionarTalla(this, 'talla-cat-', '${escapeHTML(prod.id)}', '${t}')" class="talla-btn w-8 h-8 rounded-lg border flex items-center justify-center text-xs font-semibold transition-all active:scale-95 ${t === 'M' ? 'border-verde-quirurgico bg-verde-quirurgico text-white shadow-xs' : 'border-slate-200 dark:border-white/15 bg-white dark:bg-white/5 text-slate-600 dark:text-slate-300 hover:border-verde-quirurgico/50'}" data-talla="${t}">${t}</button>
                                     `).join('')}
                                 </div>
                                 <input type="hidden" name="talla-cat-${escapeHTML(prod.id)}" value="M">
                             </div>
 
-                            <div class="flex flex-col mt-auto pt-4 gap-3">
-                                <div class="flex justify-between items-center">
-                                    <span class="font-display font-bold text-2xl text-azul-marino">$${precioFinal.toFixed(2)}</span>
-                                    ${tieneDescuento ? `<span class="text-gray-400 line-through text-sm">$${parseFloat(prod.precio_base).toFixed(2)}</span>` : ''}
+                            <div class="flex flex-col mt-auto pt-4 border-t border-slate-100 dark:border-white/10 gap-3">
+                                <div class="flex justify-between items-baseline">
+                                    <span class="font-display font-extrabold text-2xl text-azul-marino dark:text-white">$${precioFinal.toFixed(2)}</span>
+                                    ${tieneDescuento ? `<span class="text-slate-400 dark:text-slate-500 line-through text-xs">$${precioBase.toFixed(2)}</span>` : ''}
                                 </div>
                                 <div class="flex gap-2 w-full">
-                                    <button onclick="agregarAlCarritoConTalla('${escapeHTML(prod.id)}', '${escapeHTML(prod.nombre)}', ${precioFinal}, '${escapeHTML(imageUrl)}', 'talla-cat-')" class="flex-1 py-2 rounded-xl bg-azul-marino text-white flex items-center justify-center hover:bg-verde-quirurgico transition-all hover:-translate-y-1 font-semibold text-sm">
-                                        <i class="fas fa-cart-plus mr-2"></i> Carrito
+                                    <button onclick="agregarAlCarritoConTalla('${escapeHTML(prod.id)}', '${escapeHTML(prod.nombre)}', ${precioFinal}, '${escapeHTML(imageUrl)}', 'talla-cat-')" class="flex-1 min-h-[42px] rounded-xl bg-slate-100 hover:bg-slate-200 dark:bg-white/10 dark:hover:bg-white/15 text-azul-marino dark:text-white border border-slate-200/80 dark:border-white/10 flex items-center justify-center active:scale-95 transition-all duration-200 font-semibold text-xs gap-1.5 shadow-xs" aria-label="Añadir al carrito">
+                                        <i class="fas fa-cart-plus text-xs text-verde-quirurgico"></i> Carrito
                                     </button>
-                                    <button onclick="verProducto('${escapeHTML(prod.id)}')" class="flex-1 py-2 rounded-xl bg-verde-quirurgico text-white flex items-center justify-center hover:bg-verde-quirurgico-dark transition-all hover:-translate-y-1 font-semibold text-sm">
-                                        <i class="fas fa-eye mr-2"></i> Ver más
+                                    <button onclick="verProducto('${escapeHTML(prod.id)}')" class="flex-1 min-h-[42px] rounded-xl bg-verde-quirurgico hover:bg-verde-quirurgico-dark text-white flex items-center justify-center active:scale-95 transition-all duration-200 font-semibold text-xs gap-1.5 shadow-xs" aria-label="Ver más detalles">
+                                        <i class="fas fa-eye text-xs"></i> Ver más
                                     </button>
                                 </div>
                             </div>

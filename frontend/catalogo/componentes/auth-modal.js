@@ -6,25 +6,27 @@ class AuthModal extends HTMLElement {
 
         this.innerHTML = `
             <div id="auth-modal-backdrop" class="fixed inset-0 z-[60] invisible opacity-0 transition-all duration-300">
-                <div class="absolute inset-0 bg-azul-marino/60 backdrop-blur-sm" id="auth-modal-overlay"></div>
+                <div class="absolute inset-0 bg-azul-marino/70 dark:bg-black/80 backdrop-blur-sm" id="auth-modal-overlay"></div>
                 
                 <div class="flex items-center justify-center min-h-screen p-4">
-                    <div id="auth-modal-card" class="relative w-full max-w-md bg-white rounded-3xl shadow-2xl transform scale-95 transition-all duration-300 overflow-hidden z-10">
+                    <div id="auth-modal-card" class="relative w-full max-w-md bg-white dark:bg-[#0A1428] rounded-3xl shadow-2xl border border-slate-100 dark:border-white/10 transform scale-95 transition-all duration-300 overflow-hidden z-10">
                         
                         <!-- Header con tabs -->
                         <div class="bg-gradient-to-r from-azul-marino to-azul-pantera p-6 pb-0 relative overflow-hidden">
                             <div class="absolute inset-0 overflow-hidden pointer-events-none">
-                                <div class="absolute top-0 right-0 w-32 h-32 bg-verde-quirurgico/10 rounded-full blur-2xl"></div>
+                                <div class="absolute top-0 right-0 w-32 h-32 bg-verde-quirurgico/15 rounded-full blur-2xl"></div>
                                 <div class="absolute bottom-0 left-0 w-24 h-24 bg-azul-pantera-light/20 rounded-full blur-xl"></div>
                             </div>
                             
                             <div class="relative z-10">
                                 <div class="flex justify-between items-center mb-4">
-                                    <h2 class="text-white text-xl font-display font-bold">
-                                        <i class="fas fa-stethoscope text-verde-quirurgico mr-2"></i>
-                                        MARTEX
-                                    </h2>
-                                    <button id="auth-modal-close" class="w-8 h-8 rounded-full bg-white/10 flex items-center justify-center text-white/70 hover:text-white hover:bg-white/20 transition-all">
+                                    <div class="flex items-center gap-2">
+                                        <div class="w-8 h-8 rounded-lg bg-verde-quirurgico flex items-center justify-center text-white text-sm">
+                                            <i class="fas fa-stethoscope"></i>
+                                        </div>
+                                        <h2 class="text-white text-xl font-display font-extrabold tracking-tight">MARTEX</h2>
+                                    </div>
+                                    <button id="auth-modal-close" class="w-8 h-8 rounded-full bg-white/10 flex items-center justify-center text-white/70 hover:text-white hover:bg-white/20 transition-all" aria-label="Cerrar modal">
                                         <i class="fas fa-times text-sm"></i>
                                     </button>
                                 </div>
@@ -44,62 +46,62 @@ class AuthModal extends HTMLElement {
                         <!-- Contenido -->
                         <div class="p-6">
                             <!-- Alerta de error -->
-                            <div id="auth-error" class="hidden bg-red-50 border border-red-200 text-red-600 px-4 py-3 rounded-xl text-sm text-center font-medium mb-4 items-center justify-center gap-2">
+                            <div id="auth-error" class="hidden bg-red-50 dark:bg-red-950/40 border border-red-200 dark:border-red-800 text-red-600 dark:text-red-300 px-4 py-3 rounded-xl text-sm text-center font-medium mb-4 items-center justify-center gap-2">
                                 <i class="fas fa-exclamation-circle"></i>
                                 <span></span>
                             </div>
                             
                             <!-- Alerta de éxito -->
-                            <div id="auth-success" class="hidden bg-green-50 border border-green-200 text-green-600 px-4 py-3 rounded-xl text-sm text-center font-medium mb-4 items-center justify-center gap-2">
+                            <div id="auth-success" class="hidden bg-emerald-50 dark:bg-emerald-950/40 border border-emerald-200 dark:border-emerald-800 text-emerald-700 dark:text-emerald-300 px-4 py-3 rounded-xl text-sm text-center font-medium mb-4 items-center justify-center gap-2">
                                 <i class="fas fa-check-circle"></i>
                                 <span></span>
                             </div>
                             
                             <!-- Social Login -->
                             <div class="mb-5 space-y-3">
-                                <button type="button" onclick="document.querySelector('auth-modal').handleGoogleAuth()" class="w-full bg-white border border-gray-200 text-gray-700 font-bold py-3 px-4 rounded-xl hover:bg-gray-50 hover:border-gray-300 transition-all shadow-sm flex items-center justify-center gap-3">
+                                <button type="button" onclick="document.querySelector('auth-modal').handleGoogleAuth()" class="w-full bg-white dark:bg-white/5 border border-slate-200 dark:border-white/15 text-slate-700 dark:text-slate-200 font-bold py-3 px-4 rounded-xl hover:bg-slate-50 dark:hover:bg-white/10 hover:border-slate-300 transition-all shadow-xs flex items-center justify-center gap-3 active:scale-[0.99]">
                                     <img src="https://www.svgrepo.com/show/475656/google-color.svg" alt="Google" class="w-5 h-5">
                                     <span>Continuar con Google</span>
                                 </button>
-                                <button type="button" onclick="document.querySelector('auth-modal').handleFacebookAuth()" class="w-full bg-[#1877F2] border border-[#1877F2] text-white font-bold py-3 px-4 rounded-xl hover:bg-[#166fe5] transition-all shadow-sm flex items-center justify-center gap-3">
+                                <button type="button" onclick="document.querySelector('auth-modal').handleFacebookAuth()" class="w-full bg-[#1877F2] border border-[#1877F2] text-white font-bold py-3 px-4 rounded-xl hover:bg-[#166fe5] transition-all shadow-xs flex items-center justify-center gap-3 active:scale-[0.99]">
                                     <svg class="w-5 h-5 fill-current" viewBox="0 0 24 24"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.469h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.469h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
                                     <span>Continuar con Facebook</span>
                                 </button>
                             </div>
                             
                             <!-- Divisor -->
-                            <div class="relative flex items-center py-4 mb-1">
-                                <div class="flex-grow border-t border-gray-200"></div>
-                                <span class="flex-shrink-0 mx-4 text-gray-400 text-xs font-semibold uppercase tracking-wider">o con tu email</span>
-                                <div class="flex-grow border-t border-gray-200"></div>
+                            <div class="relative flex items-center py-3 mb-1">
+                                <div class="flex-grow border-t border-slate-200 dark:border-white/10"></div>
+                                <span class="flex-shrink-0 mx-4 text-slate-400 dark:text-slate-500 text-xs font-semibold uppercase tracking-wider">o con tu correo</span>
+                                <div class="flex-grow border-t border-slate-200 dark:border-white/10"></div>
                             </div>
 
                             <!-- Form Login -->
                             <form id="auth-login-form" class="space-y-4">
                                 <div>
-                                    <label class="block text-xs font-bold uppercase tracking-wider text-gray-400 mb-2">Correo Electrónico</label>
+                                    <label class="block text-xs font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400 mb-2">Correo Electrónico</label>
                                     <div class="relative">
                                         <div class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none">
-                                            <i class="fas fa-envelope text-gray-300 text-sm"></i>
+                                            <i class="fas fa-envelope text-slate-400 text-sm"></i>
                                         </div>
                                         <input type="email" name="email" required placeholder="tu@correo.com"
-                                            class="w-full bg-gray-50 border border-gray-200 rounded-xl pl-10 pr-4 py-3 text-sm text-gray-900 focus:border-verde-quirurgico focus:ring-2 focus:ring-verde-quirurgico/20 outline-none transition-all placeholder:text-gray-300 hover:border-gray-300">
+                                            class="w-full bg-slate-50 dark:bg-[#060D1A] border border-slate-200 dark:border-white/15 rounded-xl pl-10 pr-4 py-3 text-sm text-slate-900 dark:text-white focus:border-verde-quirurgico focus:ring-2 focus:ring-verde-quirurgico/20 outline-none transition-all placeholder:text-slate-400 dark:placeholder:text-slate-600 hover:border-slate-300">
                                     </div>
                                 </div>
                                 <div>
-                                    <label class="block text-xs font-bold uppercase tracking-wider text-gray-400 mb-2">Contraseña</label>
+                                    <label class="block text-xs font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400 mb-2">Contraseña</label>
                                     <div class="relative">
                                         <div class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none">
-                                            <i class="fas fa-lock text-gray-300 text-sm"></i>
+                                            <i class="fas fa-lock text-slate-400 text-sm"></i>
                                         </div>
                                         <input type="password" name="password" required placeholder="••••••••" minlength="6"
-                                            class="w-full bg-gray-50 border border-gray-200 rounded-xl pl-10 pr-11 py-3 text-sm text-gray-900 focus:border-verde-quirurgico focus:ring-2 focus:ring-verde-quirurgico/20 outline-none transition-all placeholder:text-gray-300 hover:border-gray-300">
-                                        <button type="button" class="auth-toggle-pass absolute inset-y-0 right-0 pr-3.5 flex items-center text-gray-300 hover:text-verde-quirurgico transition-colors">
+                                            class="w-full bg-slate-50 dark:bg-[#060D1A] border border-slate-200 dark:border-white/15 rounded-xl pl-10 pr-11 py-3 text-sm text-slate-900 dark:text-white focus:border-verde-quirurgico focus:ring-2 focus:ring-verde-quirurgico/20 outline-none transition-all placeholder:text-slate-400 dark:placeholder:text-slate-600 hover:border-slate-300">
+                                        <button type="button" class="auth-toggle-pass absolute inset-y-0 right-0 pr-3.5 flex items-center text-slate-400 hover:text-verde-quirurgico transition-colors" aria-label="Mostrar contraseña">
                                             <i class="fas fa-eye text-sm"></i>
                                         </button>
                                     </div>
                                 </div>
-                                <button type="submit" class="w-full bg-verde-quirurgico hover:bg-verde-quirurgico-dark text-white font-bold py-3.5 rounded-xl transition-all duration-300 shadow-md hover:shadow-lg active:scale-[0.98] flex items-center justify-center gap-2 text-sm">
+                                <button type="submit" class="w-full bg-verde-quirurgico hover:bg-verde-quirurgico-dark text-white font-bold py-3.5 rounded-xl transition-all duration-200 shadow-sm hover:shadow-md active:scale-[0.98] flex items-center justify-center gap-2 text-sm">
                                     <span>Iniciar Sesión</span>
                                     <i class="fas fa-arrow-right text-xs"></i>
                                 </button>
@@ -108,55 +110,55 @@ class AuthModal extends HTMLElement {
                             <!-- Form Registro -->
                             <form id="auth-registro-form" class="space-y-4 hidden">
                                 <div>
-                                    <label class="block text-xs font-bold uppercase tracking-wider text-gray-400 mb-2">Nombre Completo</label>
+                                    <label class="block text-xs font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400 mb-2">Nombre Completo</label>
                                     <div class="relative">
                                         <div class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none">
-                                            <i class="fas fa-user text-gray-300 text-sm"></i>
+                                            <i class="fas fa-user text-slate-400 text-sm"></i>
                                         </div>
-                                        <input type="text" name="nombre" required placeholder="Tu nombre"
-                                            class="w-full bg-gray-50 border border-gray-200 rounded-xl pl-10 pr-4 py-3 text-sm text-gray-900 focus:border-verde-quirurgico focus:ring-2 focus:ring-verde-quirurgico/20 outline-none transition-all placeholder:text-gray-300 hover:border-gray-300">
+                                        <input type="text" name="nombre" required placeholder="Tu nombre y apellido"
+                                            class="w-full bg-slate-50 dark:bg-[#060D1A] border border-slate-200 dark:border-white/15 rounded-xl pl-10 pr-4 py-3 text-sm text-slate-900 dark:text-white focus:border-verde-quirurgico focus:ring-2 focus:ring-verde-quirurgico/20 outline-none transition-all placeholder:text-slate-400 dark:placeholder:text-slate-600 hover:border-slate-300">
                                     </div>
                                 </div>
                                 <div>
-                                    <label class="block text-xs font-bold uppercase tracking-wider text-gray-400 mb-2">Correo Electrónico</label>
+                                    <label class="block text-xs font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400 mb-2">Correo Electrónico</label>
                                     <div class="relative">
                                         <div class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none">
-                                            <i class="fas fa-envelope text-gray-300 text-sm"></i>
+                                            <i class="fas fa-envelope text-slate-400 text-sm"></i>
                                         </div>
                                         <input type="email" name="email" required placeholder="tu@correo.com"
-                                            class="w-full bg-gray-50 border border-gray-200 rounded-xl pl-10 pr-4 py-3 text-sm text-gray-900 focus:border-verde-quirurgico focus:ring-2 focus:ring-verde-quirurgico/20 outline-none transition-all placeholder:text-gray-300 hover:border-gray-300">
+                                            class="w-full bg-slate-50 dark:bg-[#060D1A] border border-slate-200 dark:border-white/15 rounded-xl pl-10 pr-4 py-3 text-sm text-slate-900 dark:text-white focus:border-verde-quirurgico focus:ring-2 focus:ring-verde-quirurgico/20 outline-none transition-all placeholder:text-slate-400 dark:placeholder:text-slate-600 hover:border-slate-300">
                                     </div>
                                 </div>
                                 <div>
-                                    <label class="block text-xs font-bold uppercase tracking-wider text-gray-400 mb-2">Teléfono <span class="text-gray-300 font-normal">(Opcional)</span></label>
+                                    <label class="block text-xs font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400 mb-2">Teléfono <span class="text-slate-400 font-normal">(Opcional)</span></label>
                                     <div class="relative">
                                         <div class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none">
-                                            <i class="fas fa-phone text-gray-300 text-sm"></i>
+                                            <i class="fas fa-phone text-slate-400 text-sm"></i>
                                         </div>
                                         <input type="tel" name="telefono" placeholder="+503 7000-0000"
-                                            class="w-full bg-gray-50 border border-gray-200 rounded-xl pl-10 pr-4 py-3 text-sm text-gray-900 focus:border-verde-quirurgico focus:ring-2 focus:ring-verde-quirurgico/20 outline-none transition-all placeholder:text-gray-300 hover:border-gray-300">
+                                            class="w-full bg-slate-50 dark:bg-[#060D1A] border border-slate-200 dark:border-white/15 rounded-xl pl-10 pr-4 py-3 text-sm text-slate-900 dark:text-white focus:border-verde-quirurgico focus:ring-2 focus:ring-verde-quirurgico/20 outline-none transition-all placeholder:text-slate-400 dark:placeholder:text-slate-600 hover:border-slate-300">
                                     </div>
                                 </div>
                                 <div>
-                                    <label class="block text-xs font-bold uppercase tracking-wider text-gray-400 mb-2">Contraseña</label>
+                                    <label class="block text-xs font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400 mb-2">Contraseña</label>
                                     <div class="relative">
                                         <div class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none">
-                                            <i class="fas fa-lock text-gray-300 text-sm"></i>
+                                            <i class="fas fa-lock text-slate-400 text-sm"></i>
                                         </div>
                                         <input type="password" name="password" required placeholder="Mínimo 6 caracteres" minlength="6"
-                                            class="w-full bg-gray-50 border border-gray-200 rounded-xl pl-10 pr-11 py-3 text-sm text-gray-900 focus:border-verde-quirurgico focus:ring-2 focus:ring-verde-quirurgico/20 outline-none transition-all placeholder:text-gray-300 hover:border-gray-300">
-                                        <button type="button" class="auth-toggle-pass absolute inset-y-0 right-0 pr-3.5 flex items-center text-gray-300 hover:text-verde-quirurgico transition-colors">
+                                            class="w-full bg-slate-50 dark:bg-[#060D1A] border border-slate-200 dark:border-white/15 rounded-xl pl-10 pr-11 py-3 text-sm text-slate-900 dark:text-white focus:border-verde-quirurgico focus:ring-2 focus:ring-verde-quirurgico/20 outline-none transition-all placeholder:text-slate-400 dark:placeholder:text-slate-600 hover:border-slate-300">
+                                        <button type="button" class="auth-toggle-pass absolute inset-y-0 right-0 pr-3.5 flex items-center text-slate-400 hover:text-verde-quirurgico transition-colors" aria-label="Mostrar contraseña">
                                             <i class="fas fa-eye text-sm"></i>
                                         </button>
                                     </div>
                                     <div id="password-strength" class="mt-2 hidden">
-                                        <div class="h-1.5 bg-gray-100 rounded-full overflow-hidden">
+                                        <div class="h-1.5 bg-slate-100 dark:bg-white/10 rounded-full overflow-hidden">
                                             <div class="h-full rounded-full transition-all duration-300" id="password-bar" style="width: 0%"></div>
                                         </div>
                                         <p class="text-xs mt-1" id="password-text"></p>
                                     </div>
                                 </div>
-                                <button type="submit" class="w-full bg-verde-quirurgico hover:bg-verde-quirurgico-dark text-white font-bold py-3.5 rounded-xl transition-all duration-300 shadow-md hover:shadow-lg active:scale-[0.98] flex items-center justify-center gap-2 text-sm">
+                                <button type="submit" class="w-full bg-verde-quirurgico hover:bg-verde-quirurgico-dark text-white font-bold py-3.5 rounded-xl transition-all duration-200 shadow-sm hover:shadow-md active:scale-[0.98] flex items-center justify-center gap-2 text-sm">
                                     <span>Crear Mi Cuenta</span>
                                     <i class="fas fa-user-plus text-xs"></i>
                                 </button>

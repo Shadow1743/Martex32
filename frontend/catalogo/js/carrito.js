@@ -25,22 +25,22 @@ function actualizarCarritoUI() {
     carrito.forEach((item, index) => {
         total += item.precio * item.cantidad;
         html += `
-            <div class="flex gap-4 mb-6 bg-white p-4 rounded-2xl border border-gray-100 shadow-sm relative">
-                <img src="${item.imagen || 'https://placehold.co/100x100/0A1128/FFFFFF?text=M'}" class="w-20 h-20 object-cover rounded-xl bg-gray-100">
-                <div class="flex-grow">
-                    <h4 class="font-display font-bold text-azul-marino text-sm leading-tight pr-6">${item.nombre}</h4>
-                    <p class="text-xs text-gray-500 mt-1">Talla: ${item.talla}</p>
-                    <p class="text-verde-quirurgico font-bold mt-1">$${item.precio.toFixed(2)}</p>
+            <div class="flex gap-4 mb-4 bg-white dark:bg-[#0A1428] p-4 rounded-2xl border border-slate-100 dark:border-white/10 shadow-xs relative transition-colors">
+                <img src="${item.imagen || 'imagenes/conjunto de uniforme médico.jpeg'}" alt="${item.nombre}" class="w-20 h-20 object-cover rounded-xl bg-slate-100 dark:bg-white/5 border border-slate-100 dark:border-white/5 shrink-0">
+                <div class="flex-grow pr-6">
+                    <h4 class="font-display font-bold text-azul-marino dark:text-white text-sm leading-snug">${item.nombre}</h4>
+                    <p class="text-xs text-slate-500 dark:text-slate-400 mt-1">Talla: <span class="font-bold text-verde-quirurgico dark:text-emerald-400">${item.talla}</span></p>
+                    <p class="text-verde-quirurgico dark:text-emerald-400 font-extrabold text-sm mt-1">$${item.precio.toFixed(2)}</p>
                     <div class="flex items-center gap-3 mt-3">
-                        <div class="flex items-center bg-gray-100 rounded-lg">
-                            <button onclick="modificarCantidad(${index}, -1)" class="w-8 h-8 flex items-center justify-center text-gray-500 hover:text-azul-marino transition-colors"><i class="fas fa-minus text-xs"></i></button>
-                            <span class="w-6 text-center text-sm font-semibold">${item.cantidad}</span>
-                            <button onclick="modificarCantidad(${index}, 1)" class="w-8 h-8 flex items-center justify-center text-gray-500 hover:text-azul-marino transition-colors"><i class="fas fa-plus text-xs"></i></button>
+                        <div class="flex items-center bg-slate-100 dark:bg-white/10 rounded-xl p-0.5 border border-slate-200/50 dark:border-white/10">
+                            <button onclick="modificarCantidad(${index}, -1)" class="w-7 h-7 flex items-center justify-center text-slate-500 dark:text-slate-300 hover:text-azul-marino dark:hover:text-white transition-colors" aria-label="Disminuir cantidad"><i class="fas fa-minus text-[10px]"></i></button>
+                            <span class="w-6 text-center text-xs font-bold text-azul-marino dark:text-white">${item.cantidad}</span>
+                            <button onclick="modificarCantidad(${index}, 1)" class="w-7 h-7 flex items-center justify-center text-slate-500 dark:text-slate-300 hover:text-azul-marino dark:hover:text-white transition-colors" aria-label="Aumentar cantidad"><i class="fas fa-plus text-[10px]"></i></button>
                         </div>
                     </div>
                 </div>
-                <button onclick="eliminarDelCarrito(${index})" class="absolute top-4 right-4 text-gray-300 hover:text-red-500 transition-colors">
-                    <i class="fas fa-trash-alt"></i>
+                <button onclick="eliminarDelCarrito(${index})" class="absolute top-4 right-4 w-7 h-7 rounded-lg flex items-center justify-center text-slate-300 dark:text-slate-500 hover:text-red-500 hover:bg-red-50 dark:hover:bg-red-950/30 transition-colors" aria-label="Eliminar producto">
+                    <i class="fas fa-trash-alt text-xs"></i>
                 </button>
             </div>
         `;
