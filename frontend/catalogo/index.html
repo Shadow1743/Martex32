@@ -16,16 +16,37 @@
 
     <script src="../config.js"></script>
     <script src="../sistema/js/security.js"></script>
-    <!-- Tailwind CSS (CDN) -->
-    <script src="/tailwind-cdn.js"></script>
 
-    <!-- Configuración Custom de Tailwind -->
+    <!-- Inicialización inmediata de Modo Oscuro para evitar parpadeo -->
+    <script>
+        (function() {
+            try {
+                const savedTheme = localStorage.getItem('theme');
+                const prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+                if (savedTheme === 'dark' || (!savedTheme && prefersDark)) {
+                    document.documentElement.classList.add('dark');
+                } else {
+                    document.documentElement.classList.remove('dark');
+                }
+            } catch(e) {}
+        })();
+    </script>
+
+    <!-- Configuración Custom de Tailwind (DEBE IR ANTES DEL CDN DE TAILWIND) -->
     <script src="js/tailwind-config.js"></script>
+
+    <!-- Tailwind CSS (CDN con Fallback local/remoto) -->
+    <script src="../tailwind-cdn.js"></script>
+    <script>
+        if (typeof tailwind === 'undefined') {
+            document.write('<script src="https://cdn.tailwindcss.com"><\/script>');
+        }
+    </script>
 
     <!-- Estilos Globales -->
     <link rel="stylesheet" href="css/style.css">
 
-    <!-- Iconografía: Lucide Icons & FontAwesome para marcas -->
+    <!-- Iconografía: Lucide Icons & FontAwesome -->
     <script src="https://unpkg.com/lucide@latest"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
@@ -35,79 +56,87 @@
     <script src="componentes/auth-modal.js" defer></script>
 </head>
 
-<body class="bg-white text-azul-marino flex flex-col min-h-screen">
+<body class="bg-white dark:bg-[#060D1A] text-azul-marino dark:text-slate-100 flex flex-col min-h-screen transition-colors duration-200">
 
     <!-- Barra de progreso de lectura -->
     <div id="reading-progress"></div>
 
-    <!-- Barra de Navegación -->
-    <main-navbar></main-navbar>
-
     <!-- ══════════════════════════════════════════
-         S0 · BARRA SUPERIOR DE ANUNCIO
+         S0 · BARRA SUPERIOR DE ANUNCIO & CONTACTO
     ══════════════════════════════════════════ -->
-    <div class="bg-azul-marino-dark text-slate-300 text-xs py-2.5 px-4 border-b border-white/5 pt-24 sm:pt-28">
+    <div class="bg-[#0A1428] text-slate-300 text-xs py-2 px-4 border-b border-white/10">
         <div class="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-2 text-center sm:text-left font-light">
             <div class="flex items-center justify-center gap-2">
                 <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
-                <span>Taller y tienda en Usulután · Envíos a los 14 departamentos</span>
+                <span>Taller y sala de ventas en Usulután · Envíos asegurados a los 14 departamentos</span>
             </div>
             <div class="flex items-center gap-4 text-slate-400">
-                <a href="https://wa.me/50360497383?text=Hola,%20quisiera%20cotizar%20uniformes" target="_blank" rel="noopener" class="hover:text-emerald-300 transition-colors flex items-center gap-1.5">
+                <a href="https://wa.me/50360497383?text=Hola,%20quisiera%20cotizar%20uniformes" target="_blank" rel="noopener" class="hover:text-emerald-300 transition-colors flex items-center gap-1.5 font-medium">
                     <i class="fab fa-whatsapp text-emerald-400"></i> WhatsApp: +503 6049-7383
                 </a>
+                <span class="hidden md:inline text-slate-600">|</span>
+                <span class="hidden md:inline text-slate-400">Lun - Vie: 8:00 AM - 5:00 PM</span>
             </div>
         </div>
     </div>
 
+    <!-- Barra de Navegación Sticky -->
+    <main-navbar></main-navbar>
+
     <!-- ══════════════════════════════════════════
          S2 · HERO — Uniformes que dan el ancho
     ══════════════════════════════════════════ -->
-    <header class="relative overflow-hidden bg-azul-marino text-white py-14 sm:py-20 lg:py-24 border-b border-white/5">
+    <header class="relative overflow-hidden bg-azul-marino dark:bg-[#060D1A] text-white py-14 sm:py-20 lg:py-24 border-b border-white/5">
         <div class="absolute inset-0 hero-grid-bg opacity-40"></div>
-        <div class="absolute -top-40 -right-40 w-96 h-96 bg-verde-quirurgico/10 rounded-full blur-3xl pointer-events-none"></div>
+        <div class="absolute -top-40 -right-40 w-96 h-96 bg-verde-quirurgico/15 rounded-full blur-3xl pointer-events-none"></div>
         <div class="absolute -bottom-40 -left-40 w-96 h-96 bg-azul-pantera-light/20 rounded-full blur-3xl pointer-events-none"></div>
 
         <div class="relative container mx-auto px-5 sm:px-6 max-w-7xl z-10">
             <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-center">
 
                 <!-- Columna Izquierda: Mensaje principal -->
-                <div class="lg:col-span-7 text-left animate-slide-up">
+                <div class="lg:col-span-7 text-left animate-slide-up space-y-6">
 
-                    <!-- Badge de origen -->
-                    <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-emerald-500/10 border border-emerald-500/20 text-emerald-300 text-xs font-semibold tracking-wide mb-6">
-                        <i data-lucide="map-pin" class="w-3.5 h-3.5 text-emerald-400"></i>
-                        <span>Hecho a mano en Usulután, El Salvador</span>
+                    <!-- Badge de origen y autenticidad -->
+                    <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-emerald-500/10 border border-emerald-500/25 text-emerald-300 text-xs font-semibold tracking-wide uppercase shadow-xs">
+                        <i data-lucide="scissors" class="w-3.5 h-3.5 text-emerald-400"></i>
+                        <span>Sastrería y Confección a la Medida · Usulután, El Salvador</span>
                     </div>
 
-                    <!-- Título principal -->
-                    <h1 class="text-4xl sm:text-5xl md:text-6xl font-display font-extrabold text-white leading-[1.1] mb-6 tracking-tight">
-                        Uniformes que <span class="text-emerald-300">dan el ancho</span>, turno tras turno.
+                    <!-- Título principal con escala contundente -->
+                    <h1 class="text-4xl sm:text-5xl md:text-6xl font-display font-extrabold text-white leading-[1.12] tracking-tight">
+                        Uniformes que <span class="bg-gradient-to-r from-emerald-300 via-teal-200 to-verde-quirurgico-accent bg-clip-text text-transparent">dan el ancho</span>, turno tras turno.
                     </h1>
 
-                    <!-- Subtítulo -->
-                    <p class="text-base sm:text-lg md:text-xl text-slate-300 mb-8 max-w-2xl leading-relaxed font-light">
-                        Scrubs, batas y filipinas confeccionadas con tela antifluido y corte a tu medida. Frescura y presencia para quienes le ponen el hombro a El Salvador.
+                    <!-- Subtítulo legible y profesional -->
+                    <p class="text-base sm:text-lg md:text-xl text-slate-300 max-w-2xl leading-relaxed font-light">
+                        Scrubs, batas y filipinas confeccionadas con tela antifluido de alto rendimiento y corte ergonómico a tu medida. Diseñadas para brindar frescura, durabilidad y máxima comodidad durante jornadas exigentes.
                     </p>
 
-                    <!-- Micro-confianza -->
-                    <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 mb-10 text-xs sm:text-sm text-slate-300 pt-2 border-t border-white/10">
-                        <div class="flex items-center gap-2">
-                            <i data-lucide="ruler" class="w-4 h-4 text-emerald-400 shrink-0"></i>
-                            <span>Tallas XS a 3XL</span>
+                    <!-- Micro-confianza con iconos enmarcados (Touch targets cómodos) -->
+                    <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 text-xs sm:text-sm text-slate-300 pt-4 border-t border-white/10">
+                        <div class="flex items-center gap-2.5">
+                            <div class="w-8 h-8 rounded-xl bg-white/10 flex items-center justify-center text-emerald-400 shrink-0">
+                                <i data-lucide="ruler" class="w-4 h-4"></i>
+                            </div>
+                            <span class="font-medium">Tallas XS a 3XL</span>
                         </div>
-                        <div class="flex items-center gap-2">
-                            <i data-lucide="scissors" class="w-4 h-4 text-emerald-400 shrink-0"></i>
-                            <span>Asesoría de medidas gratis</span>
+                        <div class="flex items-center gap-2.5">
+                            <div class="w-8 h-8 rounded-xl bg-white/10 flex items-center justify-center text-emerald-400 shrink-0">
+                                <i data-lucide="scissors" class="w-4 h-4"></i>
+                            </div>
+                            <span class="font-medium">Asesoría de medidas gratis</span>
                         </div>
-                        <div class="flex items-center gap-2">
-                            <i data-lucide="truck" class="w-4 h-4 text-emerald-400 shrink-0"></i>
-                            <span>Entrega en todo el país</span>
+                        <div class="flex items-center gap-2.5">
+                            <div class="w-8 h-8 rounded-xl bg-white/10 flex items-center justify-center text-emerald-400 shrink-0">
+                                <i data-lucide="truck" class="w-4 h-4"></i>
+                            </div>
+                            <span class="font-medium">Envíos a todo el país</span>
                         </div>
                     </div>
 
-                    <!-- Botones de acción -->
-                    <div class="flex flex-col sm:flex-row items-stretch sm:items-center gap-4">
+                    <!-- Botones de acción / conversión -->
+                    <div class="flex flex-col sm:flex-row items-stretch sm:items-center gap-4 pt-2">
                         <a href="catalogo.html" class="btn-hero-primary group justify-center">
                             <span>Mirá el catálogo</span>
                             <i data-lucide="arrow-right" class="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform"></i>
@@ -405,10 +434,20 @@
     <script src="https://accounts.google.com/gsi/client" async defer></script>
     <script async defer crossorigin="anonymous" src="https://connect.facebook.net/es_LA/sdk.js"></script>
 
-    <!-- Botón flotante WhatsApp -->
-    <a href="https://wa.me/50360497383?text=Hola,%20quisiera%20más%20información%20sobre%20los%20uniformes" class="whatsapp-float" target="_blank" rel="noopener noreferrer" aria-label="Contactar por WhatsApp">
-        <i class="fab fa-whatsapp"></i>
-    </a>
+    <!-- Botón flotante de contacto WhatsApp (Alta conversión El Salvador) -->
+    <div class="whatsapp-fab-container">
+        <div class="whatsapp-fab-tooltip shadow-lg">
+            <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+            <span>¿Dudas con tu talla? <strong>Chateá con nosotros</strong></span>
+        </div>
+        <a href="https://wa.me/50360497383?text=Hola,%20quisiera%20asesoría%20sobre%20uniformes%20médicos%20Martex" class="whatsapp-float group focus:outline-none focus:ring-4 focus:ring-emerald-400/40" target="_blank" rel="noopener noreferrer" aria-label="Contactar por WhatsApp">
+            <span class="whatsapp-badge-beacon">
+                <span class="ping"></span>
+                <span class="dot"></span>
+            </span>
+            <i class="fab fa-whatsapp text-2xl group-hover:scale-110 transition-transform"></i>
+        </a>
+    </div>
 
     <!-- Botón Scroll to Top -->
     <button id="scroll-top-btn" aria-label="Volver arriba" onclick="window.scrollTo({top:0,behavior:'smooth'})">
@@ -578,7 +617,7 @@
                                 </div>
                                 <div class="flex gap-2">
                                     ${['S', 'M', 'L', 'XL'].map(t => `
-                                    <button type="button" onclick="seleccionarTallaHome(this, '${escapeHTML(String(prod.id))}', '${t}')" class="talla-btn w-9 h-9 rounded-xl border flex items-center justify-center text-xs font-semibold transition-all ${t === 'M' ? 'border-verde-quirurgico bg-verde-quirurgico text-white' : 'border-slate-200 bg-white text-slate-600 hover:border-verde-quirurgico/50'}" data-talla="${t}">${t}</button>
+                                    <button type="button" onclick="seleccionarTallaHome(this, '${escapeHTML(String(prod.id))}', '${t}')" class="talla-btn w-10 h-10 rounded-xl border flex items-center justify-center text-xs font-semibold transition-all active:scale-95 ${t === 'M' ? 'border-verde-quirurgico bg-verde-quirurgico text-white shadow-sm' : 'border-slate-200 bg-white text-slate-600 hover:border-verde-quirurgico/50'}" data-talla="${t}">${t}</button>
                                     `).join('')}
                                 </div>
                                 <input type="hidden" name="talla-dest-${escapeHTML(String(prod.id))}" value="M">
@@ -595,10 +634,10 @@
                                 </div>
 
                                 <div class="flex gap-2">
-                                    <button onclick="agregarAlCarritoConTalla('${escapeHTML(String(prod.id))}', '${escapeHTML(prod.nombre)}', ${precioFinal}, '${escapeHTML(imageUrl)}', 'talla-dest-')" class="flex-1 h-11 rounded-xl bg-azul-marino text-white flex items-center justify-center hover:bg-azul-pantera transition-all duration-200 font-semibold text-xs gap-1.5 shadow-sm" aria-label="Añadir al carrito">
+                                    <button onclick="agregarAlCarritoConTalla('${escapeHTML(String(prod.id))}', '${escapeHTML(prod.nombre)}', ${precioFinal}, '${escapeHTML(imageUrl)}', 'talla-dest-')" class="flex-1 min-h-[44px] rounded-xl bg-azul-marino text-white flex items-center justify-center hover:bg-azul-pantera active:scale-95 transition-all duration-200 font-semibold text-xs gap-1.5 shadow-sm" aria-label="Añadir al carrito">
                                         <i class="fas fa-cart-plus text-xs"></i> Al Carrito
                                     </button>
-                                    <button onclick="agregarAlCarritoConTalla('${escapeHTML(String(prod.id))}', '${escapeHTML(prod.nombre)}', ${precioFinal}, '${escapeHTML(imageUrl)}', 'talla-dest-', true)" class="flex-1 h-11 rounded-xl bg-verde-quirurgico hover:bg-verde-quirurgico-dark text-white flex items-center justify-center transition-all duration-200 font-semibold text-xs gap-1.5 shadow-sm" aria-label="Comprar directo">
+                                    <button onclick="agregarAlCarritoConTalla('${escapeHTML(String(prod.id))}', '${escapeHTML(prod.nombre)}', ${precioFinal}, '${escapeHTML(imageUrl)}', 'talla-dest-', true)" class="flex-1 min-h-[44px] rounded-xl bg-verde-quirurgico hover:bg-verde-quirurgico-dark text-white flex items-center justify-center active:scale-95 transition-all duration-200 font-semibold text-xs gap-1.5 shadow-sm" aria-label="Comprar directo">
                                         Comprar <i class="fas fa-arrow-right text-[10px]"></i>
                                     </button>
                                 </div>

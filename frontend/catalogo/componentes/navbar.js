@@ -1,12 +1,14 @@
-// Inicializar el modo oscuro lo antes posible para evitar parpadeos
+// Gestión inicial de tema sin parpadeo
 (function() {
-    const savedTheme = localStorage.getItem('theme');
-    const systemPrefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-    if (savedTheme === 'dark' || (!savedTheme && systemPrefersDark)) {
-        document.documentElement.classList.add('dark');
-    } else {
-        document.documentElement.classList.remove('dark');
-    }
+    try {
+        const savedTheme = localStorage.getItem('theme');
+        const systemPrefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+        if (savedTheme === 'dark' || (!savedTheme && systemPrefersDark)) {
+            document.documentElement.classList.add('dark');
+        } else {
+            document.documentElement.classList.remove('dark');
+        }
+    } catch(e) {}
 })();
 
 class MainNavbar extends HTMLElement {
@@ -22,166 +24,186 @@ class MainNavbar extends HTMLElement {
         } catch(e) {}
 
         this.innerHTML = `
-            <div class="fixed w-full top-4 z-50 px-4 transition-all duration-300" id="navbar-container">
-                <nav class="max-w-6xl mx-auto glass-dark text-white rounded-full px-6 py-3 shadow-glass border border-white/10 transition-all duration-300 flex justify-between items-center">
-                    
-                    <!-- Logo -->
-                    <h1 class="font-display text-2xl font-bold text-verde-quirurgico cursor-pointer select-none tracking-tight flex items-center gap-2" id="martex-logo">
-                        <i class="fas fa-stethoscope text-xl"></i>
-                        MARTEX
-                    </h1>
-                    
-                    <!-- Enlaces Desktop -->
-                    <div class="hidden md:flex items-center space-x-1 font-medium text-sm">
-                        <a href="index.html" class="nav-link px-4 py-2 rounded-full text-white/90 hover:text-white hover:bg-white/10 transition-all">Inicio</a>
-                        <a href="nosotros.html" class="nav-link px-4 py-2 rounded-full text-white/70 hover:text-white hover:bg-white/10 transition-all">Nosotros</a>
-                        <a href="catalogo.html" class="nav-link px-4 py-2 rounded-full text-white/70 hover:text-white hover:bg-white/10 transition-all">Catálogo</a>
-                    </div>
-                    
-                    <!-- Acciones -->
-                    <div class="flex items-center gap-3">
-                        <!-- Toggle de Tema Claro/Oscuro -->
-                        <button id="theme-toggle" class="w-10 h-10 rounded-full flex items-center justify-center text-white/80 hover:text-white hover:bg-white/10 transition-all duration-300 text-lg" aria-label="Cambiar Tema">
-                            <i id="theme-icon" class="fas fa-moon"></i>
-                        </button>
+            <header class="sticky top-0 z-50 w-full bg-white/95 dark:bg-[#060D1A]/95 backdrop-blur-md border-b border-slate-200/80 dark:border-white/10 transition-colors duration-200" id="main-header">
+                <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                    <div class="flex items-center justify-between h-20">
                         
-                        <!-- Botón Mi Cuenta -->
-                        <div class="relative" id="account-dropdown-container">
-                            ${isLoggedIn ? `
-                                <button id="account-btn" class="flex items-center gap-2 bg-white/10 hover:bg-white/20 px-3 py-2 rounded-full transition-all duration-300 text-sm">
-                                    <div class="w-7 h-7 rounded-full bg-verde-quirurgico flex items-center justify-center text-xs font-bold text-white">${(clienteNombre || 'U').charAt(0).toUpperCase()}</div>
-                                    <span class="hidden sm:inline text-white/90 font-medium max-w-[80px] truncate">${clienteNombre ? clienteNombre.split(' ')[0] : 'Mi Cuenta'}</span>
-                                    <i class="fas fa-chevron-down text-[10px] text-white/50"></i>
-                                </button>
-                                <div id="account-dropdown" class="invisible opacity-0 absolute right-0 top-full mt-2 w-56 bg-white rounded-2xl shadow-2xl border border-gray-100 py-2 transform scale-95 transition-all duration-200 z-50">
-                                    <div class="px-4 py-3 border-b border-gray-100">
-                                        <p class="text-sm font-bold text-azul-marino truncate">${clienteNombre || 'Mi Cuenta'}</p>
-                                        <p class="text-xs text-gray-400">Cliente Martex</p>
+                        <!-- Logo & Sastrería Marca -->
+                        <a href="index.html" class="flex items-center gap-3 group focus:outline-none focus:ring-2 focus:ring-verde-quirurgico/40 rounded-xl" id="martex-logo">
+                            <div class="w-10 h-10 rounded-xl bg-verde-quirurgico flex items-center justify-center text-white shadow-sm group-hover:scale-105 transition-transform">
+                                <i class="fas fa-stethoscope text-lg"></i>
+                            </div>
+                            <div class="flex flex-col">
+                                <span class="font-display font-black text-2xl tracking-tight text-azul-marino dark:text-white leading-none">MARTEX</span>
+                                <span class="text-[10px] font-bold tracking-widest text-verde-quirurgico uppercase mt-0.5">Sastrería Médica</span>
+                            </div>
+                        </a>
+                        
+                        <!-- Enlaces de Navegación Desktop -->
+                        <nav class="hidden md:flex items-center gap-1 bg-slate-100/70 dark:bg-white/5 p-1 rounded-2xl border border-slate-200/60 dark:border-white/10">
+                            <a href="index.html" class="nav-link px-5 py-2 rounded-xl text-sm font-semibold transition-all text-slate-700 dark:text-slate-200 hover:text-verde-quirurgico dark:hover:text-emerald-300 hover:bg-white dark:hover:bg-white/10">Inicio</a>
+                            <a href="catalogo.html" class="nav-link px-5 py-2 rounded-xl text-sm font-semibold transition-all text-slate-700 dark:text-slate-200 hover:text-verde-quirurgico dark:hover:text-emerald-300 hover:bg-white dark:hover:bg-white/10">Catálogo</a>
+                            <a href="nosotros.html" class="nav-link px-5 py-2 rounded-xl text-sm font-semibold transition-all text-slate-700 dark:text-slate-200 hover:text-verde-quirurgico dark:hover:text-emerald-300 hover:bg-white dark:hover:bg-white/10">Nosotros</a>
+                        </nav>
+                        
+                        <!-- Acciones (Tema, Cuenta, Carrito, Menú Móvil) -->
+                        <div class="flex items-center gap-2 sm:gap-3">
+                            
+                            <!-- Toggle Modo Claro / Oscuro -->
+                            <button id="theme-toggle" class="w-11 h-11 rounded-xl flex items-center justify-center text-slate-600 dark:text-slate-300 hover:text-azul-marino dark:hover:text-white hover:bg-slate-100 dark:hover:bg-white/10 active:scale-95 transition-all duration-150 border border-slate-200/60 dark:border-white/10" aria-label="Cambiar tema de color" title="Alternar modo claro/oscuro">
+                                <i id="theme-icon" class="fas fa-moon text-base"></i>
+                            </button>
+                            
+                            <!-- Botón Mi Cuenta & Dropdown -->
+                            <div class="relative" id="account-dropdown-container">
+                                ${isLoggedIn ? `
+                                    <button id="account-btn" class="min-h-[44px] flex items-center gap-2 bg-slate-100 hover:bg-slate-200/80 dark:bg-white/10 dark:hover:bg-white/15 px-3.5 py-2 rounded-xl active:scale-95 transition-all duration-150 text-sm border border-slate-200/70 dark:border-white/10 text-azul-marino dark:text-white">
+                                        <div class="w-7 h-7 rounded-lg bg-verde-quirurgico flex items-center justify-center text-xs font-bold text-white shadow-xs">${(clienteNombre || 'U').charAt(0).toUpperCase()}</div>
+                                        <span class="hidden sm:inline font-semibold max-w-[90px] truncate">${clienteNombre ? clienteNombre.split(' ')[0] : 'Mi Cuenta'}</span>
+                                        <i class="fas fa-chevron-down text-[10px] text-slate-400"></i>
+                                    </button>
+                                    <div id="account-dropdown" class="invisible opacity-0 absolute right-0 top-full mt-2 w-56 bg-white dark:bg-[#0A1428] rounded-2xl shadow-xl border border-slate-200/80 dark:border-white/15 py-2 transform scale-95 transition-all duration-150 z-50">
+                                        <div class="px-4 py-3 border-b border-slate-100 dark:border-white/10">
+                                            <p class="text-sm font-bold text-azul-marino dark:text-white truncate">${clienteNombre || 'Mi Cuenta'}</p>
+                                            <p class="text-xs text-slate-500 dark:text-slate-400">Cliente Martex</p>
+                                        </div>
+                                        <a href="mi-cuenta.html" class="flex items-center gap-3 px-4 py-2.5 text-sm text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-white/5 hover:text-verde-quirurgico transition-colors min-h-[44px]">
+                                            <i class="fas fa-user w-4 text-center text-verde-quirurgico"></i> Mi Perfil
+                                        </a>
+                                        <a href="mi-cuenta.html#pedidos" class="flex items-center gap-3 px-4 py-2.5 text-sm text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-white/5 hover:text-verde-quirurgico transition-colors min-h-[44px]">
+                                            <i class="fas fa-box w-4 text-center text-verde-quirurgico"></i> Mis Pedidos
+                                        </a>
+                                        <a href="mi-cuenta.html#favoritos" class="flex items-center gap-3 px-4 py-2.5 text-sm text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-white/5 hover:text-verde-quirurgico transition-colors min-h-[44px]">
+                                            <i class="fas fa-heart w-4 text-center text-verde-quirurgico"></i> Mis Favoritos
+                                        </a>
+                                        <div class="border-t border-slate-100 dark:border-white/10 mt-1 pt-1">
+                                            <button id="client-logout-btn" class="flex items-center gap-3 px-4 py-2.5 text-sm text-red-500 hover:bg-red-50 dark:hover:bg-red-950/30 transition-colors w-full text-left min-h-[44px]">
+                                                <i class="fas fa-sign-out-alt w-4 text-center"></i> Cerrar Sesión
+                                            </button>
+                                        </div>
                                     </div>
-                                    <a href="mi-cuenta.html" class="flex items-center gap-3 px-4 py-2.5 text-sm text-gray-600 hover:bg-gray-50 hover:text-verde-quirurgico transition-colors">
-                                        <i class="fas fa-user w-4 text-center"></i> Mi Perfil
-                                    </a>
-                                    <a href="mi-cuenta.html#pedidos" class="flex items-center gap-3 px-4 py-2.5 text-sm text-gray-600 hover:bg-gray-50 hover:text-verde-quirurgico transition-colors">
-                                        <i class="fas fa-box w-4 text-center"></i> Mis Pedidos
-                                    </a>
-                                    <a href="mi-cuenta.html#favoritos" class="flex items-center gap-3 px-4 py-2.5 text-sm text-gray-600 hover:bg-gray-50 hover:text-verde-quirurgico transition-colors">
-                                        <i class="fas fa-heart w-4 text-center"></i> Mis Favoritos
-                                    </a>
-                                    <div class="border-t border-gray-100 mt-1 pt-1">
-                                        <button id="client-logout-btn" class="flex items-center gap-3 px-4 py-2.5 text-sm text-red-500 hover:bg-red-50 transition-colors w-full text-left">
-                                            <i class="fas fa-sign-out-alt w-4 text-center"></i> Cerrar Sesión
-                                        </button>
+                                ` : `
+                                    <button id="login-btn" class="min-h-[44px] flex items-center gap-2 bg-slate-100 hover:bg-slate-200/80 dark:bg-white/10 dark:hover:bg-white/15 px-4 py-2.5 rounded-xl active:scale-95 transition-all duration-150 text-sm font-semibold text-azul-marino dark:text-white border border-slate-200/70 dark:border-white/10">
+                                        <i class="fas fa-user text-xs text-verde-quirurgico"></i>
+                                        <span class="hidden sm:inline">Mi Cuenta</span>
+                                    </button>
+                                `}
+                            </div>
+                            
+                            <!-- Botón Carrito de Compras (CTA Primario) -->
+                            <button id="nav-cart-btn" class="group relative min-h-[44px] flex items-center gap-2 bg-verde-quirurgico hover:bg-verde-quirurgico-dark text-white px-4 sm:px-5 py-2.5 rounded-xl transition-all duration-200 shadow-sm hover:shadow-md active:scale-95">
+                                <i class="fas fa-shopping-cart text-sm"></i>
+                                <span class="font-semibold text-sm hidden sm:inline">Carrito</span>
+                                <span id="cart-count" class="bg-white dark:bg-azul-marino text-verde-quirurgico dark:text-emerald-300 font-extrabold text-xs px-2 py-0.5 rounded-full border border-verde-quirurgico-accent/30 shadow-xs">0</span>
+                            </button>
+                            
+                            <!-- Botón Menú Móvil -->
+                            <button id="mobile-menu-btn" class="md:hidden w-11 h-11 rounded-xl flex items-center justify-center text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-white/10 active:scale-95 transition-colors border border-slate-200/60 dark:border-white/10" aria-label="Abrir menú de navegación">
+                                <i class="fas fa-bars text-lg"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Drawer Móvil Desplegable -->
+                <div id="mobile-menu" class="fixed inset-0 bg-azul-marino/70 dark:bg-black/80 backdrop-blur-sm z-50 transform translate-x-full transition-transform duration-300 md:hidden flex justify-end">
+                    <div class="w-full max-w-xs bg-white dark:bg-[#060D1A] h-full shadow-2xl p-6 flex flex-col justify-between border-l border-slate-200 dark:border-white/10">
+                        <div>
+                            <div class="flex items-center justify-between pb-6 border-b border-slate-100 dark:border-white/10">
+                                <div class="flex items-center gap-2">
+                                    <div class="w-8 h-8 rounded-lg bg-verde-quirurgico flex items-center justify-center text-white text-sm">
+                                        <i class="fas fa-stethoscope"></i>
                                     </div>
+                                    <span class="font-display font-extrabold text-lg text-azul-marino dark:text-white">MARTEX</span>
                                 </div>
+                                <button id="close-mobile-menu" class="w-10 h-10 rounded-xl flex items-center justify-center text-slate-400 hover:text-slate-700 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-white/10 transition-colors" aria-label="Cerrar menú">
+                                    <i class="fas fa-times text-lg"></i>
+                                </button>
+                            </div>
+
+                            <nav class="flex flex-col gap-2 mt-6">
+                                <a href="index.html" class="flex items-center px-4 py-3 rounded-xl text-base font-semibold text-slate-700 dark:text-slate-200 hover:text-verde-quirurgico dark:hover:text-emerald-300 hover:bg-slate-50 dark:hover:bg-white/5 transition-colors">
+                                    <i class="fas fa-home w-6 text-verde-quirurgico"></i> Inicio
+                                </a>
+                                <a href="catalogo.html" class="flex items-center px-4 py-3 rounded-xl text-base font-semibold text-slate-700 dark:text-slate-200 hover:text-verde-quirurgico dark:hover:text-emerald-300 hover:bg-slate-50 dark:hover:bg-white/5 transition-colors">
+                                    <i class="fas fa-tshirt w-6 text-verde-quirurgico"></i> Catálogo de Uniformes
+                                </a>
+                                <a href="nosotros.html" class="flex items-center px-4 py-3 rounded-xl text-base font-semibold text-slate-700 dark:text-slate-200 hover:text-verde-quirurgico dark:hover:text-emerald-300 hover:bg-slate-50 dark:hover:bg-white/5 transition-colors">
+                                    <i class="fas fa-users w-6 text-verde-quirurgico"></i> Sobre Nosotros
+                                </a>
+                            </nav>
+                        </div>
+
+                        <div class="pt-6 border-t border-slate-100 dark:border-white/10 space-y-3">
+                            ${isLoggedIn ? `
+                                <a href="mi-cuenta.html" class="flex items-center justify-center gap-2 w-full py-3 rounded-xl bg-slate-100 dark:bg-white/10 text-azul-marino dark:text-white font-semibold text-sm">
+                                    <i class="fas fa-user text-verde-quirurgico"></i> Mi Cuenta (${clienteNombre ? clienteNombre.split(' ')[0] : 'Perfil'})
+                                </a>
+                                <button class="mobile-logout flex items-center justify-center gap-2 w-full py-2.5 rounded-xl text-red-500 hover:bg-red-50 dark:hover:bg-red-950/30 text-sm font-semibold transition-colors">
+                                    <i class="fas fa-sign-out-alt"></i> Cerrar Sesión
+                                </button>
                             ` : `
-                                <button id="login-btn" class="flex items-center gap-2 bg-white/10 hover:bg-white/20 px-4 py-2.5 rounded-full transition-all duration-300 text-sm font-medium">
-                                    <i class="fas fa-user text-xs"></i>
-                                    <span class="hidden sm:inline">Mi Cuenta</span>
+                                <button class="mobile-login flex items-center justify-center gap-2 w-full py-3.5 rounded-xl bg-verde-quirurgico hover:bg-verde-quirurgico-dark text-white font-semibold text-sm shadow-sm transition-all">
+                                    <i class="fas fa-user"></i> Iniciar Sesión / Registrarse
                                 </button>
                             `}
+                            <div class="text-center text-xs text-slate-400 pt-2">
+                                Taller en Usulután · Envíos nacionales
+                            </div>
                         </div>
-                        
-                        <button id="nav-cart-btn" class="group relative flex items-center gap-2 bg-verde-quirurgico hover:bg-verde-quirurgico-dark px-5 py-2.5 rounded-full transition-all duration-300 shadow-glow hover:scale-105">
-                            <i class="fas fa-shopping-cart text-sm"></i>
-                            <span class="font-semibold text-sm hidden sm:inline">Carrito</span>
-                            <span id="cart-count" class="absolute -top-2 -right-2 bg-white text-azul-marino w-6 h-6 rounded-full flex items-center justify-center text-xs font-bold border-2 border-verde-quirurgico">0</span>
-                        </button>
-                        
-                        <!-- Mobile Menu Button -->
-                        <button id="mobile-menu-btn" class="md:hidden text-white/80 hover:text-white p-2">
-                            <i class="fas fa-bars text-xl"></i>
-                        </button>
                     </div>
-                </nav>
-
-                <!-- Mobile Menu Overlay -->
-                <div id="mobile-menu" class="fixed inset-0 bg-azul-marino/95 backdrop-blur-md z-40 transform translate-x-full transition-transform duration-300 md:hidden flex flex-col justify-center items-center space-y-8">
-                    <button id="close-mobile-menu" class="absolute top-6 right-6 text-white text-3xl hover:text-verde-quirurgico transition-colors">
-                        <i class="fas fa-times"></i>
-                    </button>
-                    <a href="index.html" class="text-2xl font-bold text-white hover:text-verde-quirurgico transition-colors">Inicio</a>
-                    <a href="nosotros.html" class="text-2xl font-bold text-white hover:text-verde-quirurgico transition-colors">Nosotros</a>
-                    <a href="catalogo.html" class="text-2xl font-bold text-white hover:text-verde-quirurgico transition-colors">Catálogo</a>
-                    ${isLoggedIn ? `
-                        <div class="border-t border-white/10 pt-6 w-48 text-center space-y-4">
-                            <a href="mi-cuenta.html" class="block text-lg font-semibold text-verde-quirurgico hover:text-white transition-colors">
-                                <i class="fas fa-user mr-2"></i>Mi Cuenta
-                            </a>
-                            <button class="mobile-logout text-lg font-semibold text-red-400 hover:text-red-300 transition-colors">
-                                <i class="fas fa-sign-out-alt mr-2"></i>Cerrar Sesión
-                            </button>
-                        </div>
-                    ` : `
-                        <div class="border-t border-white/10 pt-6">
-                            <button class="mobile-login text-xl font-bold text-verde-quirurgico hover:text-white transition-colors">
-                                <i class="fas fa-user mr-2"></i>Iniciar Sesión
-                            </button>
-                        </div>
-                    `}
                 </div>
-            </div>
+            </header>
         `;
 
         // Activar visualmente el enlace de la página actual
         const currentPath = window.location.pathname.split("/").pop() || "index.html";
         const links = this.querySelectorAll(".nav-link");
         links.forEach(link => {
-            if (link.getAttribute("href") === currentPath) {
-                link.classList.add("bg-white/10", "text-white");
-                link.classList.remove("text-white/70");
-            }
-        });
-
-        // Efecto scroll para el navbar
-        window.addEventListener('scroll', () => {
-            const container = this.querySelector('#navbar-container');
-            if (window.scrollY > 20) {
-                container.classList.add('top-0', 'px-0');
-                container.classList.remove('top-4', 'px-4');
-                container.querySelector('nav').classList.remove('rounded-full');
-            } else {
-                container.classList.remove('top-0', 'px-0');
-                container.classList.add('top-4', 'px-4');
-                container.querySelector('nav').classList.add('rounded-full');
+            const href = link.getAttribute("href");
+            if (href === currentPath || (currentPath === "" && href === "index.html")) {
+                link.classList.add("bg-white", "dark:bg-white/15", "text-verde-quirurgico", "dark:text-white", "shadow-xs");
+                link.classList.remove("text-slate-700", "dark:text-slate-200");
             }
         });
 
         // Easter egg
-        this.querySelector('#martex-logo').addEventListener('click', () => this.handleSecretClick());
+        const logo = this.querySelector('#martex-logo');
+        if (logo) logo.addEventListener('click', (e) => {
+            // Permitir navegación normal con un clic, pero si se hace spam redirige al panel
+            this.handleSecretClick(e);
+        });
 
-        // Lógica de Modo Oscuro
+        // Lógica de Modo Oscuro Robusta
         const toggleBtn = this.querySelector('#theme-toggle');
         const themeIcon = this.querySelector('#theme-icon');
         
-        const updateIcon = (isDarkTheme) => {
+        const updateThemeUI = (isDark) => {
             if (themeIcon) {
-                if (isDarkTheme) {
-                    themeIcon.className = 'fas fa-sun';
-                } else {
-                    themeIcon.className = 'fas fa-moon';
-                }
+                themeIcon.className = isDark ? 'fas fa-sun text-amber-400' : 'fas fa-moon text-slate-600';
+            }
+            if (toggleBtn) {
+                toggleBtn.setAttribute('title', isDark ? 'Cambiar a modo claro' : 'Cambiar a modo oscuro');
             }
         };
 
-        // Detectar estado inicial en carga del componente
-        updateIcon(document.documentElement.classList.contains('dark'));
+        // Estado inicial
+        const initialDark = document.documentElement.classList.contains('dark');
+        updateThemeUI(initialDark);
 
         if (toggleBtn) {
-            toggleBtn.addEventListener('click', () => {
-                const currentIsDark = document.documentElement.classList.contains('dark');
-                if (currentIsDark) {
-                    document.documentElement.classList.remove('dark');
-                    localStorage.setItem('theme', 'light');
-                    updateIcon(false);
-                } else {
-                    document.documentElement.classList.add('dark');
-                    localStorage.setItem('theme', 'dark');
-                    updateIcon(true);
-                }
+            toggleBtn.addEventListener('click', (e) => {
+                e.preventDefault();
+                const nowDark = document.documentElement.classList.toggle('dark');
+                try {
+                    localStorage.setItem('theme', nowDark ? 'dark' : 'light');
+                } catch(err) {}
+                updateThemeUI(nowDark);
+                window.dispatchEvent(new CustomEvent('theme-changed', { detail: { isDark: nowDark } }));
             });
         }
 
-        // Mobile Menu Toggle Logic
+        // Mobile Menu Toggle
         const mobileMenuBtn = this.querySelector('#mobile-menu-btn');
         const closeMobileMenuBtn = this.querySelector('#close-mobile-menu');
         const mobileMenu = this.querySelector('#mobile-menu');
@@ -199,47 +221,46 @@ class MainNavbar extends HTMLElement {
             }
         };
 
-        if (mobileMenuBtn) {
-            mobileMenuBtn.addEventListener('click', openMobileMenu);
-        }
-        if (closeMobileMenuBtn) {
-            closeMobileMenuBtn.addEventListener('click', closeMobileMenu);
-        }
-        // Auto-close mobile menu when a navigation link is clicked
+        if (mobileMenuBtn) mobileMenuBtn.addEventListener('click', openMobileMenu);
+        if (closeMobileMenuBtn) closeMobileMenuBtn.addEventListener('click', closeMobileMenu);
         if (mobileMenu) {
+            mobileMenu.addEventListener('click', (e) => {
+                if (e.target === mobileMenu) closeMobileMenu();
+            });
             mobileMenu.querySelectorAll('a').forEach(link => {
                 link.addEventListener('click', closeMobileMenu);
             });
         }
 
-        // Event listener para el botón del carrito
+        // Botón del carrito
         const navCartBtn = this.querySelector('#nav-cart-btn');
         if (navCartBtn) {
             navCartBtn.addEventListener('click', (e) => {
                 e.preventDefault();
                 if (typeof window.toggleCart === 'function') {
                     window.toggleCart();
-                } else {
-                    console.error('toggleCart function is not defined.');
                 }
             });
         }
 
-        // Logica para actualizar badge de carrito
+        // Actualizar contador del carrito
         const updateCartCount = () => {
             const countEl = this.querySelector('#cart-count');
             if (countEl) {
-                const carrito = JSON.parse(localStorage.getItem('martex_carrito')) || [];
-                const totalItems = carrito.reduce((sum, item) => sum + item.cantidad, 0);
-                countEl.innerText = totalItems;
+                try {
+                    const carrito = JSON.parse(localStorage.getItem('martex_carrito')) || [];
+                    const totalItems = carrito.reduce((sum, item) => sum + (parseInt(item.cantidad) || 1), 0);
+                    countEl.innerText = totalItems;
+                } catch(e) {
+                    countEl.innerText = '0';
+                }
             }
         };
         
         window.addEventListener('carrito_actualizado', updateCartCount);
-        // Llamar inicialmente para setear valor on-load
-        setTimeout(updateCartCount, 50);
+        updateCartCount();
 
-        // ===== ACCOUNT BUTTON LOGIC =====
+        // Botón de login
         const loginBtn = this.querySelector('#login-btn');
         if (loginBtn) {
             loginBtn.addEventListener('click', () => {
@@ -248,7 +269,6 @@ class MainNavbar extends HTMLElement {
             });
         }
 
-        // Mobile login button
         const mobileLoginBtn = this.querySelector('.mobile-login');
         if (mobileLoginBtn) {
             mobileLoginBtn.addEventListener('click', () => {
@@ -258,11 +278,12 @@ class MainNavbar extends HTMLElement {
             });
         }
 
-        // Account dropdown toggle
+        // Account dropdown
         const accountBtn = this.querySelector('#account-btn');
         const accountDropdown = this.querySelector('#account-dropdown');
         if (accountBtn && accountDropdown) {
-            accountBtn.addEventListener('click', () => {
+            accountBtn.addEventListener('click', (e) => {
+                e.stopPropagation();
                 const isVisible = !accountDropdown.classList.contains('invisible');
                 if (isVisible) {
                     accountDropdown.classList.add('invisible', 'opacity-0', 'scale-95');
@@ -271,7 +292,6 @@ class MainNavbar extends HTMLElement {
                 }
             });
 
-            // Close dropdown on click outside
             document.addEventListener('click', (e) => {
                 if (!accountBtn.contains(e.target) && !accountDropdown.contains(e.target)) {
                     accountDropdown.classList.add('invisible', 'opacity-0', 'scale-95');
@@ -279,23 +299,17 @@ class MainNavbar extends HTMLElement {
             });
         }
 
-        // Logout buttons
+        // Logout
         const logoutBtn = this.querySelector('#client-logout-btn');
-        if (logoutBtn) {
-            logoutBtn.addEventListener('click', () => this.clientLogout());
-        }
+        if (logoutBtn) logoutBtn.addEventListener('click', () => this.clientLogout());
         const mobileLogoutBtn = this.querySelector('.mobile-logout');
-        if (mobileLogoutBtn) {
-            mobileLogoutBtn.addEventListener('click', () => this.clientLogout());
-        }
+        if (mobileLogoutBtn) mobileLogoutBtn.addEventListener('click', () => this.clientLogout());
 
-        // Listen for auth changes
         window.addEventListener('cliente_auth_change', () => {
-            // Re-render navbar
             this.innerHTML = '';
             this.connectedCallback();
         });
-    } 
+    }
 
     clientLogout() {
         localStorage.removeItem('cliente_token');
@@ -306,21 +320,21 @@ class MainNavbar extends HTMLElement {
         }
     }
 
-    handleSecretClick() { 
-        clearTimeout(this.clickTimeout);
+    handleSecretClick(e) { 
         this.clickCount++;
-
-        if (this.clickCount === 5) {
+        clearTimeout(this.clickTimeout);
+        if (this.clickCount >= 5) {
+            e.preventDefault();
             this.clickCount = 0; 
             window.location.href = '../sistema/login.html'; 
         } else {
             this.clickTimeout = setTimeout(() => {
                 this.clickCount = 0;
-            }, 3000);
+            }, 2500);
         }
     } 
 }
- 
+
 if (!customElements.get('main-navbar')) {
     customElements.define('main-navbar', MainNavbar);
 }
