@@ -1,4 +1,4 @@
-// Gestión inicial de tema sin parpadeo
+// Gestión inicial de tema sin parpadeo (FOUC)
 (function() {
     try {
         const savedTheme = localStorage.getItem('theme');
@@ -24,48 +24,93 @@ class MainNavbar extends HTMLElement {
         } catch(e) {}
 
         this.innerHTML = `
-            <header class="sticky top-0 z-50 w-full bg-white/95 dark:bg-[#060D1A]/95 backdrop-blur-md border-b border-slate-200/80 dark:border-white/10 transition-colors duration-200" id="main-header">
+            <!-- ══════════════════════════════════════════
+                 BARRA SUPERIOR (Utility / Anuncios)
+            ══════════════════════════════════════════ -->
+            <div class="bg-[#0A1428] text-slate-300 text-xs py-2 px-4 sm:px-6 lg:px-8 border-b border-white/10 select-none">
+                <div class="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-2 text-center sm:text-left">
+                    <div class="flex items-center justify-center gap-2 text-xs font-light text-slate-300">
+                        <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+                        <span>Sastrería & Taller en <strong>Usulután</strong> · Envíos a los 14 departamentos de El Salvador</span>
+                    </div>
+                    <div class="flex items-center justify-center gap-4 text-xs">
+                        <a href="https://wa.me/50360497383?text=Hola,%20quisiera%20asesoría%20sobre%20uniformes%20médicos%20Martex" target="_blank" rel="noopener noreferrer" class="text-emerald-400 hover:text-emerald-300 transition-colors flex items-center gap-1.5 font-medium">
+                            <i class="fab fa-whatsapp"></i> WhatsApp: +503 6049-7383
+                        </a>
+                        <span class="hidden md:inline text-slate-600">|</span>
+                        <span class="hidden md:inline text-slate-400 font-light"><i class="far fa-clock mr-1 text-slate-500"></i> Lun - Sáb: 8:00 AM - 5:30 PM</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ══════════════════════════════════════════
+                 NAVBAR PRINCIPAL (Sticky con Glassmorphism)
+            ══════════════════════════════════════════ -->
+            <header class="sticky top-0 z-50 w-full bg-white/95 dark:bg-[#080E18]/95 backdrop-blur-xl border-b border-slate-200/80 dark:border-white/10 transition-colors duration-200 shadow-xs" id="main-header">
                 <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                    <div class="flex items-center justify-between h-20">
+                    <div class="flex items-center justify-between h-18 sm:h-20 gap-4">
                         
-                        <!-- Logo & Sastrería Marca -->
-                        <a href="index.html" class="flex items-center gap-3 group focus:outline-none focus:ring-2 focus:ring-verde-quirurgico/40 rounded-xl" id="martex-logo">
-                            <div class="w-10 h-10 rounded-xl bg-verde-quirurgico flex items-center justify-center text-white shadow-sm group-hover:scale-105 transition-transform">
-                                <i class="fas fa-stethoscope text-lg"></i>
+                        <!-- 1. Logo & Identidad de Marca -->
+                        <a href="index.html" class="flex items-center gap-3 group focus:outline-none focus:ring-2 focus:ring-verde-quirurgico/40 rounded-xl shrink-0" id="martex-logo" title="Martex · Sastrería Médica">
+                            <div class="w-10 h-10 sm:w-11 sm:h-11 rounded-xl bg-gradient-to-tr from-emerald-700 to-verde-quirurgico flex items-center justify-center text-white shadow-sm group-hover:scale-105 transition-transform duration-200">
+                                <i class="fas fa-stethoscope text-lg sm:text-xl"></i>
                             </div>
                             <div class="flex flex-col">
-                                <span class="font-display font-black text-2xl tracking-tight text-azul-marino dark:text-white leading-none">MARTEX</span>
-                                <span class="text-[10px] font-bold tracking-widest text-verde-quirurgico uppercase mt-0.5">Sastrería Médica</span>
+                                <div class="flex items-center gap-1.5">
+                                    <span class="font-display font-black text-2xl sm:text-2xl tracking-tight text-azul-marino dark:text-white leading-none">MARTEX</span>
+                                </div>
+                                <span class="text-[10px] font-bold tracking-widest text-verde-quirurgico dark:text-emerald-400 uppercase mt-0.5">Sastrería Médica 🇸🇻</span>
                             </div>
                         </a>
                         
-                        <!-- Enlaces de Navegación Desktop -->
-                        <nav class="hidden md:flex items-center gap-1 bg-slate-100/70 dark:bg-white/5 p-1 rounded-2xl border border-slate-200/60 dark:border-white/10">
-                            <a href="index.html" class="nav-link px-5 py-2 rounded-xl text-sm font-semibold transition-all text-slate-700 dark:text-slate-200 hover:text-verde-quirurgico dark:hover:text-emerald-300 hover:bg-white dark:hover:bg-white/10">Inicio</a>
-                            <a href="catalogo.html" class="nav-link px-5 py-2 rounded-xl text-sm font-semibold transition-all text-slate-700 dark:text-slate-200 hover:text-verde-quirurgico dark:hover:text-emerald-300 hover:bg-white dark:hover:bg-white/10">Catálogo</a>
-                            <a href="nosotros.html" class="nav-link px-5 py-2 rounded-xl text-sm font-semibold transition-all text-slate-700 dark:text-slate-200 hover:text-verde-quirurgico dark:hover:text-emerald-300 hover:bg-white dark:hover:bg-white/10">Nosotros</a>
+                        <!-- 2. Enlaces de Navegación Desktop (Pill minimalista) -->
+                        <nav class="hidden lg:flex items-center gap-1 bg-slate-100/80 dark:bg-white/5 p-1 rounded-2xl border border-slate-200/60 dark:border-white/10">
+                            <a href="index.html" class="nav-link px-4 py-2 rounded-xl text-sm font-semibold transition-all duration-150 text-slate-600 dark:text-slate-300 hover:text-verde-quirurgico dark:hover:text-emerald-300 hover:bg-white/80 dark:hover:bg-white/10">
+                                Inicio
+                            </a>
+                            <a href="catalogo.html?categoria=Médico" class="nav-link px-4 py-2 rounded-xl text-sm font-semibold transition-all duration-150 text-slate-600 dark:text-slate-300 hover:text-verde-quirurgico dark:hover:text-emerald-300 hover:bg-white/80 dark:hover:bg-white/10 flex items-center gap-1.5">
+                                <i class="fas fa-user-md text-xs text-verde-quirurgico dark:text-emerald-400"></i>
+                                Colección Médica
+                            </a>
+                            <a href="catalogo.html?categoria=Belleza" class="nav-link px-4 py-2 rounded-xl text-sm font-semibold transition-all duration-150 text-slate-600 dark:text-slate-300 hover:text-verde-quirurgico dark:hover:text-emerald-300 hover:bg-white/80 dark:hover:bg-white/10 flex items-center gap-1.5">
+                                <i class="fas fa-spa text-xs text-teal-600 dark:text-teal-400"></i>
+                                Belleza & Spa
+                            </a>
+                            <a href="nosotros.html" class="nav-link px-4 py-2 rounded-xl text-sm font-semibold transition-all duration-150 text-slate-600 dark:text-slate-300 hover:text-verde-quirurgico dark:hover:text-emerald-300 hover:bg-white/80 dark:hover:bg-white/10">
+                                Nosotros
+                            </a>
+                            <a href="nosotros.html#ubicacion" class="nav-link px-4 py-2 rounded-xl text-sm font-semibold transition-all duration-150 text-slate-600 dark:text-slate-300 hover:text-verde-quirurgico dark:hover:text-emerald-300 hover:bg-white/80 dark:hover:bg-white/10 flex items-center gap-1">
+                                <i class="fas fa-map-marker-alt text-xs text-rose-500"></i>
+                                Ubicación
+                            </a>
                         </nav>
                         
-                        <!-- Acciones (Tema, Cuenta, Carrito, Menú Móvil) -->
-                        <div class="flex items-center gap-2 sm:gap-3">
+                        <!-- 3. Grupo de Acciones / Conversión -->
+                        <div class="flex items-center gap-2 sm:gap-2.5 shrink-0">
                             
+                            <!-- Botón Cotizar por WhatsApp (Desktop XL) -->
+                            <a href="https://wa.me/50360497383?text=Hola,%20quisiera%20cotizar%20uniformes%20médicos%20Martex" target="_blank" rel="noopener noreferrer" class="hidden xl:inline-flex items-center gap-2 px-3.5 py-2 rounded-xl text-xs font-bold bg-emerald-500/10 hover:bg-emerald-500/20 text-emerald-700 dark:text-emerald-300 border border-emerald-500/25 transition-all duration-150 active:scale-95 shadow-xs" title="Hablar directo con el taller">
+                                <i class="fab fa-whatsapp text-sm text-emerald-500"></i>
+                                <span>Cotizar por WhatsApp</span>
+                            </a>
+
                             <!-- Toggle Modo Claro / Oscuro -->
-                            <button id="theme-toggle" class="w-11 h-11 rounded-xl flex items-center justify-center text-slate-600 dark:text-slate-300 hover:text-azul-marino dark:hover:text-white hover:bg-slate-100 dark:hover:bg-white/10 active:scale-95 transition-all duration-150 border border-slate-200/60 dark:border-white/10" aria-label="Cambiar tema de color" title="Alternar modo claro/oscuro">
-                                <i id="theme-icon" class="fas fa-moon text-base"></i>
+                            <button id="theme-toggle" class="w-10 h-10 rounded-xl flex items-center justify-center text-slate-600 dark:text-slate-300 hover:text-azul-marino dark:hover:text-white hover:bg-slate-100 dark:hover:bg-white/10 active:scale-95 transition-all duration-150 border border-slate-200/60 dark:border-white/10" aria-label="Cambiar modo de color" title="Alternar modo claro / oscuro">
+                                <i id="theme-icon" class="fas fa-moon text-sm"></i>
                             </button>
                             
                             <!-- Botón Mi Cuenta & Dropdown -->
                             <div class="relative" id="account-dropdown-container">
                                 ${isLoggedIn ? `
-                                    <button id="account-btn" class="min-h-[44px] flex items-center gap-2 bg-slate-100 hover:bg-slate-200/80 dark:bg-white/10 dark:hover:bg-white/15 px-3.5 py-2 rounded-xl active:scale-95 transition-all duration-150 text-sm border border-slate-200/70 dark:border-white/10 text-azul-marino dark:text-white">
-                                        <div class="w-7 h-7 rounded-lg bg-verde-quirurgico flex items-center justify-center text-xs font-bold text-white shadow-xs">${(clienteNombre || 'U').charAt(0).toUpperCase()}</div>
-                                        <span class="hidden sm:inline font-semibold max-w-[90px] truncate">${clienteNombre ? clienteNombre.split(' ')[0] : 'Mi Cuenta'}</span>
-                                        <i class="fas fa-chevron-down text-[10px] text-slate-400"></i>
+                                    <button id="account-btn" class="min-h-[40px] flex items-center gap-2 bg-slate-100 hover:bg-slate-200/80 dark:bg-white/10 dark:hover:bg-white/15 px-3 py-1.5 rounded-xl active:scale-95 transition-all duration-150 text-xs sm:text-sm border border-slate-200/70 dark:border-white/10 text-azul-marino dark:text-white">
+                                        <div class="w-6 h-6 rounded-lg bg-verde-quirurgico flex items-center justify-center text-[11px] font-bold text-white shadow-xs">${(clienteNombre || 'U').charAt(0).toUpperCase()}</div>
+                                        <span class="hidden sm:inline font-semibold max-w-[100px] truncate">${clienteNombre ? clienteNombre.split(' ')[0] : 'Mi Cuenta'}</span>
+                                        <i class="fas fa-chevron-down text-[9px] text-slate-400"></i>
                                     </button>
-                                    <div id="account-dropdown" class="invisible opacity-0 absolute right-0 top-full mt-2 w-56 bg-white dark:bg-[#0A1428] rounded-2xl shadow-xl border border-slate-200/80 dark:border-white/15 py-2 transform scale-95 transition-all duration-150 z-50">
+                                    <div id="account-dropdown" class="invisible opacity-0 absolute right-0 top-full mt-2 w-56 bg-white dark:bg-[#0F1A2E] rounded-2xl shadow-xl border border-slate-200/80 dark:border-white/15 py-2 transform scale-95 transition-all duration-150 z-50">
                                         <div class="px-4 py-3 border-b border-slate-100 dark:border-white/10">
                                             <p class="text-sm font-bold text-azul-marino dark:text-white truncate">${clienteNombre || 'Mi Cuenta'}</p>
-                                            <p class="text-xs text-slate-500 dark:text-slate-400">Cliente Martex</p>
+                                            <p class="text-xs text-emerald-600 dark:text-emerald-400 font-medium">Cliente Verificado Martex</p>
                                         </div>
                                         <a href="mi-cuenta.html" class="flex items-center gap-3 px-4 py-2.5 text-sm text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-white/5 hover:text-verde-quirurgico transition-colors min-h-[44px]">
                                             <i class="fas fa-user w-4 text-center text-verde-quirurgico"></i> Mi Perfil
@@ -83,58 +128,86 @@ class MainNavbar extends HTMLElement {
                                         </div>
                                     </div>
                                 ` : `
-                                    <button id="login-btn" class="min-h-[44px] flex items-center gap-2 bg-slate-100 hover:bg-slate-200/80 dark:bg-white/10 dark:hover:bg-white/15 px-4 py-2.5 rounded-xl active:scale-95 transition-all duration-150 text-sm font-semibold text-azul-marino dark:text-white border border-slate-200/70 dark:border-white/10">
-                                        <i class="fas fa-user text-xs text-verde-quirurgico"></i>
+                                    <button id="login-btn" class="min-h-[40px] flex items-center gap-2 bg-slate-100 hover:bg-slate-200/80 dark:bg-white/10 dark:hover:bg-white/15 px-3 sm:px-3.5 py-2 rounded-xl active:scale-95 transition-all duration-150 text-xs sm:text-sm font-semibold text-azul-marino dark:text-white border border-slate-200/70 dark:border-white/10">
+                                        <i class="fas fa-user text-xs text-verde-quirurgico dark:text-emerald-400"></i>
                                         <span class="hidden sm:inline">Mi Cuenta</span>
                                     </button>
                                 `}
                             </div>
                             
-                            <!-- Botón Carrito de Compras (CTA Primario) -->
-                            <button id="nav-cart-btn" class="group relative min-h-[44px] flex items-center gap-2 bg-verde-quirurgico hover:bg-verde-quirurgico-dark text-white px-4 sm:px-5 py-2.5 rounded-xl transition-all duration-200 shadow-sm hover:shadow-md active:scale-95">
-                                <i class="fas fa-shopping-cart text-sm"></i>
-                                <span class="font-semibold text-sm hidden sm:inline">Carrito</span>
-                                <span id="cart-count" class="bg-white dark:bg-azul-marino text-verde-quirurgico dark:text-emerald-300 font-extrabold text-xs px-2 py-0.5 rounded-full border border-verde-quirurgico-accent/30 shadow-xs">0</span>
+                            <!-- Botón Carrito de Compras (CTA Principal) -->
+                            <button id="nav-cart-btn" class="group relative min-h-[40px] flex items-center gap-2 bg-verde-quirurgico hover:bg-verde-quirurgico-dark text-white px-3.5 sm:px-4 py-2 rounded-xl transition-all duration-150 shadow-sm hover:shadow-md active:scale-95" title="Ver carrito de compras">
+                                <i class="fas fa-shopping-bag text-sm"></i>
+                                <span class="font-bold text-xs sm:text-sm hidden sm:inline">Carrito</span>
+                                <span id="cart-count" class="bg-white text-verde-quirurgico dark:bg-[#080E18] dark:text-emerald-300 font-extrabold text-[11px] px-1.5 py-0.5 rounded-full border border-emerald-400/30 shadow-xs min-w-[20px] text-center">0</span>
                             </button>
                             
-                            <!-- Botón Menú Móvil -->
-                            <button id="mobile-menu-btn" class="md:hidden w-11 h-11 rounded-xl flex items-center justify-center text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-white/10 active:scale-95 transition-colors border border-slate-200/60 dark:border-white/10" aria-label="Abrir menú de navegación">
-                                <i class="fas fa-bars text-lg"></i>
+                            <!-- Botón Menú Móvil (visible en < lg) -->
+                            <button id="mobile-menu-btn" class="lg:hidden w-10 h-10 rounded-xl flex items-center justify-center text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-white/10 active:scale-95 transition-colors border border-slate-200/60 dark:border-white/10" aria-label="Abrir menú de navegación">
+                                <i class="fas fa-bars text-base"></i>
                             </button>
                         </div>
                     </div>
                 </div>
 
-                <!-- Drawer Móvil Desplegable -->
-                <div id="mobile-menu" class="fixed inset-0 bg-azul-marino/70 dark:bg-black/80 backdrop-blur-sm z-50 transform translate-x-full transition-transform duration-300 md:hidden flex justify-end">
-                    <div class="w-full max-w-xs bg-white dark:bg-[#060D1A] h-full shadow-2xl p-6 flex flex-col justify-between border-l border-slate-200 dark:border-white/10">
+                <!-- ══════════════════════════════════════════
+                     DRAWER MÓVIL (Slide-over lateral)
+                ══════════════════════════════════════════ -->
+                <div id="mobile-menu" class="fixed inset-0 bg-[#0A1428]/70 dark:bg-black/80 backdrop-blur-md z-50 transform translate-x-full transition-transform duration-300 lg:hidden flex justify-end">
+                    <div class="w-full max-w-xs bg-white dark:bg-[#080E18] h-full shadow-2xl p-6 flex flex-col justify-between border-l border-slate-200 dark:border-white/10 overflow-y-auto">
                         <div>
-                            <div class="flex items-center justify-between pb-6 border-b border-slate-100 dark:border-white/10">
-                                <div class="flex items-center gap-2">
-                                    <div class="w-8 h-8 rounded-lg bg-verde-quirurgico flex items-center justify-center text-white text-sm">
+                            <!-- Header Móvil con Logo y Cerrar -->
+                            <div class="flex items-center justify-between pb-5 border-b border-slate-100 dark:border-white/10">
+                                <div class="flex items-center gap-2.5">
+                                    <div class="w-9 h-9 rounded-xl bg-verde-quirurgico flex items-center justify-center text-white text-sm shadow-xs">
                                         <i class="fas fa-stethoscope"></i>
                                     </div>
-                                    <span class="font-display font-extrabold text-lg text-azul-marino dark:text-white">MARTEX</span>
+                                    <div>
+                                        <span class="font-display font-black text-lg text-azul-marino dark:text-white leading-none block">MARTEX</span>
+                                        <span class="text-[9px] font-bold text-verde-quirurgico uppercase tracking-wider">Usulután, El Salvador</span>
+                                    </div>
                                 </div>
-                                <button id="close-mobile-menu" class="w-10 h-10 rounded-xl flex items-center justify-center text-slate-400 hover:text-slate-700 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-white/10 transition-colors" aria-label="Cerrar menú">
-                                    <i class="fas fa-times text-lg"></i>
+                                <button id="close-mobile-menu" class="w-9 h-9 rounded-xl flex items-center justify-center text-slate-400 hover:text-slate-700 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-white/10 transition-colors" aria-label="Cerrar menú">
+                                    <i class="fas fa-times text-base"></i>
                                 </button>
                             </div>
 
-                            <nav class="flex flex-col gap-2 mt-6">
-                                <a href="index.html" class="flex items-center px-4 py-3 rounded-xl text-base font-semibold text-slate-700 dark:text-slate-200 hover:text-verde-quirurgico dark:hover:text-emerald-300 hover:bg-slate-50 dark:hover:bg-white/5 transition-colors">
-                                    <i class="fas fa-home w-6 text-verde-quirurgico"></i> Inicio
+                            <!-- Enlaces de Navegación Móvil -->
+                            <nav class="flex flex-col gap-1.5 mt-5">
+                                <a href="index.html" class="flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-semibold text-slate-700 dark:text-slate-200 hover:text-verde-quirurgico dark:hover:text-emerald-300 hover:bg-slate-50 dark:hover:bg-white/5 transition-colors">
+                                    <i class="fas fa-home w-5 text-verde-quirurgico"></i> Inicio
                                 </a>
-                                <a href="catalogo.html" class="flex items-center px-4 py-3 rounded-xl text-base font-semibold text-slate-700 dark:text-slate-200 hover:text-verde-quirurgico dark:hover:text-emerald-300 hover:bg-slate-50 dark:hover:bg-white/5 transition-colors">
-                                    <i class="fas fa-tshirt w-6 text-verde-quirurgico"></i> Catálogo de Uniformes
+                                <a href="catalogo.html?categoria=Médico" class="flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-semibold text-slate-700 dark:text-slate-200 hover:text-verde-quirurgico dark:hover:text-emerald-300 hover:bg-slate-50 dark:hover:bg-white/5 transition-colors">
+                                    <i class="fas fa-user-md w-5 text-verde-quirurgico"></i> Colección Médica
                                 </a>
-                                <a href="nosotros.html" class="flex items-center px-4 py-3 rounded-xl text-base font-semibold text-slate-700 dark:text-slate-200 hover:text-verde-quirurgico dark:hover:text-emerald-300 hover:bg-slate-50 dark:hover:bg-white/5 transition-colors">
-                                    <i class="fas fa-users w-6 text-verde-quirurgico"></i> Sobre Nosotros
+                                <a href="catalogo.html?categoria=Belleza" class="flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-semibold text-slate-700 dark:text-slate-200 hover:text-verde-quirurgico dark:hover:text-emerald-300 hover:bg-slate-50 dark:hover:bg-white/5 transition-colors">
+                                    <i class="fas fa-spa w-5 text-teal-500"></i> Belleza & Spa
+                                </a>
+                                <a href="nosotros.html" class="flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-semibold text-slate-700 dark:text-slate-200 hover:text-verde-quirurgico dark:hover:text-emerald-300 hover:bg-slate-50 dark:hover:bg-white/5 transition-colors">
+                                    <i class="fas fa-scissors w-5 text-verde-quirurgico"></i> Sobre Nosotros
+                                </a>
+                                <a href="nosotros.html#ubicacion" class="flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-semibold text-slate-700 dark:text-slate-200 hover:text-verde-quirurgico dark:hover:text-emerald-300 hover:bg-slate-50 dark:hover:bg-white/5 transition-colors">
+                                    <i class="fas fa-map-marker-alt w-5 text-rose-500"></i> Ubicación & Taller
                                 </a>
                             </nav>
+
+                            <!-- Tarjeta Directa de WhatsApp Móvil -->
+                            <div class="mt-6 p-4 rounded-2xl bg-emerald-500/10 border border-emerald-500/20 text-xs">
+                                <div class="flex items-center gap-2 text-emerald-800 dark:text-emerald-300 font-bold mb-1">
+                                    <i class="fab fa-whatsapp text-base text-emerald-500"></i>
+                                    <span>¿Dudas con tu talla o tela?</span>
+                                </div>
+                                <p class="text-slate-600 dark:text-slate-300 font-light mb-3">
+                                    Escribinos directo y te asesoramos en 2 minutos con cinta métrica.
+                                </p>
+                                <a href="https://wa.me/50360497383?text=Hola,%20quisiera%20asesoría%20sobre%20uniformes%20médicos%20Martex" target="_blank" rel="noopener noreferrer" class="block text-center py-2 px-3 rounded-xl bg-verde-quirurgico text-white font-bold hover:bg-verde-quirurgico-dark transition-colors shadow-xs">
+                                    Chatear por WhatsApp
+                                </a>
+                            </div>
                         </div>
 
-                        <div class="pt-6 border-t border-slate-100 dark:border-white/10 space-y-3">
+                        <!-- Footer del Menú Móvil (Cuenta y Logout) -->
+                        <div class="pt-6 border-t border-slate-100 dark:border-white/10 space-y-3 mt-6">
                             ${isLoggedIn ? `
                                 <a href="mi-cuenta.html" class="flex items-center justify-center gap-2 w-full py-3 rounded-xl bg-slate-100 dark:bg-white/10 text-azul-marino dark:text-white font-semibold text-sm">
                                     <i class="fas fa-user text-verde-quirurgico"></i> Mi Cuenta (${clienteNombre ? clienteNombre.split(' ')[0] : 'Perfil'})
@@ -143,12 +216,12 @@ class MainNavbar extends HTMLElement {
                                     <i class="fas fa-sign-out-alt"></i> Cerrar Sesión
                                 </button>
                             ` : `
-                                <button class="mobile-login flex items-center justify-center gap-2 w-full py-3.5 rounded-xl bg-verde-quirurgico hover:bg-verde-quirurgico-dark text-white font-semibold text-sm shadow-sm transition-all">
-                                    <i class="fas fa-user"></i> Iniciar Sesión / Registrarse
+                                <button class="mobile-login flex items-center justify-center gap-2 w-full py-3 rounded-xl bg-slate-100 dark:bg-white/10 text-azul-marino dark:text-white font-bold text-sm border border-slate-200/80 dark:border-white/10 hover:bg-slate-200 transition-all">
+                                    <i class="fas fa-user text-verde-quirurgico"></i> Iniciar Sesión / Registrarse
                                 </button>
                             `}
-                            <div class="text-center text-xs text-slate-400 pt-2">
-                                Taller en Usulután · Envíos nacionales
+                            <div class="text-center text-[11px] text-slate-400 font-light">
+                                Confección médica en Usulután · Envíos nacionales 🇸🇻
                             </div>
                         </div>
                     </div>
@@ -158,36 +231,50 @@ class MainNavbar extends HTMLElement {
 
         // Activar visualmente el enlace de la página actual
         const currentPath = window.location.pathname.split("/").pop() || "index.html";
+        const currentSearch = window.location.search;
+        const fullCurrent = currentPath + currentSearch;
+
         const links = this.querySelectorAll(".nav-link");
         links.forEach(link => {
             const href = link.getAttribute("href");
-            if (href === currentPath || (currentPath === "" && href === "index.html")) {
-                link.classList.add("bg-white", "dark:bg-white/15", "text-verde-quirurgico", "dark:text-white", "shadow-xs");
-                link.classList.remove("text-slate-700", "dark:text-slate-200");
+            let isActive = false;
+            
+            if (href === fullCurrent) {
+                isActive = true;
+            } else if (href === currentPath && !currentSearch) {
+                isActive = true;
+            } else if (currentPath === "" && href === "index.html") {
+                isActive = true;
+            }
+
+            if (isActive) {
+                link.classList.add("bg-white", "dark:bg-white/15", "text-verde-quirurgico", "dark:text-emerald-300", "shadow-xs", "font-bold");
+                link.classList.remove("text-slate-600", "dark:text-slate-300");
             }
         });
 
-        // Easter egg
+        // Easter egg: 5 clics rápidos en el logo llevan al panel administrativo
         const logo = this.querySelector('#martex-logo');
-        if (logo) logo.addEventListener('click', (e) => {
-            // Permitir navegación normal con un clic, pero si se hace spam redirige al panel
-            this.handleSecretClick(e);
-        });
+        if (logo) {
+            logo.addEventListener('click', (e) => {
+                this.handleSecretClick(e);
+            });
+        }
 
-        // Lógica de Modo Oscuro Robusta
+        // Lógica de Modo Oscuro
         const toggleBtn = this.querySelector('#theme-toggle');
         const themeIcon = this.querySelector('#theme-icon');
         
         const updateThemeUI = (isDark) => {
             if (themeIcon) {
-                themeIcon.className = isDark ? 'fas fa-sun text-amber-400' : 'fas fa-moon text-slate-600';
+                themeIcon.className = isDark ? 'fas fa-sun text-amber-400 text-sm' : 'fas fa-moon text-slate-600 text-sm';
             }
             if (toggleBtn) {
                 toggleBtn.setAttribute('title', isDark ? 'Cambiar a modo claro' : 'Cambiar a modo oscuro');
             }
         };
 
-        // Estado inicial
+        // Estado inicial del tema
         const initialDark = document.documentElement.classList.contains('dark');
         updateThemeUI(initialDark);
 
@@ -203,7 +290,7 @@ class MainNavbar extends HTMLElement {
             });
         }
 
-        // Mobile Menu Toggle
+        // Mobile Menu Toggle (Slide-over)
         const mobileMenuBtn = this.querySelector('#mobile-menu-btn');
         const closeMobileMenuBtn = this.querySelector('#close-mobile-menu');
         const mobileMenu = this.querySelector('#mobile-menu');
@@ -232,7 +319,7 @@ class MainNavbar extends HTMLElement {
             });
         }
 
-        // Botón del carrito
+        // Botón del carrito (Dispara el slide-over del carrito global)
         const navCartBtn = this.querySelector('#nav-cart-btn');
         if (navCartBtn) {
             navCartBtn.addEventListener('click', (e) => {

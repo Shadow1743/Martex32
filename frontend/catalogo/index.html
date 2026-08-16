@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Martex | Uniformes Médicos hechos a tu medida en Usulután, El Salvador</title>
-    <meta name="description" content="Uniformes médicos que dan el ancho, turno tras turno. Scrubs, batas y filipinas confeccionadas en Usulután con tela antifluido, corte a tu medida y envíos a los 14 departamentos de El Salvador.">
-    <meta name="keywords" content="uniformes médicos, scrubs El Salvador, uniformes Usulután, filipinas médicas, batas médicas, Martex">
-    <meta property="og:title" content="Martex | Uniformes que dan el ancho, turno tras turno">
-    <meta property="og:description" content="Confección salvadoreña hecha en Usulután: tela antifluido, corte a tu medida y envíos a todo el país.">
+    <title>Martex | Uniformes Médicos que aguantan tu turno · Usulután, El Salvador</title>
+    <meta name="description" content="Uniformes médicos y scrubs confeccionados en Usulután con tela antifluido 4-Way Stretch, corte a tu medida exacta y envíos asegurados a los 14 departamentos de El Salvador.">
+    <meta name="keywords" content="uniformes médicos, scrubs El Salvador, uniformes Usulután, filipinas médicas, batas médicas, Martex, sastrería médica">
+    <meta property="og:title" content="Martex | Uniformes médicos que aguantan tu turno más pesado">
+    <meta property="og:description" content="Sastrería médica salvadoreña: tela antifluido stretch, ajuste ergonómico a tu medida y envíos a todo El Salvador.">
     <meta property="og:type" content="website">
     <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🩺</text></svg>">
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -17,7 +17,7 @@
     <script src="../config.js"></script>
     <script src="../sistema/js/security.js"></script>
 
-    <!-- Inicialización inmediata de Modo Oscuro para evitar parpadeo -->
+    <!-- Inicialización inmediata de Modo Oscuro para evitar parpadeo (FOUC) -->
     <script>
         (function() {
             try {
@@ -56,95 +56,78 @@
     <script src="componentes/auth-modal.js" defer></script>
 </head>
 
-<body class="bg-white dark:bg-[#060D1A] text-azul-marino dark:text-slate-100 flex flex-col min-h-screen transition-colors duration-200">
+<body class="bg-[#FAF9F6] dark:bg-[#080E18] text-azul-marino dark:text-slate-100 flex flex-col min-h-screen transition-colors duration-200">
 
     <!-- Barra de progreso de lectura -->
     <div id="reading-progress"></div>
 
-    <!-- ══════════════════════════════════════════
-         S0 · BARRA SUPERIOR DE ANUNCIO & CONTACTO
-    ══════════════════════════════════════════ -->
-    <div class="bg-[#0A1428] text-slate-300 text-xs py-2 px-4 border-b border-white/10">
-        <div class="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-2 text-center sm:text-left font-light">
-            <div class="flex items-center justify-center gap-2">
-                <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
-                <span>Taller y sala de ventas en Usulután · Envíos asegurados a los 14 departamentos</span>
-            </div>
-            <div class="flex items-center gap-4 text-slate-400">
-                <a href="https://wa.me/50360497383?text=Hola,%20quisiera%20cotizar%20uniformes" target="_blank" rel="noopener" class="hover:text-emerald-300 transition-colors flex items-center gap-1.5 font-medium">
-                    <i class="fab fa-whatsapp text-emerald-400"></i> WhatsApp: +503 6049-7383
-                </a>
-                <span class="hidden md:inline text-slate-600">|</span>
-                <span class="hidden md:inline text-slate-400">Lun - Vie: 8:00 AM - 5:00 PM</span>
-            </div>
-        </div>
-    </div>
+    <!-- Barra de Navegación y Anuncio Integrado -->
 
     <!-- Barra de Navegación Sticky -->
     <main-navbar></main-navbar>
 
     <!-- ══════════════════════════════════════════
-         S2 · HERO — Uniformes que dan el ancho
+         S1 · HERO — ALTA CONVERSIÓN & TOQUE HUMANO
     ══════════════════════════════════════════ -->
-    <header class="relative overflow-hidden bg-azul-marino dark:bg-[#060D1A] text-white py-14 sm:py-20 lg:py-24 border-b border-white/5">
-        <div class="absolute inset-0 hero-grid-bg opacity-40"></div>
-        <div class="absolute -top-40 -right-40 w-96 h-96 bg-verde-quirurgico/15 rounded-full blur-3xl pointer-events-none"></div>
-        <div class="absolute -bottom-40 -left-40 w-96 h-96 bg-azul-pantera-light/20 rounded-full blur-3xl pointer-events-none"></div>
+    <header class="relative overflow-hidden bg-[#0A1428] dark:bg-[#080E18] text-white py-14 sm:py-20 lg:py-24 border-b border-white/10">
+        <div class="absolute inset-0 hero-grid-bg opacity-30"></div>
+        <div class="absolute -top-32 -right-32 w-96 h-96 bg-verde-quirurgico/20 rounded-full blur-3xl pointer-events-none"></div>
+        <div class="absolute -bottom-32 -left-32 w-96 h-96 bg-azul-pantera-light/30 rounded-full blur-3xl pointer-events-none"></div>
 
         <div class="relative container mx-auto px-5 sm:px-6 max-w-7xl z-10">
             <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-center">
 
-                <!-- Columna Izquierda: Mensaje principal -->
+                <!-- Columna Izquierda: Mensaje principal y propuesta de valor -->
                 <div class="lg:col-span-7 text-left animate-slide-up space-y-6">
 
                     <!-- Badge de origen y autenticidad -->
-                    <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-emerald-500/10 border border-emerald-500/25 text-emerald-300 text-xs font-semibold tracking-wide uppercase shadow-xs">
+                    <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-emerald-500/10 border border-emerald-500/25 text-emerald-300 text-xs font-semibold tracking-wide uppercase shadow-xs">
                         <i data-lucide="scissors" class="w-3.5 h-3.5 text-emerald-400"></i>
-                        <span>Sastrería y Confección a la Medida · Usulután, El Salvador</span>
+                        <span>Sastrería y Confección Médica · Usulután, El Salvador</span>
                     </div>
 
                     <!-- Título principal con escala contundente -->
-                    <h1 class="text-4xl sm:text-5xl md:text-6xl font-display font-extrabold text-white leading-[1.12] tracking-tight">
-                        Uniformes que <span class="bg-gradient-to-r from-emerald-300 via-teal-200 to-verde-quirurgico-accent bg-clip-text text-transparent">dan el ancho</span>, turno tras turno.
+                    <h1 class="text-3xl sm:text-5xl md:text-6xl font-display font-extrabold text-white leading-[1.12] tracking-tight">
+                        Uniformes médicos que <span class="bg-gradient-to-r from-emerald-300 via-teal-200 to-verde-quirurgico-accent bg-clip-text text-transparent">aguantan tu turno</span> más pesado.
                     </h1>
 
-                    <!-- Subtítulo legible y profesional -->
+                    <!-- Subtítulo legible, empático y profesional -->
                     <p class="text-base sm:text-lg md:text-xl text-slate-300 max-w-2xl leading-relaxed font-light">
-                        Scrubs, batas y filipinas confeccionadas con tela antifluido de alto rendimiento y corte ergonómico a tu medida. Diseñadas para brindar frescura, durabilidad y máxima comodidad durante jornadas exigentes.
+                        Olvidate de scrubs calurosos o que te aprietan al agacharte. Confeccionamos prendas con tela antifluido 4-Way Stretch que respira rico bajo el calor de nuestro país, con corte ergonómico hecho a tu medida exacta.
                     </p>
 
-                    <!-- Micro-confianza con iconos enmarcados (Touch targets cómodos) -->
+                    <!-- Micro-confianza con iconos enmarcados -->
                     <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 text-xs sm:text-sm text-slate-300 pt-4 border-t border-white/10">
                         <div class="flex items-center gap-2.5">
                             <div class="w-8 h-8 rounded-xl bg-white/10 flex items-center justify-center text-emerald-400 shrink-0">
                                 <i data-lucide="ruler" class="w-4 h-4"></i>
                             </div>
-                            <span class="font-medium">Tallas XS a 3XL</span>
+                            <span class="font-medium">Tallas XS a 3XL y a medida</span>
                         </div>
                         <div class="flex items-center gap-2.5">
                             <div class="w-8 h-8 rounded-xl bg-white/10 flex items-center justify-center text-emerald-400 shrink-0">
-                                <i data-lucide="scissors" class="w-4 h-4"></i>
+                                <i data-lucide="droplet-off" class="w-4 h-4"></i>
                             </div>
-                            <span class="font-medium">Asesoría de medidas gratis</span>
+                            <span class="font-medium">Antifluido real y color firme</span>
                         </div>
                         <div class="flex items-center gap-2.5">
                             <div class="w-8 h-8 rounded-xl bg-white/10 flex items-center justify-center text-emerald-400 shrink-0">
                                 <i data-lucide="truck" class="w-4 h-4"></i>
                             </div>
-                            <span class="font-medium">Envíos a todo el país</span>
+                            <span class="font-medium">Envíos a los 14 departamentos</span>
                         </div>
                     </div>
 
                     <!-- Botones de acción / conversión -->
                     <div class="flex flex-col sm:flex-row items-stretch sm:items-center gap-4 pt-2">
                         <a href="catalogo.html" class="btn-hero-primary group justify-center">
-                            <span>Mirá el catálogo</span>
+                            <span>Explorar Catálogo y Precios</span>
                             <i data-lucide="arrow-right" class="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform"></i>
                         </a>
 
-                        <a href="https://wa.me/50360497383?text=Hola,%20quisiera%20cotizar%20uniformes%20a%20la%20medida" target="_blank" rel="noopener" class="btn-hero-secondary group justify-center">
+                        <a href="https://wa.me/50360497383?text=Hola,%20quisiera%20asesoría%20sobre%20tallas%20y%20modelos%20de%20uniformes" target="_blank" rel="noopener" class="btn-hero-secondary group justify-center">
                             <i class="fab fa-whatsapp text-emerald-400 mr-2 text-base"></i>
-                            <span>Cotizá por WhatsApp</span>
+                            <span>Pedir por WhatsApp</span>
                         </a>
                     </div>
                 </div>
@@ -153,19 +136,21 @@
                 <div class="lg:col-span-5 relative animate-fade-in" style="animation-delay: 0.2s">
                     <div class="relative mx-auto max-w-md bg-gradient-to-b from-white/10 to-white/5 p-4 sm:p-5 rounded-3xl border border-white/15 backdrop-blur-xl shadow-2xl">
 
-                        <div class="relative rounded-2xl overflow-hidden bg-azul-marino-dark aspect-[4/5] border border-white/10">
-                            <img src="imagenes/conjunto de uniforme médico.jpeg" alt="Uniforme médico confeccionado por Martex en Usulután" class="w-full h-full object-cover object-top hover:scale-105 transition-transform duration-700">
+                        <div class="relative rounded-2xl overflow-hidden bg-[#060D1A] aspect-[4/5] border border-white/10">
+                            <img src="imagenes/conjunto de uniforme médico.jpeg" alt="Uniforme médico profesional confeccionado por Martex en Usulután" class="w-full h-full object-cover object-top hover:scale-105 transition-transform duration-700">
 
-                            <div class="absolute top-4 left-4 bg-azul-marino/90 backdrop-blur-md text-white text-xs px-3 py-1.5 rounded-full border border-white/15 font-medium flex items-center gap-1.5 shadow-sm">
+                            <!-- Badge flotante de confección local -->
+                            <div class="absolute top-4 left-4 bg-[#0A1428]/90 backdrop-blur-md text-white text-xs px-3 py-1.5 rounded-full border border-white/15 font-medium flex items-center gap-1.5 shadow-sm">
                                 <span class="w-2 h-2 rounded-full bg-emerald-400"></span> Confección a la medida
                             </div>
 
-                            <div class="absolute bottom-4 left-4 right-4 bg-azul-marino/90 backdrop-blur-md p-3.5 rounded-2xl border border-white/15 text-white">
+                            <!-- Badge flotante inferior con especificaciones -->
+                            <div class="absolute bottom-4 left-4 right-4 bg-[#0A1428]/95 backdrop-blur-md p-3.5 rounded-2xl border border-white/15 text-white">
                                 <div class="flex items-center justify-between mb-1.5">
-                                    <span class="text-xs text-slate-300 font-medium">Scrub antifluido</span>
-                                    <span class="text-emerald-400 font-bold text-sm">Hecho en Usulután</span>
+                                    <span class="text-xs text-slate-300 font-medium">Scrub Quirúrgico 4-Way Stretch</span>
+                                    <span class="text-emerald-400 font-bold text-xs">Taller Usulután 🇸🇻</span>
                                 </div>
-                                <div class="flex items-center gap-3 text-[11px] text-slate-400">
+                                <div class="flex items-center gap-3 text-[11px] text-slate-300">
                                     <span><i class="fas fa-check text-emerald-400 mr-1"></i>Antifluido</span>
                                     <span><i class="fas fa-check text-emerald-400 mr-1"></i>Triple costura</span>
                                     <span><i class="fas fa-check text-emerald-400 mr-1"></i>Tacto fresco</span>
@@ -175,11 +160,11 @@
 
                         <div class="mt-4 pt-4 border-t border-white/10 flex items-center justify-between text-xs text-slate-300">
                             <div class="flex items-center gap-2">
-                                <i data-lucide="shield-check" class="w-3.5 h-3.5 text-emerald-400"></i>
-                                <span>Calidad garantizada</span>
+                                <i data-lucide="shield-check" class="w-4 h-4 text-emerald-400"></i>
+                                <span>Garantía de ajuste en taller</span>
                             </div>
                             <a href="catalogo.html" class="text-emerald-300 hover:text-white font-semibold flex items-center gap-1">
-                                Ver detalles <i data-lucide="chevron-right" class="w-3.5 h-3.5"></i>
+                                Ver modelos <i data-lucide="chevron-right" class="w-3.5 h-3.5"></i>
                             </a>
                         </div>
                     </div>
@@ -190,7 +175,7 @@
     </header>
 
     <!-- ══════════════════════════════════════════
-         S3 · CINTA DE CONFIANZA (números)
+         S2 · CINTA DE CONFIANZA Y NÚMEROS
     ══════════════════════════════════════════ -->
     <section class="bg-white dark:bg-[#0A1428] border-b border-slate-200/80 dark:border-white/10 py-8 sm:py-10 transition-colors">
         <div class="max-w-7xl mx-auto px-5 sm:px-6">
@@ -203,7 +188,7 @@
 
                 <div class="stat-block text-center sm:text-left sm:flex items-center gap-4">
                     <span class="block font-display text-3xl sm:text-4xl font-extrabold text-azul-marino dark:text-white">100%</span>
-                    <span class="block text-xs sm:text-sm text-slate-600 dark:text-slate-400 font-medium mt-1 sm:mt-0">Producción artesanal usuluteca</span>
+                    <span class="block text-xs sm:text-sm text-slate-600 dark:text-slate-400 font-medium mt-1 sm:mt-0">Producción artesanal en Usulután</span>
                 </div>
 
                 <div class="stat-block text-center sm:text-left sm:flex items-center gap-4">
@@ -213,43 +198,52 @@
 
                 <div class="stat-block text-center sm:text-left sm:flex items-center gap-4">
                     <span class="block font-display text-3xl sm:text-4xl font-extrabold text-azul-marino dark:text-white">XS-3XL</span>
-                    <span class="block text-xs sm:text-sm text-slate-600 dark:text-slate-400 font-medium mt-1 sm:mt-0">Tallas ergonómicas a tu medida</span>
+                    <span class="block text-xs sm:text-sm text-slate-600 dark:text-slate-400 font-medium mt-1 sm:mt-0">Tallas estándar y corte a la medida</span>
                 </div>
 
+            </div>
+
+            <!-- Respaldo institucional -->
+            <div class="mt-8 pt-6 border-t border-slate-100 dark:border-white/5 flex flex-wrap items-center justify-center gap-3 text-xs text-slate-500 dark:text-slate-400 text-center">
+                <span class="font-medium text-slate-700 dark:text-slate-300">Más de 1,200 profesionales de la salud visten Martex en:</span>
+                <span class="px-2.5 py-1 rounded-full bg-slate-100 dark:bg-white/5 border border-slate-200/60 dark:border-white/10">Hospital Rosales</span>
+                <span class="px-2.5 py-1 rounded-full bg-slate-100 dark:bg-white/5 border border-slate-200/60 dark:border-white/10">Hospital Bloom</span>
+                <span class="px-2.5 py-1 rounded-full bg-slate-100 dark:bg-white/5 border border-slate-200/60 dark:border-white/10">San Juan de Dios</span>
+                <span class="px-2.5 py-1 rounded-full bg-slate-100 dark:bg-white/5 border border-slate-200/60 dark:border-white/10">Clínicas Privadas</span>
             </div>
         </div>
     </section>
 
     <!-- ══════════════════════════════════════════
-         S4 · PROPUESTA DE VALOR — Confección Nacional
+         S3 · BENEFICIOS — Pensados para la batalla diaria
     ══════════════════════════════════════════ -->
-    <section class="py-16 sm:py-24 bg-lino dark:bg-[#060D1A] border-b border-slate-200/80 dark:border-white/10 transition-colors" id="beneficios">
+    <section class="py-16 sm:py-24 bg-[#FAF9F6] dark:bg-[#080E18] border-b border-slate-200/80 dark:border-white/10 transition-colors" id="beneficios">
         <div class="max-w-7xl mx-auto px-5 sm:px-6">
             <div class="text-center max-w-3xl mx-auto mb-12 sm:mb-16 reveal-on-scroll">
                 <span class="section-badge">
-                    <i data-lucide="award" class="w-3.5 h-3.5"></i>
+                    <i data-lucide="shield-check" class="w-3.5 h-3.5"></i>
                     ¿Por qué elegir Martex?
                 </span>
                 <h2 class="font-display text-3xl sm:text-4xl md:text-5xl font-extrabold text-azul-marino dark:text-white mt-2 mb-4 leading-tight">
-                    La diferencia de la <span class="bg-gradient-to-r from-emerald-600 via-teal-600 to-verde-quirurgico dark:from-emerald-400 dark:to-teal-200 bg-clip-text text-transparent">confección a medida</span>
+                    Pensados para la <span class="bg-gradient-to-r from-emerald-600 via-teal-600 to-verde-quirurgico dark:from-emerald-400 dark:to-teal-200 bg-clip-text text-transparent">batalla diaria</span>, no solo para la foto.
                 </h2>
                 <p class="text-slate-600 dark:text-slate-300 text-base sm:text-lg leading-relaxed font-light">
-                    Prendas diseñadas para resistir jornadas intensas sin perder comodidad, elegancia ni ajuste.
+                    Sabemos lo pesadas que son las guardias de 24 y 36 horas. Cada detalle está confeccionado para que trabajes fresco, cómodo y con porte profesional.
                 </p>
                 <div class="section-line mt-6"></div>
             </div>
 
             <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-6 sm:gap-8 stagger-children">
 
-                <!-- Beneficio 1 -->
-                <div class="bg-white dark:bg-[#0A1428] p-8 rounded-3xl card-premium border border-slate-200/80 dark:border-white/10 shadow-sm flex flex-col reveal-on-scroll transition-colors">
-                    <div class="w-14 h-14 rounded-2xl feature-icon-bg flex items-center justify-center mb-6">
+                <!-- Beneficio 1: Frescura -->
+                <div class="bg-white dark:bg-[#0F1A2E] p-8 rounded-3xl card-premium border border-slate-200/80 dark:border-white/10 shadow-sm flex flex-col reveal-on-scroll transition-colors">
+                    <div class="w-14 h-14 rounded-2xl feature-icon-bg flex items-center justify-center mb-6 text-verde-quirurgico dark:text-emerald-400">
                         <i data-lucide="droplet-off" class="w-7 h-7"></i>
                     </div>
-                    <span class="text-xs font-bold text-emerald-700 dark:text-emerald-400 tracking-wider uppercase mb-1">Tela técnica</span>
+                    <span class="text-xs font-bold text-emerald-700 dark:text-emerald-400 tracking-wider uppercase mb-1">Cero sofocación</span>
                     <h3 class="font-display text-xl font-bold text-azul-marino dark:text-white mb-3">Frescura para todo el turno</h3>
                     <p class="text-slate-600 dark:text-slate-300 text-sm leading-relaxed mb-6 font-light flex-grow">
-                        Tela antifluido y de secado rápido. Mantiene la transpirabilidad y frescura durante jornadas quirúrgicas y clínicas continuas.
+                        Tela antifluido de alto rendimiento y secado rápido. No se te pega al cuerpo ni acumula calor durante jornadas quirúrgicas continuas.
                     </p>
                     <div class="pt-4 border-t border-slate-100 dark:border-white/10 flex items-center justify-between text-xs text-slate-500 dark:text-slate-400 font-medium">
                         <span class="flex items-center gap-1.5"><i data-lucide="check" class="w-3.5 h-3.5 text-verde-quirurgico dark:text-emerald-400"></i> Antifluido real</span>
@@ -257,47 +251,47 @@
                     </div>
                 </div>
 
-                <!-- Beneficio 2 -->
-                <div class="bg-white dark:bg-[#0A1428] p-8 rounded-3xl card-premium border border-slate-200/80 dark:border-white/10 shadow-sm flex flex-col reveal-on-scroll transition-colors">
-                    <div class="w-14 h-14 rounded-2xl feature-icon-bg flex items-center justify-center mb-6">
+                <!-- Beneficio 2: Ajuste a medida -->
+                <div class="bg-white dark:bg-[#0F1A2E] p-8 rounded-3xl card-premium border border-slate-200/80 dark:border-white/10 shadow-sm flex flex-col reveal-on-scroll transition-colors">
+                    <div class="w-14 h-14 rounded-2xl feature-icon-bg flex items-center justify-center mb-6 text-verde-quirurgico dark:text-emerald-400">
                         <i data-lucide="scissors" class="w-7 h-7"></i>
                     </div>
-                    <span class="text-xs font-bold text-emerald-700 dark:text-emerald-400 tracking-wider uppercase mb-1">Corte a medida</span>
-                    <h3 class="font-display text-xl font-bold text-azul-marino dark:text-white mb-3">Ajuste ergonómico exacto</h3>
+                    <span class="text-xs font-bold text-emerald-700 dark:text-emerald-400 tracking-wider uppercase mb-1">Corte ergonómico</span>
+                    <h3 class="font-display text-xl font-bold text-azul-marino dark:text-white mb-3">Ajuste exacto a tu cuerpo</h3>
                     <p class="text-slate-600 dark:text-slate-300 text-sm leading-relaxed mb-6 font-light flex-grow">
-                        Patronaje anatómico que brinda total libertad de movimiento en consulta y quirófano, manteniendo una presencia impecable.
+                        Patronaje anatómico que te da libertad total al agacharte y caminar rápido en emergencias, manteniendo siempre una silueta impecable.
                     </p>
                     <div class="pt-4 border-t border-slate-100 dark:border-white/10 flex items-center justify-between text-xs text-slate-500 dark:text-slate-400 font-medium">
                         <span class="flex items-center gap-1.5"><i data-lucide="check" class="w-3.5 h-3.5 text-verde-quirurgico dark:text-emerald-400"></i> Tallas XS a 3XL</span>
-                        <span class="flex items-center gap-1.5"><i data-lucide="check" class="w-3.5 h-3.5 text-verde-quirurgico dark:text-emerald-400"></i> Corte anatómico</span>
+                        <span class="flex items-center gap-1.5"><i data-lucide="check" class="w-3.5 h-3.5 text-verde-quirurgico dark:text-emerald-400"></i> Ajuste en taller</span>
                     </div>
                 </div>
 
-                <!-- Beneficio 3 -->
-                <div class="bg-white dark:bg-[#0A1428] p-8 rounded-3xl card-premium border border-slate-200/80 dark:border-white/10 shadow-sm flex flex-col reveal-on-scroll transition-colors">
-                    <div class="w-14 h-14 rounded-2xl feature-icon-bg flex items-center justify-center mb-6">
-                        <i data-lucide="shield-check" class="w-7 h-7"></i>
+                <!-- Beneficio 3: Durabilidad -->
+                <div class="bg-white dark:bg-[#0F1A2E] p-8 rounded-3xl card-premium border border-slate-200/80 dark:border-white/10 shadow-sm flex flex-col reveal-on-scroll transition-colors">
+                    <div class="w-14 h-14 rounded-2xl feature-icon-bg flex items-center justify-center mb-6 text-verde-quirurgico dark:text-emerald-400">
+                        <i data-lucide="shield" class="w-7 h-7"></i>
                     </div>
-                    <span class="text-xs font-bold text-emerald-700 dark:text-emerald-400 tracking-wider uppercase mb-1">Durabilidad</span>
-                    <h3 class="font-display text-xl font-bold text-azul-marino dark:text-white mb-3">Resistencia en cada lavada</h3>
+                    <span class="text-xs font-bold text-emerald-700 dark:text-emerald-400 tracking-wider uppercase mb-1">Alta resistencia</span>
+                    <h3 class="font-display text-xl font-bold text-azul-marino dark:text-white mb-3">Colores firmes y costura triple</h3>
                     <p class="text-slate-600 dark:text-slate-300 text-sm leading-relaxed mb-6 font-light flex-grow">
-                        Triple costura reforzada en puntos de tensión y tintes de fijación profunda que conservan el tono original tras cientos de ciclos.
+                        Aguanta desinfectantes y detergentes hospitalarios sin desteñirse ni encoger. Triple costura en puntos de máxima tensión.
                     </p>
                     <div class="pt-4 border-t border-slate-100 dark:border-white/10 flex items-center justify-between text-xs text-slate-500 dark:text-slate-400 font-medium">
                         <span class="flex items-center gap-1.5"><i data-lucide="check" class="w-3.5 h-3.5 text-verde-quirurgico dark:text-emerald-400"></i> Triple costura</span>
-                        <span class="flex items-center gap-1.5"><i data-lucide="check" class="w-3.5 h-3.5 text-verde-quirurgico dark:text-emerald-400"></i> Color firme</span>
+                        <span class="flex items-center gap-1.5"><i data-lucide="check" class="w-3.5 h-3.5 text-verde-quirurgico dark:text-emerald-400"></i> No decolora</span>
                     </div>
                 </div>
 
-                <!-- Beneficio 4 -->
-                <div class="bg-white dark:bg-[#0A1428] p-8 rounded-3xl card-premium border border-slate-200/80 dark:border-white/10 shadow-sm flex flex-col reveal-on-scroll transition-colors">
-                    <div class="w-14 h-14 rounded-2xl feature-icon-bg flex items-center justify-center mb-6">
+                <!-- Beneficio 4: Trato Humano -->
+                <div class="bg-white dark:bg-[#0F1A2E] p-8 rounded-3xl card-premium border border-slate-200/80 dark:border-white/10 shadow-sm flex flex-col reveal-on-scroll transition-colors">
+                    <div class="w-14 h-14 rounded-2xl feature-icon-bg flex items-center justify-center mb-6 text-verde-quirurgico dark:text-emerald-400">
                         <i data-lucide="handshake" class="w-7 h-7"></i>
                     </div>
-                    <span class="text-xs font-bold text-emerald-700 dark:text-emerald-400 tracking-wider uppercase mb-1">Taller en Usulután</span>
-                    <h3 class="font-display text-xl font-bold text-azul-marino dark:text-white mb-3">Atención directa de taller</h3>
+                    <span class="text-xs font-bold text-emerald-700 dark:text-emerald-400 tracking-wider uppercase mb-1">Trato salvadoreño</span>
+                    <h3 class="font-display text-xl font-bold text-azul-marino dark:text-white mb-3">Atención directa y sin vueltas</h3>
                     <p class="text-slate-600 dark:text-slate-300 text-sm leading-relaxed mb-6 font-light flex-grow">
-                        Comprás directamente con quienes confeccionan tu uniforme. Precios justos, asesoría de telas y soporte garantizado.
+                        Comprás directo con las manos que confeccionan tu prenda. Precios justos de taller, bordados personalizados y soporte garantizado.
                     </p>
                     <div class="pt-4 border-t border-slate-100 dark:border-white/10 flex items-center justify-between text-xs text-slate-500 dark:text-slate-400 font-medium">
                         <span class="flex items-center gap-1.5"><i data-lucide="check" class="w-3.5 h-3.5 text-verde-quirurgico dark:text-emerald-400"></i> Precios justos</span>
@@ -309,11 +303,14 @@
         </div>
     </section>
 
+    <!-- Divider sutil -->
+    <div class="section-divider"></div>
+
     <!-- ══════════════════════════════════════════
-         S5 · PRODUCTOS DESTACADOS — Colección Principal
+         S4 · PRODUCTOS DESTACADOS — Colección Principal
     ══════════════════════════════════════════ -->
     <section class="max-w-7xl mx-auto py-16 sm:py-24 px-5 sm:px-6">
-        <div class="bg-white dark:bg-[#0A1428] rounded-3xl border border-slate-200/80 dark:border-white/10 p-6 sm:p-10 md:p-12 shadow-sm transition-colors">
+        <div class="bg-white dark:bg-[#0F1A2E] rounded-3xl border border-slate-200/80 dark:border-white/10 p-6 sm:p-10 md:p-12 shadow-sm transition-colors">
             <div class="flex flex-col md:flex-row md:items-end justify-between mb-10 pb-6 border-b border-slate-100 dark:border-white/10 gap-4 reveal-on-scroll">
                 <div>
                     <span class="section-badge">
@@ -346,10 +343,255 @@
         </div>
     </section>
 
+    <!-- Divider sutil -->
+    <div class="section-divider"></div>
+
     <!-- ══════════════════════════════════════════
-         S7 · CTA FINAL — Cotización y Pedidos
+         S5 · CÓMO FUNCIONA — 3 Pasos sin Enredos
     ══════════════════════════════════════════ -->
-    <section class="py-20 sm:py-24 bg-azul-marino-dark dark:bg-[#040810] text-white relative overflow-hidden border-t border-white/10">
+    <section class="py-16 sm:py-24 bg-[#FAF9F6] dark:bg-[#080E18] border-b border-slate-200/80 dark:border-white/10 transition-colors">
+        <div class="max-w-7xl mx-auto px-5 sm:px-6">
+            <div class="text-center max-w-2xl mx-auto mb-14 reveal-on-scroll">
+                <span class="section-badge">
+                    <i data-lucide="zap" class="w-3.5 h-3.5"></i>
+                    Fácil y Rápido
+                </span>
+                <h2 class="font-display text-3xl sm:text-4xl font-extrabold text-azul-marino dark:text-white mt-2 mb-3">
+                    Tu uniforme nuevo en 3 pasos, <span class="text-verde-quirurgico dark:text-emerald-400">sin vueltas</span>.
+                </h2>
+                <p class="text-slate-600 dark:text-slate-300 text-sm sm:text-base font-light">
+                    Hacer tu pedido es simple y transparente, con atención humana de principio a fin.
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 relative">
+                <!-- Paso 1 -->
+                <div class="bg-white dark:bg-[#0F1A2E] p-8 rounded-3xl border border-slate-200/80 dark:border-white/10 shadow-sm relative reveal-on-scroll card-premium">
+                    <div class="w-12 h-12 rounded-2xl bg-verde-quirurgico text-white flex items-center justify-center font-display font-extrabold text-xl mb-5 shadow-sm">
+                        1
+                    </div>
+                    <h3 class="font-display font-bold text-lg text-azul-marino dark:text-white mb-2">Elegí tu modelo y color</h3>
+                    <p class="text-slate-600 dark:text-slate-300 text-sm leading-relaxed font-light">
+                        Revisá nuestro catálogo en línea o pedinos el muestrario de colores disponibles para tu especialidad médica.
+                    </p>
+                    <!-- Arrow connector (visible md+) -->
+                    <div class="hidden md:flex absolute -right-5 top-1/2 -translate-y-1/2 z-10 w-10 h-10 rounded-full bg-[#FAF9F6] dark:bg-[#080E18] border border-slate-200/80 dark:border-white/10 items-center justify-center text-verde-quirurgico dark:text-emerald-400">
+                        <i class="fas fa-arrow-right text-xs"></i>
+                    </div>
+                </div>
+
+                <!-- Paso 2 -->
+                <div class="bg-white dark:bg-[#0F1A2E] p-8 rounded-3xl border border-slate-200/80 dark:border-white/10 shadow-sm relative reveal-on-scroll card-premium" style="animation-delay: 0.1s">
+                    <div class="w-12 h-12 rounded-2xl bg-verde-quirurgico text-white flex items-center justify-center font-display font-extrabold text-xl mb-5 shadow-sm">
+                        2
+                    </div>
+                    <h3 class="font-display font-bold text-lg text-azul-marino dark:text-white mb-2">Confirmamos tu talla exacta</h3>
+                    <p class="text-slate-600 dark:text-slate-300 text-sm leading-relaxed font-light">
+                        Elegí tu talla estándar o te guiamos en 2 minutos por WhatsApp con cinta métrica para que te quede al tiro.
+                    </p>
+                    <!-- Arrow connector (visible md+) -->
+                    <div class="hidden md:flex absolute -right-5 top-1/2 -translate-y-1/2 z-10 w-10 h-10 rounded-full bg-[#FAF9F6] dark:bg-[#080E18] border border-slate-200/80 dark:border-white/10 items-center justify-center text-verde-quirurgico dark:text-emerald-400">
+                        <i class="fas fa-arrow-right text-xs"></i>
+                    </div>
+                </div>
+
+                <!-- Paso 3 -->
+                <div class="bg-white dark:bg-[#0F1A2E] p-8 rounded-3xl border border-slate-200/80 dark:border-white/10 shadow-sm relative reveal-on-scroll card-premium" style="animation-delay: 0.2s">
+                    <div class="w-12 h-12 rounded-2xl bg-verde-quirurgico text-white flex items-center justify-center font-display font-extrabold text-xl mb-5 shadow-sm">
+                        3
+                    </div>
+                    <h3 class="font-display font-bold text-lg text-azul-marino dark:text-white mb-2">Recibí en tu puerta y estrená</h3>
+                    <p class="text-slate-600 dark:text-slate-300 text-sm leading-relaxed font-light">
+                        Te lo enviamos asegurado a tu clínica, hospital o casa en cualquier departamento del país. ¡Todo chivo!
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Divider sutil -->
+    <div class="section-divider"></div>
+
+    <!-- ══════════════════════════════════════════
+         S6 · TESTIMONIOS — Prueba Social Salvadoreña
+    ══════════════════════════════════════════ -->
+    <section class="py-16 sm:py-24 bg-white dark:bg-[#0A1428] border-b border-slate-200/80 dark:border-white/10 transition-colors">
+        <div class="max-w-7xl mx-auto px-5 sm:px-6">
+            <div class="text-center max-w-3xl mx-auto mb-14 reveal-on-scroll">
+                <span class="section-badge">
+                    <i data-lucide="message-square" class="w-3.5 h-3.5"></i>
+                    Voces Reales
+                </span>
+                <h2 class="font-display text-3xl sm:text-4xl font-extrabold text-azul-marino dark:text-white mt-2 mb-3">
+                    Lo que dicen los colegas que <span class="text-verde-quirurgico dark:text-emerald-400">ya no cambian Martex</span>
+                </h2>
+                <p class="text-slate-600 dark:text-slate-300 text-sm sm:text-base font-light">
+                    Testimonios de profesionales de la salud en turnos de alta exigencia.
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-8">
+
+                <!-- Testimonio 1 -->
+                <div class="bg-[#FAF9F6] dark:bg-[#0F1A2E] p-8 rounded-3xl border border-slate-200/80 dark:border-white/10 shadow-sm flex flex-col reveal-on-scroll">
+                    <div class="flex items-center gap-1 text-amber-400 mb-4 text-sm">
+                        <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+                    </div>
+                    <blockquote class="text-slate-700 dark:text-slate-200 text-sm leading-relaxed italic mb-6 flex-grow font-light">
+                        «En las guardias de 36 horas en cirugía, la ropa pesada no se aguanta. Los scrubs de Martex son súper frescos y el pantalón estira bien cuando toca correr. Me quedó mucho mejor ajustado que marcas gringas caras.»
+                    </blockquote>
+                    <div class="flex items-center gap-3 pt-4 border-t border-slate-200/60 dark:border-white/10">
+                        <div class="w-10 h-10 rounded-full bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 font-bold flex items-center justify-center text-sm">
+                            CM
+                        </div>
+                        <div>
+                            <h4 class="font-display font-bold text-sm text-azul-marino dark:text-white">Dr. Carlos Menjívar</h4>
+                            <p class="text-xs text-slate-500 dark:text-slate-400 font-light">Residente de Cirugía · San Salvador</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Testimonio 2 -->
+                <div class="bg-[#FAF9F6] dark:bg-[#0F1A2E] p-8 rounded-3xl border border-slate-200/80 dark:border-white/10 shadow-sm flex flex-col reveal-on-scroll" style="animation-delay: 0.1s">
+                    <div class="flex items-center gap-1 text-amber-400 mb-4 text-sm">
+                        <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+                    </div>
+                    <blockquote class="text-slate-700 dark:text-slate-200 text-sm leading-relaxed italic mb-6 flex-grow font-light">
+                        «Compré dos juegos hace 8 meses y siguen nítidos con las lavadas bravas del hospital. La atención del taller de Usulután fue de primera, me asesoraron con el largo y me llegó directo a mi clínica.»
+                    </blockquote>
+                    <div class="flex items-center gap-3 pt-4 border-t border-slate-200/60 dark:border-white/10">
+                        <div class="w-10 h-10 rounded-full bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 font-bold flex items-center justify-center text-sm">
+                            AP
+                        </div>
+                        <div>
+                            <h4 class="font-display font-bold text-sm text-azul-marino dark:text-white">Licda. Andrea Palacios</h4>
+                            <p class="text-xs text-slate-500 dark:text-slate-400 font-light">Enfermería Profesional · San Miguel</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Testimonio 3 -->
+                <div class="bg-[#FAF9F6] dark:bg-[#0F1A2E] p-8 rounded-3xl border border-slate-200/80 dark:border-white/10 shadow-sm flex flex-col reveal-on-scroll" style="animation-delay: 0.2s">
+                    <div class="flex items-center gap-1 text-amber-400 mb-4 text-sm">
+                        <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+                    </div>
+                    <blockquote class="text-slate-700 dark:text-slate-200 text-sm leading-relaxed italic mb-6 flex-grow font-light">
+                        «El corte es súper femenino y muy cómodo. Pedí con bordado de mi nombre y logotipo de clínica. Llegó rápido y con costuras de excelente calidad. Se nota el orgullo en cada prenda.»
+                    </blockquote>
+                    <div class="flex items-center gap-3 pt-4 border-t border-slate-200/60 dark:border-white/10">
+                        <div class="w-10 h-10 rounded-full bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 font-bold flex items-center justify-center text-sm">
+                            MR
+                        </div>
+                        <div>
+                            <h4 class="font-display font-bold text-sm text-azul-marino dark:text-white">Dra. Marcela Rivas</h4>
+                            <p class="text-xs text-slate-500 dark:text-slate-400 font-light">Especialista Odontológica · Santa Ana</p>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- ══════════════════════════════════════════
+         S7 · GARANTÍA & PREGUNTAS FRECUENTES (FAQ)
+    ══════════════════════════════════════════ -->
+    <section class="py-16 sm:py-24 bg-[#FAF9F6] dark:bg-[#080E18] border-b border-slate-200/80 dark:border-white/10 transition-colors">
+        <div class="max-w-4xl mx-auto px-5 sm:px-6">
+
+            <!-- Banner de Garantía -->
+            <div class="guarantee-badge rounded-3xl p-6 sm:p-8 mb-12 flex flex-col sm:flex-row items-center gap-5 text-center sm:text-left reveal-on-scroll">
+                <div class="w-16 h-16 rounded-2xl bg-verde-quirurgico text-white flex items-center justify-center text-2xl shrink-0 shadow-sm">
+                    <i class="fas fa-shield-alt"></i>
+                </div>
+                <div>
+                    <h3 class="font-display font-bold text-lg sm:text-xl text-azul-marino dark:text-white mb-1">
+                        Garantía de Ajuste Seguro Martex
+                    </h3>
+                    <p class="text-slate-600 dark:text-slate-300 text-sm leading-relaxed font-light">
+                        Si por alguna razón la prenda te queda apretada o necesitas un ajuste en largo o cintura, te lo corregimos directamente en nuestro taller de Usulután sin complicaciones.
+                    </p>
+                </div>
+            </div>
+
+            <!-- Título de FAQ -->
+            <div class="text-center mb-10 reveal-on-scroll">
+                <span class="section-badge">
+                    <i data-lucide="help-circle" class="w-3.5 h-3.5"></i>
+                    Preguntas Frecuentes
+                </span>
+                <h2 class="font-display text-2xl sm:text-3xl font-extrabold text-azul-marino dark:text-white mt-2">
+                    Todo lo que necesitas saber antes de ordenar
+                </h2>
+            </div>
+
+            <!-- Acordeón Interactivo -->
+            <div class="space-y-4" id="faq-accordion">
+
+                <!-- FAQ 1 -->
+                <div class="faq-item active bg-white dark:bg-[#0F1A2E] rounded-2xl border border-slate-200/80 dark:border-white/10 p-5 shadow-xs transition-colors">
+                    <div class="faq-header flex justify-between items-center" onclick="toggleFaq(this)">
+                        <h3 class="font-display font-bold text-base text-azul-marino dark:text-white flex items-center gap-2.5">
+                            <i class="fas fa-truck text-verde-quirurgico dark:text-emerald-400 text-sm"></i>
+                            ¿Hacen envíos a todo El Salvador?
+                        </h3>
+                        <i class="fas fa-chevron-down faq-icon text-xs text-slate-400"></i>
+                    </div>
+                    <div class="faq-content pt-3 text-slate-600 dark:text-slate-300 text-sm leading-relaxed font-light">
+                        Sí, contamos con cobertura asegurada a los 14 departamentos de El Salvador. Enviamos a la puerta de tu hospital, clínica o residencia por servicio de paquetería express.
+                    </div>
+                </div>
+
+                <!-- FAQ 2 -->
+                <div class="faq-item bg-white dark:bg-[#0F1A2E] rounded-2xl border border-slate-200/80 dark:border-white/10 p-5 shadow-xs transition-colors">
+                    <div class="faq-header flex justify-between items-center" onclick="toggleFaq(this)">
+                        <h3 class="font-display font-bold text-base text-azul-marino dark:text-white flex items-center gap-2.5">
+                            <i class="fas fa-signature text-verde-quirurgico dark:text-emerald-400 text-sm"></i>
+                            ¿Pueden bordar el logo de mi clínica o universidad?
+                        </h3>
+                        <i class="fas fa-chevron-down faq-icon text-xs text-slate-400"></i>
+                    </div>
+                    <div class="faq-content pt-3 text-slate-600 dark:text-slate-300 text-sm leading-relaxed font-light">
+                        ¡Claro que sí! Contamos con bordado computarizado de alta definición para tu nombre, grado académico, logotipo institucional de tu clínica o universidad (UES, UNASA, UJMD, etc.).
+                    </div>
+                </div>
+
+                <!-- FAQ 3 -->
+                <div class="faq-item bg-white dark:bg-[#0F1A2E] rounded-2xl border border-slate-200/80 dark:border-white/10 p-5 shadow-xs transition-colors">
+                    <div class="faq-header flex justify-between items-center" onclick="toggleFaq(this)">
+                        <h3 class="font-display font-bold text-base text-azul-marino dark:text-white flex items-center gap-2.5">
+                            <i class="fas fa-ruler-combined text-verde-quirurgico dark:text-emerald-400 text-sm"></i>
+                            ¿Qué pasa si mis medidas no coinciden con las tallas estándar?
+                        </h3>
+                        <i class="fas fa-chevron-down faq-icon text-xs text-slate-400"></i>
+                    </div>
+                    <div class="faq-content pt-3 text-slate-600 dark:text-slate-300 text-sm leading-relaxed font-light">
+                        Al ser fabricantes locales en Usulután, podemos confeccionar tu filipina o pantalón sobre tus medidas exactas de busto, cintura, cadera o largo de pierna. Solo indícanos tus medidas por WhatsApp.
+                    </div>
+                </div>
+
+                <!-- FAQ 4 -->
+                <div class="faq-item bg-white dark:bg-[#0F1A2E] rounded-2xl border border-slate-200/80 dark:border-white/10 p-5 shadow-xs transition-colors">
+                    <div class="faq-header flex justify-between items-center" onclick="toggleFaq(this)">
+                        <h3 class="font-display font-bold text-base text-azul-marino dark:text-white flex items-center gap-2.5">
+                            <i class="fas fa-credit-card text-verde-quirurgico dark:text-emerald-400 text-sm"></i>
+                            ¿Cuáles son las formas de pago?
+                        </h3>
+                        <i class="fas fa-chevron-down faq-icon text-xs text-slate-400"></i>
+                    </div>
+                    <div class="faq-content pt-3 text-slate-600 dark:text-slate-300 text-sm leading-relaxed font-light">
+                        Aceptamos transferencias bancarias (Banco Agrícola, BAC Credomatic, Banco Cuscatlán), Tigo Money, Chivo/Bitcoin y pago contra entrega en zonas seleccionadas.
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- ══════════════════════════════════════════
+         S8 · CTA FINAL — Cotización y Pedidos
+    ══════════════════════════════════════════ -->
+    <section class="py-20 sm:py-24 bg-[#0A1428] dark:bg-[#040810] text-white relative overflow-hidden border-t border-white/10">
         <div class="absolute inset-0 hero-grid-bg opacity-30"></div>
         <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-verde-quirurgico/15 rounded-full blur-3xl pointer-events-none"></div>
 
@@ -360,27 +602,27 @@
             </span>
 
             <h2 class="font-display text-3xl sm:text-4xl md:text-5xl font-extrabold mb-4 leading-tight">
-                ¿Listo para vestir a tu equipo con <span class="text-emerald-300">uniformes a la medida</span>?
+                ¿Listo para estrenar en tu <span class="text-emerald-300">próxima guardia</span>?
             </h2>
 
             <p class="text-slate-300 text-base sm:text-lg mb-8 font-light leading-relaxed max-w-2xl mx-auto">
-                Confeccionamos pedidos individuales y para clínicas completas. Te asesoramos con la toma de medidas, bordados personalizados y elección de colores sin compromiso.
+                No pasés otro turno incómodo. Escribinos hoy mismo, elegí tu modelo y color favorito, y recibí tu uniforme esta misma semana.
             </p>
 
             <div class="flex flex-col sm:flex-row gap-4 justify-center items-center cta-buttons">
                 <a href="https://wa.me/50360497383?text=Hola,%20quiero%20cotizar%20uniformes%20médicos%20con%20Martex" target="_blank" rel="noopener" class="btn-hero-primary group w-full sm:w-auto justify-center">
                     <i class="fab fa-whatsapp text-base mr-2"></i>
-                    <span>Escribir por WhatsApp</span>
+                    <span>Chatear por WhatsApp (+503 6049-7383)</span>
                 </a>
                 <a href="catalogo.html" class="btn-hero-secondary group w-full sm:w-auto justify-center">
-                    <span>Explorar Catálogo</span>
+                    <span>Explorar Todo el Catálogo</span>
                     <i data-lucide="arrow-right" class="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform"></i>
                 </a>
             </div>
 
             <!-- Indicadores de confianza -->
             <div class="mt-10 flex flex-wrap gap-6 justify-center text-xs text-slate-400 border-t border-white/10 pt-6">
-                <span class="flex items-center gap-1.5"><i data-lucide="check-circle-2" class="w-3.5 h-3.5 text-emerald-400"></i> Respuesta en el mismo día</span>
+                <span class="flex items-center gap-1.5"><i data-lucide="check-circle-2" class="w-3.5 h-3.5 text-emerald-400"></i> Respuesta rápida en el día</span>
                 <span class="flex items-center gap-1.5"><i data-lucide="check-circle-2" class="w-3.5 h-3.5 text-emerald-400"></i> Asesoría de tallas personalizada</span>
                 <span class="flex items-center gap-1.5"><i data-lucide="check-circle-2" class="w-3.5 h-3.5 text-emerald-400"></i> Envíos a los 14 departamentos</span>
             </div>
@@ -396,11 +638,11 @@
          SLIDE-OVER CART PANEL
     ══════════════════════════════════════════ -->
     <div id="cart-panel" class="fixed inset-0 z-50 invisible">
-        <div class="absolute inset-0 bg-azul-marino/70 dark:bg-black/80 backdrop-blur-sm transition-opacity opacity-0" id="cart-overlay" onclick="toggleCart()"></div>
-        <div class="absolute top-0 right-0 h-full w-full max-w-md bg-white dark:bg-[#060D1A] shadow-2xl border-l border-slate-200 dark:border-white/10 transform translate-x-full transition-transform duration-300 flex flex-col" id="cart-content">
-            <div class="p-6 border-b border-slate-100 dark:border-white/10 flex justify-between items-center bg-slate-50 dark:bg-[#0A1428]">
+        <div class="absolute inset-0 bg-[#0A1428]/70 dark:bg-black/80 backdrop-blur-sm transition-opacity opacity-0" id="cart-overlay" onclick="toggleCart()"></div>
+        <div class="absolute top-0 right-0 h-full w-full max-w-md bg-white dark:bg-[#080E18] shadow-2xl border-l border-slate-200 dark:border-white/10 transform translate-x-full transition-transform duration-300 flex flex-col" id="cart-content">
+            <div class="p-6 border-b border-slate-100 dark:border-white/10 flex justify-between items-center bg-slate-50 dark:bg-[#0F1A2E]">
                 <h2 class="text-xl font-display font-bold text-azul-marino dark:text-white flex items-center gap-2">
-                    <i class="fas fa-shopping-bag text-verde-quirurgico"></i> Tu Carrito de Compras
+                    <i class="fas fa-shopping-bag text-verde-quirurgico dark:text-emerald-400"></i> Tu Carrito de Compras
                 </h2>
                 <button onclick="toggleCart()" class="w-9 h-9 rounded-xl bg-white dark:bg-white/10 border border-slate-200/60 dark:border-white/10 shadow-xs flex items-center justify-center text-slate-400 dark:text-slate-300 hover:text-red-500 hover:bg-slate-50 dark:hover:bg-white/20 transition-colors" aria-label="Cerrar carrito">
                     <i class="fas fa-times"></i>
@@ -414,7 +656,7 @@
                 </div>
             </div>
 
-            <div class="p-6 border-t border-slate-100 dark:border-white/10 bg-slate-50 dark:bg-[#0A1428]">
+            <div class="p-6 border-t border-slate-100 dark:border-white/10 bg-slate-50 dark:bg-[#0F1A2E]">
                 <div class="flex justify-between items-center mb-6">
                     <span class="text-slate-500 dark:text-slate-400 font-medium text-sm">Total Estimado</span>
                     <span class="text-2xl font-display font-bold text-azul-marino dark:text-white" id="cart-total">$0.00</span>
@@ -424,6 +666,20 @@
                 </a>
             </div>
         </div>
+    </div>
+
+    <!-- ══════════════════════════════════════════
+         MOBILE STICKY ACTION BAR (Conversión Móvil)
+    ══════════════════════════════════════════ -->
+    <div class="mobile-sticky-cta" id="mobile-sticky-cta">
+        <a href="catalogo.html" class="flex-1 min-h-[44px] rounded-xl bg-slate-100 dark:bg-white/10 text-azul-marino dark:text-white border border-slate-200/80 dark:border-white/10 flex items-center justify-center font-semibold text-sm gap-2 active:scale-95 transition-all">
+            <i class="fas fa-shopping-bag text-verde-quirurgico dark:text-emerald-400 text-xs"></i>
+            Catálogo
+        </a>
+        <a href="https://wa.me/50360497383?text=Hola,%20quisiera%20cotizar%20uniformes%20médicos%20Martex" target="_blank" rel="noopener" class="flex-1 min-h-[44px] rounded-xl bg-verde-quirurgico text-white flex items-center justify-center font-semibold text-sm gap-2 active:scale-95 transition-all shadow-sm">
+            <i class="fab fa-whatsapp"></i>
+            WhatsApp
+        </a>
     </div>
 
     <!-- Web Components de Footer y Auth Modal -->
@@ -476,8 +732,10 @@
 
         // ── Scroll to Top visibility ──────────────────────────
         const scrollBtn = document.getElementById('scroll-top-btn');
+        const mobileStickyBar = document.getElementById('mobile-sticky-cta');
         window.addEventListener('scroll', () => {
             if (scrollBtn) scrollBtn.classList.toggle('visible', window.scrollY > 400);
+            if (mobileStickyBar) mobileStickyBar.classList.toggle('visible', window.scrollY > 600);
         }, { passive: true });
 
         // ── Intersection Observer (scroll reveal) ────────────
@@ -506,6 +764,21 @@
             if (hiddenInput) hiddenInput.value = talla;
         }
 
+        // ── FAQ Accordion Toggler ─────────────────────────────
+        function toggleFaq(headerElement) {
+            const faqItem = headerElement.closest('.faq-item');
+            const isActive = faqItem.classList.contains('active');
+            
+            // Cerrar otros acordeones si se desea comportamiento exclusivo
+            document.querySelectorAll('.faq-item').forEach(item => {
+                item.classList.remove('active');
+            });
+
+            if (!isActive) {
+                faqItem.classList.add('active');
+            }
+        }
+
         // ── Carga de productos destacados ────────────────────
         document.addEventListener("DOMContentLoaded", async () => {
             let productos = [];
@@ -514,13 +787,13 @@
             // Skeletons de carga
             if (destacadosContainer) {
                 destacadosContainer.innerHTML = Array(3).fill(0).map(() => `
-                    <div class="bg-white rounded-3xl overflow-hidden card-premium shadow-sm border border-slate-200/80 flex flex-col">
+                    <div class="bg-white dark:bg-[#0F1A2E] rounded-3xl overflow-hidden card-premium shadow-sm border border-slate-200/80 dark:border-white/10 flex flex-col">
                         <div class="h-72 skeleton w-full"></div>
                         <div class="p-6 flex flex-col flex-grow">
                             <div class="h-5 skeleton w-3/4 mb-3"></div>
                             <div class="h-4 skeleton w-full mb-2"></div>
                             <div class="h-4 skeleton w-5/6 mb-6"></div>
-                            <div class="flex gap-2 mt-auto pt-4 border-t border-slate-100">
+                            <div class="flex gap-2 mt-auto pt-4 border-t border-slate-100 dark:border-white/10">
                                 <div class="h-10 skeleton flex-1 rounded-xl"></div>
                                 <div class="h-10 skeleton flex-1 rounded-xl"></div>
                             </div>
@@ -542,7 +815,7 @@
             const fallbackProductos = [
                 {
                     id: 1,
-                    nombre: "Scrub Médico Signature",
+                    nombre: "Scrub Médico Ergonómico Usulután",
                     descripcion: "Conjunto ergonómico confeccionado en tela 4-Way Stretch antifluido con triple costura reforzada.",
                     categoria: "Médico",
                     precio_base: 32.00,
@@ -551,7 +824,7 @@
                 },
                 {
                     id: 2,
-                    nombre: "Bata Médica Clínica",
+                    nombre: "Bata Médica Clínica Tradicional",
                     descripcion: "Bata profesional de corte entallado con solapa clásica, bolsillos para instrumental y tacto fresco.",
                     categoria: "Médico",
                     precio_base: 28.00,
@@ -560,7 +833,7 @@
                 },
                 {
                     id: 3,
-                    nombre: "Filipina Quirúrgica Charcoal",
+                    nombre: "Filipina Quirúrgica Charcoal Flex",
                     descripcion: "Prenda de alta resistencia térmica para turnos prolongados, secado ultra-rápido y caída impecable.",
                     categoria: "Belleza & Salud",
                     precio_base: 26.50,
@@ -586,7 +859,7 @@
                     const hasDiscount = desc > 0;
 
                     return `
-                    <div class="bg-white dark:bg-[#0A1428] rounded-3xl overflow-hidden card-premium shadow-sm border border-slate-200/80 dark:border-white/10 flex flex-col group reveal-on-scroll transition-colors" style="transition-delay:${index * 0.1}s">
+                    <div class="bg-white dark:bg-[#0F1A2E] rounded-3xl overflow-hidden card-premium shadow-sm border border-slate-200/80 dark:border-white/10 flex flex-col group reveal-on-scroll transition-colors" style="transition-delay:${index * 0.1}s">
                         <div class="h-72 bg-slate-100 dark:bg-white/5 relative overflow-hidden">
                             <img src="${escapeHTML(imageUrl)}" alt="${escapeHTML(prod.nombre)}" class="w-full h-full object-cover object-top img-hover-zoom">
 
@@ -594,7 +867,7 @@
                                 <span class="bg-white/90 dark:bg-black/70 backdrop-blur-md text-azul-marino dark:text-white text-xs font-semibold px-3 py-1 rounded-full shadow-xs border border-slate-200/50 dark:border-white/10">
                                     ${escapeHTML(prod.categoria || 'Colección')}
                                 </span>
-                                <button data-fav-id="${escapeHTML(String(prod.id))}" onclick="event.stopPropagation(); MartexFavoritos.toggle('${escapeHTML(String(prod.id))}', this)" aria-label="Guardar en favoritos" class="w-9 h-9 rounded-full bg-white/90 dark:bg-[#060D1A]/90 backdrop-blur-md flex items-center justify-center text-slate-400 hover:text-red-500 transition-colors shadow-xs border border-slate-200/50 dark:border-white/10">
+                                <button data-fav-id="${escapeHTML(String(prod.id))}" onclick="event.stopPropagation(); MartexFavoritos.toggle('${escapeHTML(String(prod.id))}', this)" aria-label="Guardar en favoritos" class="w-9 h-9 rounded-full bg-white/90 dark:bg-[#080E18]/90 backdrop-blur-md flex items-center justify-center text-slate-400 hover:text-red-500 transition-colors shadow-xs border border-slate-200/50 dark:border-white/10">
                                     <i class="far fa-heart text-sm"></i>
                                 </button>
                             </div>
@@ -609,11 +882,11 @@
                             <h3 class="font-display font-bold text-lg sm:text-xl text-azul-marino dark:text-white mb-1.5 group-hover:text-verde-quirurgico dark:group-hover:text-emerald-300 transition-colors">${escapeHTML(prod.nombre)}</h3>
                             <p class="text-slate-500 dark:text-slate-400 text-xs sm:text-sm mb-4 leading-relaxed line-clamp-2 flex-grow font-light">${escapeHTML(prod.descripcion || '')}</p>
 
-                            <!-- Selector de talla -->
+                            <!-- Selector de talla ergonómica -->
                             <div class="mb-5 pt-3 border-t border-slate-100 dark:border-white/10">
                                 <div class="flex justify-between items-center mb-2">
-                                    <span class="text-[11px] font-bold text-slate-400 dark:text-slate-500 uppercase tracking-wider">Talla recomendada</span>
-                                    <span class="text-[11px] text-verde-quirurgico dark:text-emerald-400 font-medium">Confección ergonómica</span>
+                                    <span class="text-[11px] font-bold text-slate-400 dark:text-slate-500 uppercase tracking-wider">Talla sugerida</span>
+                                    <span class="text-[11px] text-verde-quirurgico dark:text-emerald-400 font-medium">Confección sastre</span>
                                 </div>
                                 <div class="flex gap-2">
                                     ${['S', 'M', 'L', 'XL'].map(t => `
@@ -635,7 +908,7 @@
 
                                 <div class="flex gap-2">
                                     <button onclick="agregarAlCarritoConTalla('${escapeHTML(String(prod.id))}', '${escapeHTML(prod.nombre)}', ${precioFinal}, '${escapeHTML(imageUrl)}', 'talla-dest-')" class="flex-1 min-h-[44px] rounded-xl bg-slate-100 hover:bg-slate-200 dark:bg-white/10 dark:hover:bg-white/15 text-azul-marino dark:text-white border border-slate-200/80 dark:border-white/10 flex items-center justify-center active:scale-95 transition-all duration-200 font-semibold text-xs gap-1.5 shadow-xs" aria-label="Añadir al carrito">
-                                        <i class="fas fa-cart-plus text-xs text-verde-quirurgico"></i> Al Carrito
+                                        <i class="fas fa-cart-plus text-xs text-verde-quirurgico dark:text-emerald-400"></i> Al Carrito
                                     </button>
                                     <button onclick="agregarAlCarritoConTalla('${escapeHTML(String(prod.id))}', '${escapeHTML(prod.nombre)}', ${precioFinal}, '${escapeHTML(imageUrl)}', 'talla-dest-', true)" class="flex-1 min-h-[44px] rounded-xl bg-verde-quirurgico hover:bg-verde-quirurgico-dark text-white flex items-center justify-center active:scale-95 transition-all duration-200 font-semibold text-xs gap-1.5 shadow-xs" aria-label="Comprar directo">
                                         Comprar <i class="fas fa-arrow-right text-[10px]"></i>

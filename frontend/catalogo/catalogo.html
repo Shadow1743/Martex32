@@ -48,7 +48,7 @@
     <script src="componentes/footer.js" defer></script>
     <script src="componentes/auth-modal.js" defer></script>
 </head>
-<body class="bg-gray-50 dark:bg-[#060D1A] text-azul-marino dark:text-slate-100 flex flex-col min-h-screen transition-colors duration-200">
+<body class="bg-[#FAF9F6] dark:bg-[#080E18] text-azul-marino dark:text-slate-100 flex flex-col min-h-screen transition-colors duration-200">
     <main-navbar></main-navbar>
 
     <div class="bg-azul-marino dark:bg-[#0A1428] text-white py-12 border-b border-white/10">
@@ -539,6 +539,19 @@
                     }
                 });
             });
+
+            // Leer parámetro de URL (?categoria=Médico o ?categoria=Belleza)
+            try {
+                const urlParams = new URLSearchParams(window.location.search);
+                const catParam = urlParams.get('categoria');
+                if (catParam) {
+                    const targetRadio = document.querySelector(`input[name="categoria"][value="${catParam}"]`);
+                    if (targetRadio) {
+                        targetRadio.checked = true;
+                        targetRadio.dispatchEvent(new Event('change'));
+                    }
+                }
+            } catch(e) {}
         });
 
         // --- Sistema de Reseñas ---
