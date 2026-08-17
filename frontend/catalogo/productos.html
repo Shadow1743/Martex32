@@ -120,8 +120,8 @@
         <!-- Product Grid -->
         <section class="w-full md:w-3/4">
             <div class="flex justify-between items-center mb-8">
-                <p class="text-gray-500 font-medium"><span id="product-count">0</span> productos encontrados</p>
-                <select class="border border-gray-200 text-gray-700 py-2 px-4 rounded-xl focus:outline-none focus:border-verde-quirurgico">
+                <p class="text-slate-500 dark:text-slate-400 font-medium"><span id="product-count">0</span> productos encontrados</p>
+                <select class="border border-slate-200 dark:border-white/15 bg-white dark:bg-[#0A1428] text-slate-700 dark:text-slate-200 py-2 px-4 rounded-xl focus:outline-none focus:border-blue-600 transition-colors text-sm">
                     <option>Más recientes</option>
                     <option>Precio: Menor a Mayor</option>
                     <option>Precio: Mayor a Menor</option>
@@ -137,23 +137,23 @@
     <!-- Modal de Detalle de Producto -->
     <div id="product-modal" class="fixed inset-0 z-[60] invisible">
         <div class="absolute inset-0 bg-azul-marino/60 backdrop-blur-sm transition-opacity opacity-0" id="product-modal-overlay" onclick="cerrarModal()"></div>
-        <div class="absolute inset-4 md:inset-8 lg:inset-y-8 lg:inset-x-auto lg:left-1/2 lg:-translate-x-1/2 lg:max-w-4xl lg:w-full bg-white shadow-2xl rounded-3xl transform scale-95 opacity-0 transition-all duration-300 flex flex-col overflow-hidden" id="product-modal-content">
+        <div class="absolute inset-4 md:inset-8 lg:inset-y-8 lg:inset-x-auto lg:left-1/2 lg:-translate-x-1/2 lg:max-w-4xl lg:w-full bg-white dark:bg-[#0A1428] text-slate-900 dark:text-white border border-slate-200 dark:border-white/10 shadow-2xl rounded-3xl transform scale-95 opacity-0 transition-all duration-300 flex flex-col overflow-hidden" id="product-modal-content">
             
             <!-- Header del modal -->
-            <div class="p-5 border-b border-gray-100 flex justify-between items-center bg-gray-50/80 backdrop-blur-sm shrink-0">
+            <div class="p-5 border-b border-slate-100 dark:border-white/10 flex justify-between items-center bg-slate-50/80 dark:bg-[#060D1A] backdrop-blur-sm shrink-0">
                 <div class="flex items-center gap-3">
-                    <div class="w-10 h-10 bg-verde-quirurgico/10 rounded-xl flex items-center justify-center text-verde-quirurgico">
+                    <div class="w-10 h-10 bg-blue-50 dark:bg-blue-900/30 rounded-xl flex items-center justify-center text-blue-600 dark:text-blue-400">
                         <i class="fas fa-tshirt"></i>
                     </div>
-                    <h2 class="text-xl font-display font-bold text-azul-marino">Detalle del Producto</h2>
+                    <h2 class="text-xl font-display font-bold text-azul-marino dark:text-white">Detalle del Producto</h2>
                 </div>
-                <button onclick="cerrarModal()" class="w-10 h-10 rounded-full bg-white shadow-sm flex items-center justify-center text-gray-400 hover:text-red-500 hover:bg-gray-50 transition-colors">
+                <button onclick="cerrarModal()" class="w-10 h-10 rounded-full bg-white dark:bg-white/10 shadow-sm flex items-center justify-center text-slate-400 hover:text-red-500 hover:bg-slate-50 dark:hover:bg-white/20 transition-colors" aria-label="Cerrar modal">
                     <i class="fas fa-times"></i>
                 </button>
             </div>
             
             <!-- Contenido del modal (scrollable) -->
-            <div class="flex-grow overflow-y-auto" id="product-modal-body">
+            <div class="flex-grow overflow-y-auto bg-white dark:bg-[#0A1428]" id="product-modal-body">
                 <!-- Se llena dinámicamente -->
             </div>
         </div>
@@ -161,10 +161,10 @@
 
     <!-- Mobile FAB actions (visible only on small screens) -->
     <div class="mobile-fab md:hidden">
-        <button onclick="document.getElementById('searchInput').focus(); document.getElementById('searchInput').scrollIntoView({behavior:'smooth', block:'center'})" class="mobile-fab-btn bg-verde-quirurgico shadow-lg" aria-label="Buscar productos">
+        <button onclick="document.getElementById('searchInput').focus(); document.getElementById('searchInput').scrollIntoView({behavior:'smooth', block:'center'})" class="mobile-fab-btn bg-blue-600 shadow-lg text-white" aria-label="Buscar productos">
             <i class="fas fa-search"></i>
         </button>
-        <button onclick="toggleCart()" class="mobile-fab-btn bg-azul-marino shadow-lg relative" aria-label="Abrir carrito">
+        <button onclick="toggleCart()" class="mobile-fab-btn bg-azul-marino dark:bg-blue-950 shadow-lg relative text-white" aria-label="Abrir carrito">
             <i class="fas fa-shopping-bag"></i>
             <span class="notification-dot" id="mobile-cart-dot" style="display:none;"></span>
         </button>
@@ -173,25 +173,25 @@
     <!-- Slide-over Cart -->
     <div id="cart-panel" class="fixed inset-0 z-50 invisible">
         <div class="absolute inset-0 bg-azul-marino/50 backdrop-blur-sm transition-opacity opacity-0" id="cart-overlay" onclick="toggleCart()"></div>
-        <div class="absolute top-0 right-0 h-full w-full max-w-md bg-white shadow-2xl transform translate-x-full transition-transform duration-300 flex flex-col" id="cart-content">
-            <div class="p-6 border-b border-gray-100 flex justify-between items-center bg-gray-50">
-                <h2 class="text-2xl font-display font-bold text-azul-marino flex items-center gap-2">
-                    <i class="fas fa-shopping-bag text-verde-quirurgico"></i> Tu Carrito
+        <div class="absolute top-0 right-0 h-full w-full max-w-md bg-white dark:bg-[#080E18] text-slate-900 dark:text-white border-l border-slate-200 dark:border-white/10 shadow-2xl transform translate-x-full transition-transform duration-300 flex flex-col" id="cart-content">
+            <div class="p-6 border-b border-slate-100 dark:border-white/10 flex justify-between items-center bg-slate-50 dark:bg-[#060D1A]">
+                <h2 class="text-2xl font-display font-bold text-azul-marino dark:text-white flex items-center gap-2">
+                    <i class="fas fa-shopping-bag text-blue-600 dark:text-blue-400"></i> Tu Carrito
                 </h2>
-                <button onclick="toggleCart()" class="w-10 h-10 rounded-full bg-white shadow-sm flex items-center justify-center text-gray-400 hover:text-red-500 hover:bg-gray-50 transition-colors">
+                <button onclick="toggleCart()" class="w-10 h-10 rounded-full bg-white dark:bg-white/10 shadow-sm flex items-center justify-center text-slate-400 hover:text-red-500 hover:bg-slate-50 dark:hover:bg-white/20 transition-colors" aria-label="Cerrar carrito">
                     <i class="fas fa-times"></i>
                 </button>
             </div>
             
             <div class="flex-grow p-6 overflow-y-auto" id="cart-items">
                 <!-- Items del carrito -->
-                <div class="text-center text-gray-400 py-10">
+                <div class="text-center text-slate-400 py-10">
                     <i class="fas fa-box-open text-4xl mb-4 opacity-50"></i>
                     <p>Tu carrito está vacío</p>
                 </div>
             </div>
             
-            <div class="p-6 border-t border-gray-100 bg-gray-50">
+            <div class="p-6 border-t border-slate-100 dark:border-white/10 bg-slate-50 dark:bg-[#060D1A]">
                 <div class="flex justify-between items-center mb-6">
                     <span class="text-gray-500 font-medium">Total Estimado</span>
                     <span class="text-3xl font-display font-bold text-azul-marino" id="cart-total">$0.00</span>

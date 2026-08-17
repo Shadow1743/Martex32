@@ -214,8 +214,20 @@ class MainNavbar extends HTMLElement {
                             </div>
                         </div>
 
-                        <!-- Footer del Menú Móvil (Cuenta y Logout) -->
+                        <!-- Footer del Menú Móvil (Cuenta, Tema y Logout) -->
                         <div class="pt-6 border-t border-slate-100 dark:border-white/10 space-y-3 mt-6">
+                            <!-- Toggle Tema Móvil -->
+                            <div class="flex items-center justify-between p-3 rounded-2xl bg-slate-50 dark:bg-white/5 border border-slate-200/80 dark:border-white/10 mb-2">
+                                <span class="text-xs font-semibold text-slate-700 dark:text-slate-200 flex items-center gap-2">
+                                    <i class="fas fa-circle-half-stroke text-blue-600 dark:text-blue-400"></i>
+                                    <span>Apariencia</span>
+                                </span>
+                                <button id="mobile-theme-toggle" class="px-3 py-1.5 rounded-xl bg-white dark:bg-white/10 text-xs font-bold text-slate-800 dark:text-white border border-slate-200 dark:border-white/15 flex items-center gap-1.5 shadow-xs transition-colors">
+                                    <i id="mobile-theme-icon" class="fas fa-moon text-xs"></i>
+                                    <span id="mobile-theme-text">Modo Oscuro</span>
+                                </button>
+                            </div>
+
                             ${isLoggedIn ? `
                                 <a href="mi-cuenta.html" class="flex items-center justify-center gap-2 w-full py-3 rounded-xl bg-slate-100 dark:bg-white/10 text-slate-900 dark:text-white font-semibold text-sm">
                                     <i class="fas fa-user text-blue-800 dark:text-blue-400"></i> Mi Cuenta (${clienteNombre ? clienteNombre.split(' ')[0] : 'Perfil'})
@@ -272,31 +284,47 @@ class MainNavbar extends HTMLElement {
         // Lógica de Modo Oscuro
         const toggleBtn = this.querySelector('#theme-toggle');
         const themeIcon = this.querySelector('#theme-icon');
+        const mobileThemeToggle = this.querySelector('#mobile-theme-toggle');
         
         const updateThemeUI = (isDark) => {
             if (themeIcon) {
-                themeIcon.className = isDark ? 'fas fa-sun text-amber-400 text-sm' : 'fas fa-moon text-slate-600 text-sm';
+                themeIcon.className = isDark ? 'fas fa-sun text-amber-400 text-sm' : 'fas fa-moon text-slate-600 dark:text-slate-300 text-sm';
             }
             if (toggleBtn) {
                 toggleBtn.setAttribute('title', isDark ? 'Cambiar a modo claro' : 'Cambiar a modo oscuro');
             }
+            const mobileThemeIcon = this.querySelector('#mobile-theme-icon');
+            const mobileThemeText = this.querySelector('#mobile-theme-text');
+            if (mobileThemeIcon) {
+                mobileThemeIcon.className = isDark ? 'fas fa-sun text-amber-400 text-xs' : 'fas fa-moon text-slate-600 dark:text-slate-300 text-xs';
+            }
+            if (mobileThemeText) {
+                mobileThemeText.textContent = isDark ? 'Modo Claro' : 'Modo Oscuro';
+            }
+        };
+
+        const toggleTheme = (e) => {
+            if (e) e.preventDefault();
+            const nowDark = document.documentElement.classList.toggle('dark');
+            try {
+                localStorage.setItem('theme', nowDark ? 'dark' : 'light');
+            } catch(err) {}
+            updateThemeUI(nowDark);
+            window.dispatchEvent(new CustomEvent('theme-changed', { detail: { isDark: nowDark } }));
         };
 
         // Estado inicial del tema
         const initialDark = document.documentElement.classList.contains('dark');
         updateThemeUI(initialDark);
 
-        if (toggleBtn) {
-            toggleBtn.addEventListener('click', (e) => {
-                e.preventDefault();
-                const nowDark = document.documentElement.classList.toggle('dark');
-                try {
-                    localStorage.setItem('theme', nowDark ? 'dark' : 'light');
-                } catch(err) {}
-                updateThemeUI(nowDark);
-                window.dispatchEvent(new CustomEvent('theme-changed', { detail: { isDark: nowDark } }));
-            });
-        }
+        if (toggleBtn) toggleBtn.addEventListener('click', toggleTheme);
+        if (mobileThemeToggle) mobileThemeToggle.addEventListener('click', toggleTheme);
+
+        window.addEventListener('theme-changed', (e) => {
+            if (e && e.detail && typeof e.detail.isDark === 'boolean') {
+                updateThemeUI(e.detail.isDark);
+            }
+        });
 
         // Mobile Menu Toggle (Slide-over)
         const mobileMenuBtn = this.querySelector('#mobile-menu-btn');
