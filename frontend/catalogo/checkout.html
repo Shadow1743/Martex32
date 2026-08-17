@@ -62,35 +62,36 @@
     <main class="max-w-7xl mx-auto px-4 sm:px-6 py-12 flex-grow flex flex-col lg:flex-row gap-8 w-full">
         
         <!-- Formulario de Checkout -->
+        <!-- Formulario de Checkout -->
         <div class="w-full lg:w-2/3">
             <form id="checkout-form" class="space-y-8" onsubmit="event.preventDefault(); procesarPedido();">
                 
                 <!-- 1. Datos Personales y Envío -->
-                <div class="bg-white p-6 sm:p-8 rounded-3xl shadow-sm border border-gray-100 card-premium">
-                    <h2 class="text-xl sm:text-2xl font-display font-bold mb-6 border-b border-gray-100 pb-4 flex items-center gap-2 text-azul-marino">
-                        <span class="w-8 h-8 rounded-xl bg-verde-quirurgico/10 text-verde-quirurgico flex items-center justify-center text-sm font-bold">1</span>
+                <div class="bg-white dark:bg-[#0A1428] p-6 sm:p-8 rounded-3xl shadow-sm border border-slate-200 dark:border-white/10 card-premium transition-colors">
+                    <h2 class="text-xl sm:text-2xl font-display font-bold mb-6 border-b border-slate-100 dark:border-white/10 pb-4 flex items-center gap-2 text-azul-marino dark:text-white">
+                        <span class="w-8 h-8 rounded-xl bg-blue-50 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 flex items-center justify-center text-sm font-bold">1</span>
                         Datos Personales y Envío
                     </h2>
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-5 sm:gap-6">
                         <div>
-                            <label class="block text-xs font-bold uppercase tracking-wider text-gray-600 mb-2">Nombre Completo *</label>
-                            <input type="text" id="cliente_nombre" required placeholder="Ej. Dra. Karla Menjívar" class="w-full px-4 py-3 rounded-xl border border-gray-200 focus:outline-none focus:border-verde-quirurgico focus:ring-1 focus:ring-verde-quirurgico transition-all text-sm">
+                            <label class="block text-xs font-bold uppercase tracking-wider text-slate-600 dark:text-slate-300 mb-2">Nombre Completo *</label>
+                            <input type="text" id="cliente_nombre" required placeholder="Ej. Dra. Karla Menjívar" class="w-full px-4 py-3 rounded-xl border border-slate-200 dark:border-white/15 bg-slate-50 dark:bg-[#060D1A] text-slate-900 dark:text-white placeholder:text-slate-400 focus:outline-none focus:border-blue-600 focus:ring-1 focus:ring-blue-600 transition-all text-sm">
                         </div>
                         <div>
-                            <label class="block text-xs font-bold uppercase tracking-wider text-gray-600 mb-2">Teléfono de Contacto (WhatsApp) *</label>
-                            <input type="tel" id="cliente_telefono" required placeholder="Ej. 7000-0000" class="w-full px-4 py-3 rounded-xl border border-gray-200 focus:outline-none focus:border-verde-quirurgico focus:ring-1 focus:ring-verde-quirurgico transition-all text-sm">
+                            <label class="block text-xs font-bold uppercase tracking-wider text-slate-600 dark:text-slate-300 mb-2">Teléfono de Contacto (WhatsApp) *</label>
+                            <input type="tel" id="cliente_telefono" required placeholder="Ej. 7000-0000" class="w-full px-4 py-3 rounded-xl border border-slate-200 dark:border-white/15 bg-slate-50 dark:bg-[#060D1A] text-slate-900 dark:text-white placeholder:text-slate-400 focus:outline-none focus:border-blue-600 focus:ring-1 focus:ring-blue-600 transition-all text-sm">
                         </div>
                         <div class="md:col-span-2">
-                            <label class="block text-xs font-bold uppercase tracking-wider text-gray-600 mb-2">Dirección de Entrega o Clínica *</label>
-                            <input type="text" id="direccion" required placeholder="Departamento, municipio, colonia, calle o referencia de entrega..." class="w-full px-4 py-3 rounded-xl border border-gray-200 focus:outline-none focus:border-verde-quirurgico focus:ring-1 focus:ring-verde-quirurgico transition-all text-sm">
+                            <label class="block text-xs font-bold uppercase tracking-wider text-slate-600 dark:text-slate-300 mb-2">Dirección de Entrega o Clínica *</label>
+                            <input type="text" id="direccion" required placeholder="Departamento, municipio, colonia, calle o referencia de entrega..." class="w-full px-4 py-3 rounded-xl border border-slate-200 dark:border-white/15 bg-slate-50 dark:bg-[#060D1A] text-slate-900 dark:text-white placeholder:text-slate-400 focus:outline-none focus:border-blue-600 focus:ring-1 focus:ring-blue-600 transition-all text-sm">
                         </div>
                         <div>
-                            <label class="block text-xs font-bold uppercase tracking-wider text-gray-600 mb-2">DUI (Para factura / comprobante)</label>
-                            <input type="text" id="dui" placeholder="00000000-0" class="w-full px-4 py-3 rounded-xl border border-gray-200 focus:outline-none focus:border-verde-quirurgico focus:ring-1 focus:ring-verde-quirurgico transition-all text-sm">
+                            <label class="block text-xs font-bold uppercase tracking-wider text-slate-600 dark:text-slate-300 mb-2">DUI (Para factura / comprobante)</label>
+                            <input type="text" id="dui" placeholder="00000000-0" class="w-full px-4 py-3 rounded-xl border border-slate-200 dark:border-white/15 bg-slate-50 dark:bg-[#060D1A] text-slate-900 dark:text-white placeholder:text-slate-400 focus:outline-none focus:border-blue-600 focus:ring-1 focus:ring-blue-600 transition-all text-sm">
                         </div>
                         <div>
-                            <label class="block text-xs font-bold uppercase tracking-wider text-gray-600 mb-2">Departamento de Destino</label>
-                            <select class="w-full px-4 py-3 rounded-xl border border-gray-200 focus:outline-none focus:border-verde-quirurgico focus:ring-1 focus:ring-verde-quirurgico transition-all text-sm bg-white text-gray-700">
+                            <label class="block text-xs font-bold uppercase tracking-wider text-slate-600 dark:text-slate-300 mb-2">Departamento de Destino</label>
+                            <select class="w-full px-4 py-3 rounded-xl border border-slate-200 dark:border-white/15 bg-slate-50 dark:bg-[#060D1A] text-slate-900 dark:text-white focus:outline-none focus:border-blue-600 focus:ring-1 focus:ring-blue-600 transition-all text-sm">
                                 <option value="Usulutan" selected>Usulután (Local / Tienda)</option>
                                 <option value="San Salvador">San Salvador</option>
                                 <option value="San Miguel">San Miguel</option>
@@ -111,72 +112,72 @@
                 </div>
 
                 <!-- 2. Método de Pago y Detalles Bancarios -->
-                <div class="bg-white p-6 sm:p-8 rounded-3xl shadow-sm border border-gray-100 card-premium">
-                    <h2 class="text-xl sm:text-2xl font-display font-bold mb-6 border-b border-gray-100 pb-4 flex items-center gap-2 text-azul-marino">
-                        <span class="w-8 h-8 rounded-xl bg-verde-quirurgico/10 text-verde-quirurgico flex items-center justify-center text-sm font-bold">2</span>
+                <div class="bg-white dark:bg-[#0A1428] p-6 sm:p-8 rounded-3xl shadow-sm border border-slate-200 dark:border-white/10 card-premium transition-colors">
+                    <h2 class="text-xl sm:text-2xl font-display font-bold mb-6 border-b border-slate-100 dark:border-white/10 pb-4 flex items-center gap-2 text-azul-marino dark:text-white">
+                        <span class="w-8 h-8 rounded-xl bg-blue-50 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 flex items-center justify-center text-sm font-bold">2</span>
                         Método de Pago
                     </h2>
                     
                     <div class="space-y-4">
                         <!-- Transferencia Electrónica (Cuscatlán / UNI / Chivo) -->
-                        <label class="payment-method-card flex items-start p-4 sm:p-5 border-2 border-gray-200 rounded-2xl cursor-pointer group transition-all" onclick="seleccionarMetodoPago(this, 'Transferencia')">
+                        <label class="payment-method-card flex items-start p-4 sm:p-5 border-2 border-slate-200 dark:border-white/15 rounded-2xl cursor-pointer group transition-all" onclick="seleccionarMetodoPago(this, 'Transferencia')">
                             <input type="radio" name="metodoPago" value="Transferencia" checked class="sr-only peer">
-                            <div class="w-11 h-11 rounded-xl bg-emerald-100 text-emerald-700 flex items-center justify-center shrink-0 mt-0.5">
+                            <div class="w-11 h-11 rounded-xl bg-emerald-100 dark:bg-emerald-900/30 text-emerald-700 dark:text-emerald-300 flex items-center justify-center shrink-0 mt-0.5">
                                 <i data-lucide="smartphone-charging" class="w-6 h-6"></i>
                             </div>
                             <div class="ml-4 flex items-start justify-between w-full">
                                 <div class="space-y-1">
-                                    <span class="block font-bold text-base text-azul-marino group-hover:text-verde-quirurgico transition-colors">
+                                    <span class="block font-bold text-base text-azul-marino dark:text-white group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">
                                         Transferencia Bancaria (Banco Cuscatlán / Transfer365 / Chivo)
                                     </span>
-                                    <p class="text-xs text-gray-500 leading-relaxed">
+                                    <p class="text-xs text-slate-500 dark:text-slate-400 leading-relaxed">
                                         Transferí desde tu banca en línea Cuscatlán o cualquier banco mediante Transfer365 / UNI sin comisión adicional.
                                     </p>
                                 </div>
-                                <div class="w-5 h-5 rounded-full border-2 border-gray-300 flex items-center justify-center peer-checked:border-verde-quirurgico shrink-0 ml-3 mt-1">
-                                    <div class="w-2.5 h-2.5 rounded-full bg-verde-quirurgico scale-0 peer-checked:scale-100 transition-transform"></div>
+                                <div class="w-5 h-5 rounded-full border-2 border-slate-300 dark:border-slate-600 flex items-center justify-center peer-checked:border-blue-600 shrink-0 ml-3 mt-1">
+                                    <div class="w-2.5 h-2.5 rounded-full bg-blue-600 scale-0 peer-checked:scale-100 transition-transform"></div>
                                 </div>
                             </div>
                         </label>
 
                         <!-- Depósito Bancario en Ventanilla Cuscatlán -->
-                        <label class="payment-method-card flex items-start p-4 sm:p-5 border-2 border-gray-200 rounded-2xl cursor-pointer group transition-all" onclick="seleccionarMetodoPago(this, 'Deposito')">
+                        <label class="payment-method-card flex items-start p-4 sm:p-5 border-2 border-slate-200 dark:border-white/15 rounded-2xl cursor-pointer group transition-all" onclick="seleccionarMetodoPago(this, 'Deposito')">
                             <input type="radio" name="metodoPago" value="Deposito" class="sr-only peer">
-                            <div class="w-11 h-11 rounded-xl bg-blue-100 text-blue-700 flex items-center justify-center shrink-0 mt-0.5">
+                            <div class="w-11 h-11 rounded-xl bg-blue-100 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300 flex items-center justify-center shrink-0 mt-0.5">
                                 <i data-lucide="building-2" class="w-6 h-6"></i>
                             </div>
                             <div class="ml-4 flex items-start justify-between w-full">
                                 <div class="space-y-1">
-                                    <span class="block font-bold text-base text-azul-marino group-hover:text-verde-quirurgico transition-colors">
+                                    <span class="block font-bold text-base text-azul-marino dark:text-white group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">
                                         Depósito Bancario en Banco Cuscatlán
                                     </span>
-                                    <p class="text-xs text-gray-500 leading-relaxed">
+                                    <p class="text-xs text-slate-500 dark:text-slate-400 leading-relaxed">
                                         Depósito en efectivo o cheque en cualquier agencia o corresponsal financiero de Banco Cuscatlán.
                                     </p>
                                 </div>
-                                <div class="w-5 h-5 rounded-full border-2 border-gray-300 flex items-center justify-center peer-checked:border-verde-quirurgico shrink-0 ml-3 mt-1">
-                                    <div class="w-2.5 h-2.5 rounded-full bg-verde-quirurgico scale-0 peer-checked:scale-100 transition-transform"></div>
+                                <div class="w-5 h-5 rounded-full border-2 border-slate-300 dark:border-slate-600 flex items-center justify-center peer-checked:border-blue-600 shrink-0 ml-3 mt-1">
+                                    <div class="w-2.5 h-2.5 rounded-full bg-blue-600 scale-0 peer-checked:scale-100 transition-transform"></div>
                                 </div>
                             </div>
                         </label>
 
                         <!-- Efectivo contra entrega -->
-                        <label class="payment-method-card flex items-start p-4 sm:p-5 border-2 border-gray-200 rounded-2xl cursor-pointer group transition-all" onclick="seleccionarMetodoPago(this, 'Efectivo')">
+                        <label class="payment-method-card flex items-start p-4 sm:p-5 border-2 border-slate-200 dark:border-white/15 rounded-2xl cursor-pointer group transition-all" onclick="seleccionarMetodoPago(this, 'Efectivo')">
                             <input type="radio" name="metodoPago" value="Efectivo" class="sr-only peer">
-                            <div class="w-11 h-11 rounded-xl bg-amber-100 text-amber-700 flex items-center justify-center shrink-0 mt-0.5">
+                            <div class="w-11 h-11 rounded-xl bg-amber-100 dark:bg-amber-900/30 text-amber-700 dark:text-amber-300 flex items-center justify-center shrink-0 mt-0.5">
                                 <i data-lucide="banknote" class="w-6 h-6"></i>
                             </div>
                             <div class="ml-4 flex items-start justify-between w-full">
                                 <div class="space-y-1">
-                                    <span class="block font-bold text-base text-azul-marino group-hover:text-verde-quirurgico transition-colors">
+                                    <span class="block font-bold text-base text-azul-marino dark:text-white group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">
                                         Efectivo contra entrega
                                     </span>
-                                    <p class="text-xs text-gray-500 leading-relaxed">
+                                    <p class="text-xs text-slate-500 dark:text-slate-400 leading-relaxed">
                                         Pagás al recibir tu paquete en la puerta de tu casa, clínica o al retirar en tienda de Usulután.
                                     </p>
                                 </div>
-                                <div class="w-5 h-5 rounded-full border-2 border-gray-300 flex items-center justify-center peer-checked:border-verde-quirurgico shrink-0 ml-3 mt-1">
-                                    <div class="w-2.5 h-2.5 rounded-full bg-verde-quirurgico scale-0 peer-checked:scale-100 transition-transform"></div>
+                                <div class="w-5 h-5 rounded-full border-2 border-slate-300 dark:border-slate-600 flex items-center justify-center peer-checked:border-blue-600 shrink-0 ml-3 mt-1">
+                                    <div class="w-2.5 h-2.5 rounded-full bg-blue-600 scale-0 peer-checked:scale-100 transition-transform"></div>
                                 </div>
                             </div>
                         </label>
@@ -231,60 +232,60 @@
                 </div>
 
                 <!-- 3. Medidas Personalizadas (Opcional) -->
-                <div class="bg-white p-6 sm:p-8 rounded-3xl shadow-sm border border-gray-100 card-premium">
-                    <h2 class="text-xl sm:text-2xl font-display font-bold mb-4 border-b border-gray-100 pb-4 flex items-center gap-2 text-azul-marino">
-                        <span class="w-8 h-8 rounded-xl bg-verde-quirurgico/10 text-verde-quirurgico flex items-center justify-center text-sm font-bold">3</span>
+                <div class="bg-white dark:bg-[#0A1428] p-6 sm:p-8 rounded-3xl shadow-sm border border-slate-200 dark:border-white/10 card-premium transition-colors">
+                    <h2 class="text-xl sm:text-2xl font-display font-bold mb-4 border-b border-slate-100 dark:border-white/10 pb-4 flex items-center gap-2 text-azul-marino dark:text-white">
+                        <span class="w-8 h-8 rounded-xl bg-blue-50 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 flex items-center justify-center text-sm font-bold">3</span>
                         Medidas Personalizadas / Bordado (Opcional)
                     </h2>
-                    <p class="text-xs text-gray-500 mb-3">Si necesitás ajustes de largo, entallado especial o nombre bordado, anotalo aquí:</p>
-                    <textarea id="cliente_medidas" class="w-full px-4 py-3 rounded-xl border border-gray-200 focus:outline-none focus:border-verde-quirurgico focus:ring-1 focus:ring-verde-quirurgico transition-all text-sm" rows="3" placeholder="Ej. Bordar 'Dra. K. Menjívar' en pecho izquierdo. Pantalón 2 pulgadas más corto..."></textarea>
+                    <p class="text-xs text-slate-500 dark:text-slate-400 mb-3">Si necesitás ajustes de largo, entallado especial o nombre bordado, anotalo aquí:</p>
+                    <textarea id="cliente_medidas" class="w-full px-4 py-3 rounded-xl border border-slate-200 dark:border-white/15 bg-slate-50 dark:bg-[#060D1A] text-slate-900 dark:text-white placeholder:text-slate-400 focus:outline-none focus:border-blue-600 focus:ring-1 focus:ring-blue-600 transition-all text-sm" rows="3" placeholder="Ej. Bordar 'Dra. K. Menjívar' en pecho izquierdo. Pantalón 2 pulgadas más corto..."></textarea>
                 </div>
             </form>
         </div>
 
         <!-- Resumen del Pedido Flotante -->
         <div class="w-full lg:w-1/3">
-            <div class="bg-white p-6 sm:p-8 rounded-3xl shadow-premium border border-gray-100 sticky top-24 space-y-6">
-                <div class="flex items-center justify-between border-b border-gray-100 pb-4">
-                    <h3 class="font-display font-bold text-xl text-azul-marino flex items-center gap-2">
-                        <i data-lucide="shopping-cart" class="w-5 h-5 text-verde-quirurgico"></i>
+            <div class="bg-white dark:bg-[#0A1428] p-6 sm:p-8 rounded-3xl shadow-premium border border-slate-200 dark:border-white/10 sticky top-24 space-y-6 transition-colors">
+                <div class="flex items-center justify-between border-b border-slate-100 dark:border-white/10 pb-4">
+                    <h3 class="font-display font-bold text-xl text-azul-marino dark:text-white flex items-center gap-2">
+                        <i data-lucide="shopping-cart" class="w-5 h-5 text-blue-600 dark:text-blue-400"></i>
                         Tu Pedido
                     </h3>
-                    <span id="items-count-badge" class="text-xs font-bold px-2.5 py-1 bg-gray-100 rounded-full text-gray-600">0 items</span>
+                    <span id="items-count-badge" class="text-xs font-bold px-2.5 py-1 bg-slate-100 dark:bg-white/10 rounded-full text-slate-600 dark:text-slate-300">0 items</span>
                 </div>
                 
-                <div id="checkout-items" class="space-y-3.5 max-h-64 overflow-y-auto pr-1 text-sm divide-y divide-gray-50">
+                <div id="checkout-items" class="space-y-3.5 max-h-64 overflow-y-auto pr-1 text-sm divide-y divide-slate-100 dark:divide-white/5">
                     <!-- Inyectado dinámicamente -->
                 </div>
                 
-                <div class="border-t border-gray-100 pt-5 space-y-2.5 text-sm">
-                    <div class="flex justify-between text-gray-600">
+                <div class="border-t border-slate-100 dark:border-white/10 pt-5 space-y-2.5 text-sm">
+                    <div class="flex justify-between text-slate-600 dark:text-slate-400">
                         <span>Subtotal prendas:</span>
-                        <span id="checkout-subtotal" class="font-semibold text-gray-800">$0.00</span>
+                        <span id="checkout-subtotal" class="font-semibold text-slate-900 dark:text-white">$0.00</span>
                     </div>
-                    <div class="flex justify-between text-gray-600">
+                    <div class="flex justify-between text-slate-600 dark:text-slate-400">
                         <span>Envío a domicilio:</span>
-                        <span class="text-verde-quirurgico font-bold flex items-center gap-1">
+                        <span class="text-emerald-600 dark:text-emerald-400 font-bold flex items-center gap-1">
                             <i data-lucide="truck" class="w-3.5 h-3.5"></i> ¡Gratis!
                         </span>
                     </div>
-                    <div class="flex justify-between text-2xl font-display font-extrabold text-azul-marino pt-3 border-t border-gray-100">
+                    <div class="flex justify-between text-2xl font-display font-extrabold text-azul-marino dark:text-white pt-3 border-t border-slate-100 dark:border-white/10">
                         <span>Total a Pagar:</span>
-                        <span id="checkout-total" class="text-verde-quirurgico font-mono">$0.00</span>
+                        <span id="checkout-total" class="text-blue-600 dark:text-blue-400 font-mono">$0.00</span>
                     </div>
                 </div>
                 
-                <button type="button" id="btn-confirmar-pedido" onclick="procesarPedido()" class="w-full flex items-center justify-center gap-2.5 bg-verde-quirurgico hover:bg-verde-quirurgico-dark text-white font-bold py-4 rounded-2xl transition-all shadow-lg hover:shadow-xl hover:-translate-y-0.5 active:translate-y-0">
+                <button type="button" id="btn-confirmar-pedido" onclick="procesarPedido()" class="w-full flex items-center justify-center gap-2.5 bg-blue-950 hover:bg-blue-900 dark:bg-blue-600 dark:hover:bg-blue-500 text-white font-bold py-4 rounded-2xl transition-all shadow-lg hover:shadow-xl hover:-translate-y-0.5 active:translate-y-0">
                     <span>Confirmar Pedido y Ver Comprobante</span>
                     <i data-lucide="arrow-right" class="w-5 h-5"></i>
                 </button>
 
-                <div class="text-center space-y-2 pt-2 border-t border-gray-50">
-                    <div class="flex items-center justify-center gap-2 text-xs text-gray-500">
-                        <i data-lucide="lock" class="w-3.5 h-3.5 text-verde-quirurgico"></i>
+                <div class="text-center space-y-2 pt-2 border-t border-slate-100 dark:border-white/10">
+                    <div class="flex items-center justify-center gap-2 text-xs text-slate-500 dark:text-slate-400">
+                        <i data-lucide="lock" class="w-3.5 h-3.5 text-blue-600 dark:text-blue-400"></i>
                         <span>Compra 100% segura y garantizada</span>
                     </div>
-                    <p class="text-[11px] text-gray-400">Podrás descargar tu comprobante oficial en PDF al finalizar.</p>
+                    <p class="text-[11px] text-slate-400">Podrás descargar tu comprobante oficial en PDF al finalizar.</p>
                 </div>
             </div>
         </div>

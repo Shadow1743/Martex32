@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48">
+  <mask id="hb">
+    <rect width="48" height="48" fill="#fff"/>
+    <polyline points="16,22 24,22 27,15 31,29 34,22 44,22" fill="none" stroke="#000" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round"/>
+  </mask>
+  <path d="M30 37C30 37 15 28 15 19.5 15 13.5 19.5 10 24 10 27 10 29.2 11.8 30 14 30.8 11.8 33 10 36 10 40.5 10 45 13.5 45 19.5 45 28 30 37 30 37Z" fill="#C62828" mask="url(#hb)"/>
+  <circle cx="9.5" cy="8.5" r="3.4" fill="#1E3A8A"/>
+  <path d="M9.5 13.5 11 24M9.5 15.5 3.5 10.5M9.5 15.5 16.5 12M11 24 7 34M11 24 15.5 32.5" fill="none" stroke="#1E3A8A" stroke-width="2.8" stroke-linecap="round"/>
+</svg>
